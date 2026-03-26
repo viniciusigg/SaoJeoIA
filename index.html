@@ -318,3 +318,25 @@ footer strong{color:#7fb3d3}
     <div class="chip" onclick="perguntaRapida('Qual a RCL prevista para 2026?')">📊 RCL 2026</div>
   </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ativa aba inicial Visão Geral
+  document.querySelectorAll('.sec').forEach(sec => sec.classList.remove('ativo'));
+  const secInit = document.getElementById('sec-dashboard');
+  if (secInit) secInit.classList.add('ativo');
+
+  // eventos de navegação das abas
+  document.querySelectorAll('nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      document.querySelectorAll('.sec').forEach(sec => sec.classList.remove('ativo'));
+      const destino = btn.getAttribute('data-tab');
+      if (destino) {
+        const alvo = document.getElementById(destino);
+        if (alvo) alvo.classList.add('ativo');
+      }
+    });
+  });
+});
+</script>
