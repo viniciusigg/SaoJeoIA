@@ -94,585 +94,532 @@
   </style>
 </head>
 <body>
-<div class="app-container">
 
-  <!-- TOPO -->
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-sky-400 flex items-center justify-center font-bold text-slate-950 text-lg">
-          SJ
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-lg md:text-xl font-semibold">SãoJeo IA – Gestão Estratégica</h1>
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/40">
-              BETA
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-400">
-            Monitoramento inteligente da execução da LOA, PPA 2026–2029 e Visão Fiscal do Município de São Jerônimo – RS
-          </p>
-        </div>
+<!-- TOPO -->
+<header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-sky-400 flex items-center justify-center font-bold text-slate-950 text-lg">
+        SJ
       </div>
-
-      <!-- Filtro de ano -->
-      <div class="flex items-center gap-2 text-xs text-slate-400">
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-lg md:text-xl font-semibold">SãoJeo IA – Gestão Estratégica</h1>
+          <span class="text-[10px] px-2 py-[2px] rounded-full border border-amber-400/40 text-amber-300 bg-amber-400/5">BETA</span>
+        </div>
+        <p class="text-[11px] text-slate-400">
+          Monitoramento inteligente da execução da LOA, PPA 2026–2029 e Visão Fiscal do Município de São Jerônimo – RS
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 text-xs">
+      <div class="flex items-center gap-1 text-slate-400">
         <span>Ano:</span>
-        <select id="filtroAno"
-                class="bg-slate-900 border border-slate-700 rounded-md text-xs px-2 py-1 text-slate-200">
-          <option selected>2026</option>
+        <select id="filtroAno" class="bg-slate-900 border border-slate-700 rounded-md px-2 py-1 text-xs">
+          <option>2026</option>
+          <option>2025</option>
+          <option>2024</option>
         </select>
       </div>
+      <span id="dataAtualizacao" class="text-[11px] text-slate-500"></span>
     </div>
+  </div>
 
-    <!-- Abas -->
-    <div class="border-t border-slate-800">
-      <div class="max-w-7xl mx-auto px-4 flex gap-5 text-xs overflow-x-auto">
-        <button id="aba-geral"       class="aba" onclick="mudarAba('geral')">Visão Geral</button>
-        <button id="aba-secretarias" class="aba" onclick="mudarAba('secretarias')">Secretarias</button>
-        <button id="aba-projetos"    class="aba" onclick="mudarAba('projetos')">Projetos Estratégicos</button>
-        <button id="aba-fiscal"      class="aba" onclick="mudarAba('fiscal')">Visão Fiscal (LRF)</button>
-        <button id="aba-consultor"   class="aba" onclick="mudarAba('consultor')">IA Consultora</button>
+  <!-- Abas -->
+  <div class="max-w-7xl mx-auto px-4 pb-1 flex gap-4 text-xs overflow-x-auto">
+    <button id="aba-geral"       class="aba ativa" onclick="mudarAba('geral')">Visão Geral</button>
+    <button id="aba-secretarias" class="aba"        onclick="mudarAba('secretarias')">Secretarias</button>
+    <button id="aba-projetos"    class="aba"        onclick="mudarAba('projetos')">Projetos Estratégicos</button>
+    <button id="aba-fiscal"      class="aba"        onclick="mudarAba('fiscal')">Visão Fiscal (LRF)</button>
+    <button id="aba-consultor"   class="aba"        onclick="mudarAba('consultor')">IA Consultora</button>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="max-w-7xl mx-auto px-4 py-4">
+
+    <!-- Seção: VISÃO GERAL -->
+    <section id="sec-geral" class="secao ativa">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Receita Total LOA 2026</p>
+          <p class="text-lg font-semibold text-sky-400">R$ 137.897.350</p>
+          <p class="text-[11px] text-slate-500">Conforme Lei 4.628/2025</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Despesas Correntes</p>
+          <p class="text-lg font-semibold text-amber-300">R$ 91.835.672,42</p>
+          <p class="text-[11px] text-slate-500">Pessoal, encargos, juros e custeio</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Despesas de Capital</p>
+          <p class="text-lg font-semibold text-emerald-300">R$ 32.791.400</p>
+          <p class="text-[11px] text-slate-500">Investimentos e amortização da dívida</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Superávit Corrente Planejado</p>
+          <p class="text-lg font-semibold text-emerald-400">R$ 15.733.200</p>
+          <p class="text-[11px] text-slate-500">Receitas correntes – despesas correntes</p>
+        </div>
       </div>
-    </div>
-  </header>
 
-  <!-- CONTEÚDO -->
-  <main class="app-main">
-    <section class="max-w-7xl mx-auto px-4 py-4">
-
-      <!-- Seção: VISÃO GERAL -->
-      <section id="sec-geral" class="secao">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-1">Receita Total LOA 2026</p>
-            <p class="text-base font-semibold text-sky-400">R$ 137.897.350</p>
-            <p class="text-[10px] text-slate-500">Conforme Lei 4.628/2025</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-semibold">Evolução Mensal – Receita x Despesa</h2>
+            <span class="text-[11px] text-slate-500">Simulação para 2026 (jan–dez)</span>
           </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-1">Despesas Correntes</p>
-            <p class="text-base font-semibold text-amber-300">R$ 91.835.672,42</p>
-            <p class="text-[10px] text-slate-500">Pessoal, encargos, juros e custeio</p>
-          </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-1">Despesas de Capital</p>
-            <p class="text-base font-semibold text-emerald-300">R$ 32.791.400</p>
-            <p class="text-[10px] text-slate-500">Investimentos e amortização da dívida</p>
-          </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-1">Superávit Corrente Planejado</p>
-            <p class="text-base font-semibold text-lime-300">R$ 15.733.200</p>
-            <p class="text-[10px] text-slate-500">Receitas correntes – despesas correntes</p>
-          </div>
+          <canvas id="graficoReceitaDespesa" height="150"></canvas>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- Gráfico Receita x Despesa -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-[11px] text-slate-400">Evolução Mensal – Receita x Despesa</p>
-              <p class="text-[10px] text-slate-500">Simulação para 2026 (jan–dez)</p>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-semibold">Execução Acumulada do Orçamento</h2>
+            <span class="text-[11px] text-slate-500">Planejado (100% LOA) – linha base</span>
+          </div>
+          <canvas id="graficoExecucaoAcumulada" height="150"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: SECRETARIAS -->
+    <section id="sec-secretarias" class="secao">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
+        <h2 class="text-sm font-semibold mb-1">Dotação por Secretaria – LOA 2026</h2>
+        <p class="text-[11px] text-slate-400">
+          Visualização exemplo. Em uma versão conectada ao sistema contábil, esta área mostrará para cada secretaria
+          <strong>dotação, empenhado, liquidado e pago</strong>.
+        </p>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <table class="w-full text-xs">
+          <thead class="text-slate-400 border-b border-slate-800">
+            <tr>
+              <th class="text-left pb-2">Secretaria</th>
+              <th class="text-right pb-2">Dotação 2026 (R$)</th>
+              <th class="text-right pb-2">% do Total</th>
+              <th class="text-center pb-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaSecretarias" class="text-[11px]"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Seção: PROJETOS -->
+    <section id="sec-projetos" class="secao">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-semibold">Projetos Estratégicos do Município</h2>
+            <span id="resumoProjetos" class="text-[11px] text-slate-500">Nenhum projeto cadastrado</span>
+          </div>
+          <div id="listaProjetos" class="flex flex-col gap-3 text-xs"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <h3 class="text-sm font-semibold mb-2">Novo Projeto</h3>
+          <div class="space-y-2 text-[11px]">
+            <div>
+              <label>Nome do Projeto</label>
+              <input id="pNome" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
             </div>
-            <canvas id="graficoGeral" height="130"></canvas>
-          </div>
-
-          <!-- Gráfico Execução acumulada -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-2">Execução acumulada do orçamento</p>
-            <p class="text-[10px] text-slate-500 mb-2">
-              Exemplo ilustrativo: supondo 100% da LOA distribuída linearmente pelos meses, a linha mostra a
-              proporção acumulada da execução planejada. Quando você trouxer os dados reais do painel de
-              transparência, este gráfico comparará planejado x realizado mês a mês.
-            </p>
-            <canvas id="graficoExecucao" height="130"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <!-- Seção: SECRETARIAS -->
-      <section id="sec-secretarias" class="secao">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 lg:col-span-2">
-            <div class="flex items-center justify-between mb-2">
+            <div>
+              <label>Secretaria</label>
+              <input id="pSec" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
+            </div>
+            <div class="grid grid-cols-2 gap-2">
               <div>
-                <p class="text-[11px] text-slate-400">Secretarias – Distribuição da LOA 2026</p>
-                <p class="text-[10px] text-slate-500">Valores aproximados extraídos dos anexos da LOA</p>
+                <label>Execução Física (%)</label>
+                <input id="pFisico" type="number" min="0" max="100" value="0"
+                       class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
               </div>
-              <select id="selectSec"
-                      class="bg-slate-950 border border-slate-700 rounded-md text-[11px] px-2 py-1"
-                      onchange="trocarSecretaria()">
-                <option value="saude">Saúde</option>
-                <option value="educacao">Educação</option>
-                <option value="infra">Infraestrutura e Adm.</option>
-                <option value="assistencia">Assistência Social</option>
-                <option value="fazenda">Fazenda</option>
-                <option value="agricultura">Agricultura</option>
+              <div>
+                <label>Execução Financeira (%)</label>
+                <input id="pFin" type="number" min="0" max="100" value="0"
+                       class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
+              </div>
+            </div>
+            <div>
+              <label>Status</label>
+              <select id="pStatus"
+                      class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs">
+                <option value="ok">No prazo</option>
+                <option value="atencao">Atenção</option>
+                <option value="deliberacao">Requer deliberação do Prefeito</option>
               </select>
             </div>
-            <canvas id="graficoSec" height="130"></canvas>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-2">Resumo por Secretaria</p>
-            <table class="w-full text-[11px]">
-              <thead class="text-slate-400">
-                <tr class="border-b border-slate-800">
-                  <th class="font-normal text-left py-1">Secretaria</th>
-                  <th class="font-normal text-right py-1">Dotação</th>
-                  <th class="font-normal text-right py-1">% LOA</th>
-                  <th class="font-normal text-center py-1">Status</th>
-                </tr>
-              </thead>
-              <tbody id="tabelaSecretarias" class="text-slate-200"></tbody>
-            </table>
+            <div>
+              <label>Observações</label>
+              <textarea id="pObs"
+                        class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs"
+                        rows="3"></textarea>
+            </div>
+            <button onclick="cadastrarProjeto()"
+                    class="w-full bg-sky-600 hover:bg-sky-500 text-xs font-semibold py-2 rounded-md mt-1">
+              Cadastrar Projeto
+            </button>
           </div>
         </div>
-      </section>
-
-      <!-- Seção: PROJETOS -->
-      <section id="sec-projetos" class="secao">
-        <div class="flex flex-col lg:flex-row gap-4">
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 lg:w-2/3">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-[11px] text-slate-400">Projetos Estratégicos do Município</p>
-              <span id="resumoProjetos" class="text-[10px] text-slate-500">
-                0 projetos cadastrados
-              </span>
-            </div>
-            <div id="listaProjetos" class="space-y-2 text-[11px] text-slate-200"></div>
-          </div>
-
-          <!-- Cadastro rápido -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 lg:w-1/3">
-            <p class="text-[11px] text-slate-400 mb-2">Novo Projeto Estratégico</p>
-            <div class="space-y-2 text-[11px]">
-              <div>
-                <label class="block text-slate-400 mb-1">Nome do Projeto *</label>
-                <input id="pNome" class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]">
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">Secretaria</label>
-                <input id="pSec" class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]">
-              </div>
-              <div class="flex gap-2">
-                <div class="flex-1">
-                  <label class="block text-slate-400 mb-1">Execução Física (%)</label>
-                  <input id="pFisico" type="number" min="0" max="100"
-                         class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]" value="0">
-                </div>
-                <div class="flex-1">
-                  <label class="block text-slate-400 mb-1">Execução Financeira (%)</label>
-                  <input id="pFin" type="number" min="0" max="100"
-                         class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]" value="0">
-                </div>
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">Status</label>
-                <select id="pStatus"
-                        class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]">
-                  <option value="ok">No prazo</option>
-                  <option value="atencao">Em atenção</option>
-                  <option value="deliberacao">Requer deliberação do Prefeito</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">Observações</label>
-                <textarea id="pObs" rows="2"
-                          class="w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-[11px]"></textarea>
-              </div>
-              <button onclick="cadastrarProjeto()"
-                      class="w-full bg-sky-600 hover:bg-sky-500 rounded-md py-1.5 text-[11px] font-semibold">
-                Salvar Projeto
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Seção: VISÃO FISCAL -->
-      <section id="sec-fiscal" class="secao">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <!-- LRF Pessoal -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 lg:col-span-2">
-            <p class="text-[11px] text-slate-400 mb-1">Despesa com Pessoal x RCL – Limites LRF</p>
-            <p class="text-[10px] text-slate-500 mb-2">
-              Município de São Jerônimo – estimativas LDO/LOA 2026. Limites (%) sobre a Receita Corrente Líquida (RCL).
-            </p>
-            <canvas id="graficoLRF" height="130"></canvas>
-          </div>
-
-          <!-- Saúde / Educação -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
-            <p class="text-[11px] text-slate-400 mb-2">Aplicação Mínima em Saúde e Educação</p>
-            <div class="grid grid-cols-2 gap-3">
-              <div class="text-center">
-                <p class="text-[10px] text-slate-400 mb-1">Saúde – mínimo 15%</p>
-                <div class="relative w-full flex items-center justify-center">
-                  <canvas id="graficoSaude" height="80"></canvas>
-                  <div class="absolute text-[11px]">
-                    <span class="text-emerald-400 font-semibold">22%</span><br>
-                    <span class="text-[9px] text-slate-500">Aplicado</span>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <p class="text-[10px] text-slate-400 mb-1">Educação – mínimo 25%</p>
-                <div class="relative w-full flex items-center justify-center">
-                  <canvas id="graficoEducacao" height="80"></canvas>
-                  <div class="absolute text-[11px]">
-                    <span class="text-emerald-400 font-semibold">26%</span><br>
-                    <span class="text-[9px] text-slate-500">Aplicado</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-3 text-[10px] text-slate-500">
-              <p>• Cálculo conforme LDO 2026 (Lei 4.596) e anexos da LOA 2026.</p>
-              <p>• Ambos os mínimos constitucionais estão sendo cumpridos com folga.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Seção: IA CONSULTORA -->
-      <section id="sec-consultor" class="secao">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-3">
-          <h2 class="text-sm font-semibold mb-1">SãoJeo IA – Consultor Financeiro Estratégico</h2>
-          <p class="text-xs text-slate-400">
-            Persona de consultor experiente em finanças públicas, planejamento e LRF. Você pode perguntar como
-            melhorar a performance fiscal, a execução de projetos ou pedir planos de ação por secretaria.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <!-- Chat -->
-          <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
-            <div id="chatBox" class="chat-box">
-              <div class="msg-bot">
-                Sou a <strong>SãoJeo IA</strong>, consultora financeira estratégica do Município de São Jerônimo.
-                Posso analisar LOA, LDO, PPA e dados de execução para sugerir
-                <strong>estratégias, planos de ação e medidas corretivas</strong>. Pergunte, por exemplo:
-                <ul class="list-disc ml-4 mt-1">
-                  <li>“Como melhorar o resultado fiscal em 2026 sem cortar serviços essenciais?”</li>
-                  <li>“Quais ações priorizar na Saúde para usar melhor o orçamento?”</li>
-                  <li>“Que risco temos em relação ao limite prudencial de pessoal?”</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="flex gap-2 mt-2">
-              <input id="inputChat"
-                     class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs"
-                     placeholder="Escreva sua pergunta para a SãoJeo IA..."
-                     onkeydown="if(event.key==='Enter'){enviarMsg()}" />
-              <button onclick="enviarMsg()"
-                      class="bg-sky-600 hover:bg-sky-500 px-3 py-2 rounded-lg text-xs font-semibold">
-                Enviar
-              </button>
-            </div>
-          </div>
-
-          <!-- Painel lateral -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <p class="text-[11px] text-slate-400 mb-2">Base de conhecimento da IA</p>
-            <ul class="text-[11px] text-slate-400 space-y-1">
-              <li>• LOA 2026 – Lei 4.628/2025</li>
-              <li>• LDO 2026 – Lei 4.596/2025</li>
-              <li>• PPA 2026–2029 – Lei 4.566/2025</li>
-              <li>• Anexos LOA (Lei 4.320/64)</li>
-              <li>• Limites LRF atualizados</li>
-              <li>• Incentivos fiscais 2025–2026</li>
-            </ul>
-            <p class="text-[11px] text-slate-500 mt-3">
-              Você pode informar valores de execução real pelo chat (ex.: “Saúde executou R$ 1,8M em janeiro”) e a IA
-              responde com diagnóstico e recomendações.
-            </p>
-          </div>
-        </div>
-      </section>
-
+      </div>
     </section>
-  </main>
 
-  <!-- RODAPÉ -->
-  <footer>
-    Desenvolvido por <strong>IGG – Inteligência em Gestão e Governança</strong> · CNPJ 35.860.860/0001-80
-  </footer>
-</div>
+    <!-- Seção: VISÃO FISCAL -->
+    <section id="sec-fiscal" class="secao">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Despesa com Pessoal (Estimativa)</p>
+          <p class="text-lg font-semibold text-emerald-400">43,7% da RCL</p>
+          <p class="text-[11px] text-slate-500">Limite prudencial: 51,3% · Limite legal: 54%</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Aplicação em Educação</p>
+          <p class="text-lg font-semibold text-sky-400">≥ 25% da R impostos</p>
+          <p class="text-[11px] text-slate-500">Mínimo constitucional cumprido (estimativa LOA)</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-xs text-slate-400 mb-1">Aplicação em Saúde</p>
+          <p class="text-lg font-semibold text-amber-300">≥ 15% da R impostos</p>
+          <p class="text-[11px] text-slate-500">Mínimo constitucional cumprido (estimativa LOA)</p>
+        </div>
+      </div>
 
-<!-- SCRIPT -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
+        <h2 class="text-sm font-semibold mb-2">Termômetro da LRF – Pessoal / RCL</h2>
+        <div class="mt-2">
+          <div class="w-full h-4 rounded-full overflow-hidden flex">
+            <div class="bg-emerald-500" style="width:43.7%;"></div>
+            <div class="bg-amber-500/80"  style="width:7.6%;"></div>
+            <div class="bg-orange-500/80" style="width:2.7%;"></div>
+            <div class="bg-red-500/80"    style="width:46%;"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+            <span>0%</span>
+            <span>Conforto</span>
+            <span>Prudencial 51,3%</span>
+            <span>Limite 54%</span>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">
+          Situação confortável em 2026, mas novos aumentos permanentes de despesa de pessoal exigem análise de impacto
+          e compensação de acordo com a LRF.
+        </p>
+      </div>
+    </section>
+
+    <!-- Seção: IA CONSULTORA -->
+    <section id="sec-consultor" class="secao">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-3">
+        <h2 class="text-sm font-semibold mb-1">SãoJeo IA – Consultor Financeiro Estratégico</h2>
+        <p class="text-xs text-slate-400">
+          Persona de consultor experiente em finanças públicas, planejamento e LRF.
+          Você pode perguntar como melhorar a performance fiscal, a execução de projetos,
+          ou pedir planos de ação por secretaria.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Chat -->
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
+          <div id="chatBox" class="chat-box">
+            <div class="msg-bot">
+              Sou a <strong>SãoJeo IA</strong>, consultora financeira estratégica do Município de São Jerônimo.
+              Posso analisar LOA, LDO, PPA e dados de execução para sugerir
+              <strong>estratégias, planos de ação e medidas corretivas</strong>.
+              Pergunte, por exemplo:
+              <ul class="list-disc ml-4 mt-1">
+                <li>“Como melhorar o resultado fiscal em 2026 sem cortar serviços essenciais?”</li>
+                <li>“Quais ações priorizar na Saúde para usar melhor o orçamento?”</li>
+                <li>“Que risco temos em relação ao limite prudencial de pessoal?”</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flex gap-2 mt-2">
+            <input id="inputChat"
+                   class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs"
+                   placeholder="Escreva sua pergunta para a SãoJeo IA..." />
+            <button onclick="enviarMsg()"
+                    class="bg-sky-600 hover:bg-sky-500 px-3 py-2 rounded-lg text-xs font-semibold">
+              Enviar
+            </button>
+          </div>
+        </div>
+
+        <!-- Sugestões rápidas -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-xs">
+          <h3 class="text-sm font-semibold mb-2">Perguntas rápidas</h3>
+          <div class="flex flex-col gap-2">
+            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
+                    onclick="perguntaRapida('Faça um diagnóstico estratégico do município para o prefeito')">
+              Diagnóstico estratégico geral
+            </button>
+            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
+                    onclick="perguntaRapida('Quais são os principais riscos fiscais de São Jerônimo em 2026?')">
+              Principais riscos fiscais
+            </button>
+            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
+                    onclick="perguntaRapida('Como acelerar a execução dos investimentos previstos na LOA 2026?')">
+              Acelerar investimentos
+            </button>
+            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
+                    onclick="perguntaRapida('Quais medidas adotar para aumentar a receita própria do município?')">
+              Aumentar receita própria
+            </button>
+            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
+                    onclick="perguntaRapida('Explique a situação do município em relação à LRF e ao limite de pessoal.')">
+              Situação frente à LRF
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  Desenvolvido por IGG – Inteligência em Gestão e Governança CNPJ 35.860.860/0001-80
+</footer>
+
 <script>
-  // Dados base
-  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  const pesos = [0.07,0.07,0.08,0.08,0.09,0.09,0.09,0.09,0.09,0.09,0.08,0.08];
-
-  function gerarMensal(total) {
-    return pesos.map(p => Math.round(total * p / 1e5) / 10); // em milhões com 1 casa
+  // Controle de abas
+  function mudarAba(alvo) {
+    ['geral','secretarias','projetos','fiscal','consultor'].forEach(function(nome){
+      const sec = document.getElementById('sec-' + nome);
+      const aba = document.getElementById('aba-' + nome);
+      if (!sec || !aba) return;
+      if (nome === alvo) {
+        sec.classList.add('ativa');
+        aba.classList.add('ativa');
+      } else {
+        sec.classList.remove('ativa');
+        aba.classList.remove('ativa');
+      }
+    });
+    if (alvo === 'geral') initGeral();
+    if (alvo === 'secretarias') initSecretarias();
   }
 
-  const secretarias = {
-    saude:      { nome:'Saúde',                 dotacao:22420000, cor:'#38bdf8' },
-    educacao:   { nome:'Educação',              dotacao:25100000, cor:'#a78bfa' },
-    infra:      { nome:'Infraestrutura e Adm.', dotacao:41200000, cor:'#34d399' },
-    assistencia:{ nome:'Assistência Social',    dotacao:8900000,  cor:'#f59e0b' },
-    fazenda:    { nome:'Fazenda',               dotacao:3800000,  cor:'#f87171' },
-    agricultura:{ nome:'Agricultura',           dotacao:2100000,  cor:'#fbbf24' }
-  };
-
-  let projetos = [
-    { nome:'Pavimentação Bairro Sul', sec:'Infraestrutura', fisico:35, fin:28, status:'atencao', obs:'Licitação em andamento.' },
-    { nome:'Reforma UBS Gramal',      sec:'Saúde',          fisico:60, fin:55, status:'ok',      obs:'Obra dentro do prazo.' },
-    { nome:'Recapeamento Av. Central',sec:'Infraestrutura', fisico:10, fin:5,  status:'deliberacao', obs:'Aguardando deliberação do Prefeito.' }
-  ];
-
-  const charts = {};
-
-  // Abas
-  function mudarAba(id) {
-    document.querySelectorAll('.aba').forEach(b => b.classList.remove('ativa'));
-    document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-    document.getElementById('aba-' + id).classList.add('ativa');
-    document.getElementById('sec-' + id).classList.add('ativa');
-
-    if (id === 'geral' && !charts.geral) initGeral();
-    if (id === 'secretarias' && !charts.sec) { renderTabelaSecretarias(); trocarSecretaria(); }
-    if (id === 'fiscal' && !charts.lrf) initFiscal();
-    if (id === 'projetos') renderProjetos();
-  }
+  // Atualiza data
+  (function(){
+    const el = document.getElementById('dataAtualizacao');
+    if (el) {
+      const d = new Date();
+      el.textContent = 'Atualizado em ' +
+        d.toLocaleDateString('pt-BR') + ' ' +
+        d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    }
+  })();
 
   // Gráficos Visão Geral
+  let chartRD = null;
+  let chartExec = null;
+
   function initGeral() {
-    const recMensal  = gerarMensal(137897350);
-    const despMensal = gerarMensal(124627072);
+    const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const receita = [10,11,11,12,12,11,12,12,11,12,12,11].map(v => v*1.0);
+    const despesa = [9,10,11,11,12,11,12,12,12,12,11,11].map(v => v*1.0);
+    const planejado = [];
+    for (let i=1;i<=12;i++) planejado.push((i/12)*100);
 
-    charts.geral = new Chart(document.getElementById('graficoGeral'), {
-      type:'bar',
-      data:{
-        labels: meses,
-        datasets:[
-          { label:'Receita (R$ mi)', data:recMensal,  backgroundColor:'rgba(56,189,248,.7)', borderRadius:4 },
-          { label:'Despesa (R$ mi)', data:despMensal, backgroundColor:'rgba(245,158,11,.7)', borderRadius:4 }
-        ]
-      },
-      options:{
-        plugins:{ legend:{ labels:{ color:'#cbd5f5', font:{size:10} } } },
-        scales:{
-          y:{ ticks:{ color:'#64748b', font:{size:10}, callback:v=>v+'M' }, grid:{ color:'#1e293b' } },
-          x:{ ticks:{ color:'#64748b', font:{size:10} }, grid:{ display:false } }
+    const ctx1 = document.getElementById('graficoReceitaDespesa');
+    if (ctx1) {
+      if (chartRD) chartRD.destroy();
+      chartRD = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: meses,
+          datasets: [
+            { label: 'Receita (simulação)', data: receita, backgroundColor: 'rgba(56,189,248,0.7)' },
+            { label: 'Despesa (simulação)', data: despesa, backgroundColor: 'rgba(248,250,252,0.25)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#e5e7eb', font: { size: 10 } } }
+          },
+          scales: {
+            x: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{display:false} },
+            y: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{color:'#1f2937'} }
+          }
         }
-      }
-    });
+      });
+    }
 
-    // Execução acumulada planejada (linha 0–100%)
-    const acumulado = [];
-    let soma = 0;
-    recMensal.forEach(v => { soma += v; acumulado.push(+(soma / recMensal.reduce((a,b)=>a+b,0) * 100).toFixed(1)); });
-
-    charts.exec = new Chart(document.getElementById('graficoExecucao'), {
-      type:'line',
-      data:{
-        labels: meses,
-        datasets:[
-          { label:'Planejado (LOA)', data:acumulado, borderColor:'#38bdf8', backgroundColor:'rgba(56,189,248,.15)', fill:true, tension:0.3, pointRadius:2 }
-        ]
-      },
-      options:{
-        plugins:{ legend:{ labels:{ color:'#cbd5f5', font:{size:10} } } },
-        scales:{
-          y:{ ticks:{ color:'#64748b', font:{size:10}, callback:v=>v+'%' }, grid:{ color:'#1e293b' }, min:0, max:100 },
-          x:{ ticks:{ color:'#64748b', font:{size:10} }, grid:{ display:false } }
+    const ctx2 = document.getElementById('graficoExecucaoAcumulada');
+    if (ctx2) {
+      if (chartExec) chartExec.destroy();
+      chartExec = new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: meses,
+          datasets: [
+            {
+              label: 'Planejado (100% LOA até dez)',
+              data: planejado,
+              borderColor: 'rgba(56,189,248,0.9)',
+              backgroundColor: 'rgba(56,189,248,0.2)',
+              tension: 0.3,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#e5e7eb', font:{size:10} } }
+          },
+          scales: {
+            x: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{display:false} },
+            y: {
+              ticks: {
+                color: '#9ca3af',
+                font:{size:10},
+                callback: v => v + '%'
+              },
+              grid:{color:'#1f2937'}
+            }
+          }
         }
-      }
-    });
+      });
+    }
   }
 
-  // Secretarias
-  function trocarSecretaria() {
-    const key = document.getElementById('selectSec').value;
-    const sec = secretarias[key];
-    const mensal = gerarMensal(sec.dotacao);
-    const realizado = mensal.map((v,i) => i < 3 ? +(v*0.9).toFixed(1) : null);
+  // Tabela secretarias
+  const secretarias = {
+    saude:     { nome:'Saúde',                         dotacao: 29500000 },
+    educacao:  { nome:'Educação',                      dotacao: 33500000 },
+    assist:    { nome:'Assistência Social',            dotacao:  7000000 },
+    infra:     { nome:'Infraestrutura e Administração',dotacao: 28000000 },
+    agricultura:{nome:'Agricultura e Meio Ambiente',   dotacao:  4500000 },
+    demais:    { nome:'Outras Secretarias / Fundos',   dotacao: 35297350 }
+  };
 
-    if (charts.sec) charts.sec.destroy();
-    charts.sec = new Chart(document.getElementById('graficoSec'), {
-      type:'bar',
-      data:{
-        labels: meses,
-        datasets:[
-          { label:'LOA (R$ mi)',       data:mensal,    backgroundColor:sec.cor + '99', borderRadius:4 },
-          { label:'Realizado (R$ mi)', data:realizado, backgroundColor:sec.cor,        borderRadius:4 }
-        ]
-      },
-      options:{
-        plugins:{ legend:{ labels:{ color:'#cbd5f5', font:{size:10} } } },
-        scales:{
-          y:{ ticks:{ color:'#64748b', font:{size:10}, callback:v=>v+'M' }, grid:{ color:'#1e293b' } },
-          x:{ ticks:{ color:'#64748b', font:{size:10} }, grid:{ display:false } }
-        }
-      }
-    });
-  }
-
-  function renderTabelaSecretarias() {
+  function initSecretarias() {
     const tbody = document.getElementById('tabelaSecretarias');
+    if (!tbody) return;
     const total = 137897350;
     tbody.innerHTML = Object.entries(secretarias).map(([k,s]) => {
       const pct = ((s.dotacao/total)*100).toFixed(1);
-      let badge;
-      if (k === 'saude' || k === 'educacao') badge = '<span class="text-[10px] text-emerald-300">OK</span>';
-      else if (k === 'infra')                badge = '<span class="text-[10px] text-amber-300">Atenção</span>';
-      else                                  badge = '<span class="text-[10px] text-sky-300">Regular</span>';
-      return `
-        <tr class="border-b border-slate-800">
-          <td class="py-1">${s.nome}</td>
-          <td class="py-1 text-right text-sky-400">R$ ${s.dotacao.toLocaleString('pt-BR')}</td>
-          <td class="py-1 text-right text-slate-400">${pct}%</td>
-          <td class="py-1 text-center">${badge}</td>
-        </tr>`;
+      const badge = (k==='saude' || k==='educacao')
+        ? '<span class="text-emerald-400 text-[10px] px-2 py-[2px] border border-emerald-500/40 rounded-full">Prioridade</span>'
+        : (k==='infra'
+           ? '<span class="text-amber-300 text-[10px] px-2 py-[2px] border border-amber-500/40 rounded-full">Alto CAPEX</span>'
+           : '<span class="text-slate-300 text-[10px] px-2 py-[2px] border border-slate-600 rounded-full">Regular</span>');
+      return `<tr class="border-b border-slate-800/60">
+        <td class="py-2">${s.nome}</td>
+        <td class="py-2 text-right text-sky-400">R$ ${s.dotacao.toLocaleString('pt-BR')}</td>
+        <td class="py-2 text-right text-slate-300">${pct}%</td>
+        <td class="py-2 text-center">${badge}</td>
+      </tr>`;
     }).join('');
   }
 
-  // Fiscal
-  function initFiscal() {
-    charts.lrf = new Chart(document.getElementById('graficoLRF'), {
-      type:'bar',
-      data:{
-        labels:['Limite Legal (54%)','Prudencial (51,3%)','Alerta (48,6%)','Posição Atual (43,7%)'],
-        datasets:[{
-          data:[54,51.3,48.6,43.7],
-          backgroundColor:['rgba(239,68,68,.7)','rgba(249,115,22,.7)','rgba(234,179,8,.7)','rgba(34,197,94,.9)'],
-          borderRadius:6
-        }]
-      },
-      options:{
-        indexAxis:'y',
-        plugins:{ legend:{ display:false } },
-        scales:{
-          x:{ min:0,max:60,ticks:{ color:'#64748b', font:{size:10}, callback:v=>v+'%' }, grid:{ color:'#1e293b' } },
-          y:{ ticks:{ color:'#cbd5f5', font:{size:10} }, grid:{ display:false } }
-        }
-      }
-    });
-
-    charts.saude = new Chart(document.getElementById('graficoSaude'), {
-      type:'doughnut',
-      data:{ labels:['Aplicado 22%','Folga 7%','Mínimo 15%'],
-        datasets:[{ data:[22,7,15], backgroundColor:['#22c55e','#020617','#1d4ed8'] }]
-      },
-      options:{ plugins:{legend:{display:false}}, cutout:'70%' }
-    });
-
-    charts.educacao = new Chart(document.getElementById('graficoEducacao'), {
-      type:'doughnut',
-      data:{ labels:['Aplicado 26%','Folga 1%','Mínimo 25%'],
-        datasets:[{ data:[26,1,25], backgroundColor:['#22c55e','#020617','#1d4ed8'] }]
-      },
-      options:{ plugins:{legend:{display:false}}, cutout:'70%' }
-    });
-  }
-
   // Projetos
+  const projetos = [];
+
   function renderProjetos() {
     const lista = document.getElementById('listaProjetos');
     const resumo = document.getElementById('resumoProjetos');
+    if (!lista || !resumo) return;
     const total = projetos.length;
     const delib = projetos.filter(p=>p.status==='deliberacao').length;
     const atenc = projetos.filter(p=>p.status==='atencao').length;
-    resumo.textContent = `${total} projetos · 🔴 ${delib} deliberação · ⚠️ ${atenc} atenção`;
+    resumo.textContent = total === 0
+      ? 'Nenhum projeto cadastrado'
+      : `${total} projetos · 🔴 ${delib} deliberação · ⚠️ ${atenc} atenção`;
 
     lista.innerHTML = projetos.map(p => {
-      const cor   = p.status==='deliberacao' ? 'text-red-400 border-red-500' :
-                    p.status==='atencao'     ? 'text-amber-400 border-amber-500' :
-                                                'text-emerald-400 border-emerald-500';
-      const label = p.status==='deliberacao' ? '🔴 Requer deliberação' :
-                    p.status==='atencao'     ? '⚠️ Em atenção' :
-                                                '✅ No prazo';
-      return `
-        <div class="bg-slate-950 border border-slate-800 rounded-lg p-2">
-          <div class="flex justify-between items-center mb-1">
-            <p class="text-[11px] font-semibold">${p.nome}</p>
-            <span class="text-[10px] ${cor} border px-2 py-[1px] rounded-full">${label}</span>
-          </div>
-          <p class="text-[10px] text-slate-500 mb-1">${p.sec}</p>
-          <div class="grid grid-cols-2 gap-2 text-[10px]">
-            <div>
-              <p class="text-slate-400">Execução física</p>
-              <div class="w-full bg-slate-800 rounded-full h-1.5">
-                <div class="bg-violet-400 h-1.5 rounded-full" style="width:${p.fisico}%"></div>
-              </div>
-              <p class="text-violet-300 mt-0.5">${p.fisico}%</p>
+      const cor   = p.status==='deliberacao' ? '#ef4444' : p.status==='atencao' ? '#f59e0b' : '#22c55e';
+      const label = p.status==='deliberacao' ? '🔴 Requer deliberação'
+                   : p.status==='atencao'   ? '⚠️ Em atenção'
+                   : '✅ No prazo';
+      return `<div class="border border-slate-800 rounded-lg p-3 text-[11px]" style="border-left:4px solid ${cor}">
+        <div class="flex justify-between items-center mb-1">
+          <span class="font-semibold">${p.nome}</span>
+          <span style="color:${cor};">${label}</span>
+        </div>
+        <div class="text-slate-400 mb-1">${p.sec}</div>
+        <div class="grid grid-cols-2 gap-2 mb-1">
+          <div>
+            <div class="text-slate-400">Execução física</div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-purple-400 h-1.5" style="width:${p.fisico}%;"></div>
             </div>
-            <div>
-              <p class="text-slate-400">Execução financeira</p>
-              <div class="w-full bg-slate-800 rounded-full h-1.5">
-                <div class="bg-emerald-400 h-1.5 rounded-full" style="width:${p.fin}%"></div>
-              </div>
-              <p class="text-emerald-300 mt-0.5">${p.fin}%</p>
-            </div>
+            <div class="text-purple-300 mt-0.5">${p.fisico}%</div>
           </div>
-          ${p.obs ? `<p class="text-[10px] text-slate-500 italic mt-1">${p.obs}</p>` : ''}
-        </div>`;
+          <div>
+            <div class="text-slate-400">Execução financeira</div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-emerald-400 h-1.5" style="width:${p.fin}%;"></div>
+            </div>
+            <div class="text-emerald-300 mt-0.5">${p.fin}%</div>
+          </div>
+        </div>
+        ${p.obs ? `<div class="text-slate-400 italic mt-1">${p.obs}</div>` : ''}
+      </div>`;
     }).join('');
   }
 
   function cadastrarProjeto() {
-    const nome = document.getElementById('pNome').value.trim();
+    const nome   = document.getElementById('pNome').value.trim();
     if (!nome) { alert('Informe o nome do projeto.'); return; }
-    projetos.push({
-      nome,
-      sec:    document.getElementById('pSec').value || '—',
-      fisico: parseInt(document.getElementById('pFisico').value) || 0,
-      fin:    parseInt(document.getElementById('pFin').value)    || 0,
-      status: document.getElementById('pStatus').value,
-      obs:    document.getElementById('pObs').value
-    });
-    ['pNome','pSec','pObs'].forEach(id => document.getElementById(id).value = '');
+    const sec    = document.getElementById('pSec').value.trim();
+    const fisico = parseInt(document.getElementById('pFisico').value) || 0;
+    const fin    = parseInt(document.getElementById('pFin').value)    || 0;
+    const status = document.getElementById('pStatus').value;
+    const obs    = document.getElementById('pObs').value.trim();
+
+    projetos.push({nome,sec,fisico,fin,status,obs});
+    document.getElementById('pNome').value   = '';
+    document.getElementById('pSec').value    = '';
     document.getElementById('pFisico').value = 0;
     document.getElementById('pFin').value    = 0;
+    document.getElementById('pObs').value    = '';
+    document.getElementById('pStatus').value = 'ok';
     renderProjetos();
     mudarAba('projetos');
   }
 
-  // Chat IA – respostas estáticas
+  // Chat IA
   const respostas = {
     diagnostico: `<strong>Diagnóstico Estratégico — São Jerônimo 2026:</strong><br><br>
       <span style="color:#4ade80;">✅ PONTOS FORTES:</span><br>
       • Orçamento equilibrado: R$ 137,9M (receita = despesa)<br>
       • Investimentos relevantes: R$ 30,8M (22,4% do total)<br>
-      • Pessoal em 43,7% da RCL — abaixo do limite prudencial<br>
-      • Reserva de contingência: R$ 2,8M (acima de 1,5% da RCL)<br><br>
+      • Pessoal em 43,7% da RCL — abaixo do limite prudencial (51,3%)<br>
+      • Reserva de Contingência acima do mínimo da LRF<br><br>
       <span style="color:#fbbf24;">⚠️ PONTOS DE ATENÇÃO:</span><br>
-      • Dependência de transferências (≈ 67% da receita total)<br>
-      • Reserva RPPS de R$ 10,55M — monitorar risco atuarial<br>
-      • Suplementação autorizada em 40% da LOA — uso deve ser criterioso<br><br>
-      <span style="color:#f97316;">🎯 PRIORIDADE:</span> acelerar execução dos investimentos e ampliar receita própria.`,
-    risco: `<strong>Risco fiscal mais urgente:</strong><br><br>
-      1) Dependência de transferências (FPM, ICMS, FUNDEB) em torno de 67%<br>
-      2) Pressão futura do RPPS se não houver equilíbrio atuarial<br>
-      3) Uso intensivo de créditos suplementares (até 40%) sem contrapartida de resultado primário.<br><br>
-      Recomendo plano de aumento de receita própria (IPTU, ISS, dívida ativa) e monitor mensal do limite de pessoal.`,
-    investimento: `<strong>Como acelerar a execução dos R$ 30,8M de investimentos:</strong><br><br>
-      • Priorizar obras com projeto pronto e licitação encaminhada;<br>
-      • Realizar "gabinete de projetos" semanal com secretários para retirar impedimentos;<br>
-      • Reprogramar cronogramas de obras com baixa execução física;<br>
-      • Acompanhar rigorosamente o fluxo de convênios (Estado/União) para evitar perda de recursos.`,
-    receita: `<strong>Estratégias para aumentar receita própria:</strong><br><br>
-      • Revisar cadastro imobiliário e planta genérica de valores do IPTU;<br>
-      • Mapear prestadores de serviços não cadastrados para ISS (especialmente saúde e construção);<br>
-      • Programa de recuperação de crédito tributário (REFIS municipal) focado em dívida ativa;<br>
-      • Revisar taxas de licenciamento e fiscalização para aderência ao custo efetivo do serviço.`,
-    lrf: `<strong>Limite de Pessoal – LRF:</strong><br><br>
-      • Limite máximo do Executivo: 54% da RCL;<br>
-      • Limite prudencial: 51,3% da RCL;<br>
-      • Posição estimada em 2026: ~43,7% da RCL.<br><br>
-      Há margem, mas qualquer aumento permanente de despesa (novos cargos, planos de carreira) deve ser acompanhado
-      de análise de impacto (art. 169 CF, LRF art. 16 e 17).`
+      • Dependência de transferências (FPM, ICMS, FUNDEB) próxima de 67%<br>
+      • Reserva RPPS elevada — risco atuarial de médio prazo<br>
+      • Suplementação autorizada em 40% da LOA — uso deve ser cuidadosamente planejado.<br><br>
+      <span style="color:#f97316;">🎯 PRIORIDADE:</span> acelerar a execução dos investimentos e aumentar a receita própria.`,
+    risco: `<strong>Principais riscos fiscais para 2026:</strong><br><br>
+      • Queda nas transferências federais/estaduais, afetando diretamente a execução da LOA;<br>
+      • Crescimento da folha de pessoal acima da RCL, pressionando o limite prudencial;<br>
+      • Passivos do RPPS e demandas judiciais inesperadas.<br><br>
+      Recomendo uma rotina de monitoramento quadrimestral com foco em receita, pessoal e RPPS.`,
+    investimento: `<strong>Como acelerar a execução dos investimentos da LOA:</strong><br><br>
+      • Priorizar obras com projeto pronto e licitação concluída;<br>
+      • Realizar “gabinete de projetos” semanal com secretários para remover entraves;<br>
+      • Revisar cronogramas físico-financeiros e reforçar equipes de engenharia e compras;<br>
+      • Acompanhar de perto convênios e contratos de repasse para não perder recursos externos.`,
+    receita: `<strong>Medidas para aumentar a receita própria:</strong><br><br>
+      • Atualizar cadastro imobiliário e planta de valores do IPTU;<br>
+      • Intensificar fiscalização do ISS, especialmente em serviços de maior valor agregado;<br>
+      • Programa de recuperação de créditos (REFIS) focado em grandes devedores;<br>
+      • Revisar taxas municipais para aderência a custos e realidade local.`,
+    lrf: `<strong>Situação do município perante a LRF:</strong><br><br>
+      • Pessoal estimado em 43,7% da RCL — margem até o limite prudencial (51,3%) e legal (54%);<br>
+      • Endividamento sob controle, com capacidade de pagamento mantida;<br>
+      • É fundamental evitar criação de despesas obrigatórias sem fonte de custeio permanente (art. 17 da LRF).`
   };
 
   function perguntaRapida(txt) {
-    document.getElementById('inputChat').value = txt;
+    const inp = document.getElementById('inputChat');
+    inp.value = txt;
     enviarMsg();
   }
 
@@ -687,9 +634,9 @@
     userDiv.textContent = texto;
     chat.appendChild(userDiv);
 
-    let chave = null;
     const t = texto.toLowerCase();
-    if (t.includes('diagnóstico') || t.includes('diagnostico')) chave = 'diagnostico';
+    let chave = null;
+    if (t.includes('diagn') || t.includes('panorama')) chave = 'diagnostico';
     else if (t.includes('risco')) chave = 'risco';
     else if (t.includes('invest')) chave = 'investimento';
     else if (t.includes('receita') || t.includes('arrecad')) chave = 'receita';
@@ -697,8 +644,9 @@
 
     const botDiv = document.createElement('div');
     botDiv.className = 'msg-bot';
-    botDiv.innerHTML = chave ? respostas[chave]
-                             : 'Entendi sua pergunta. Em uma próxima versão, a SãoJeo IA será conectada em tempo real ao painel de transparência e aos sistemas contábeis para responder com base na execução diária do município.';
+    botDiv.innerHTML = chave
+      ? respostas[chave]
+      : 'Entendi sua pergunta. Numa próxima versão, a SãoJeo IA será conectada ao sistema contábil e ao painel de transparência para responder com base na execução diária do município.';
 
     chat.appendChild(botDiv);
     chat.scrollTop = chat.scrollHeight;
@@ -707,7 +655,8 @@
 
   // Inicialização
   window.addEventListener('load', () => {
-    mudarAba('geral'); // ativa Visão Geral e gera gráficos
+    mudarAba('geral');   // ativa aba e gera gráficos
+    renderProjetos();    // inicializa lista vazia
   });
 </script>
 </body>
