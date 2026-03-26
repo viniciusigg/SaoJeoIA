@@ -3,73 +3,254 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>SãoJeoI – Gestão Orçamentária de São Jerônimo</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>SãoJeoI IA – Gestão Orçamentária de São Jerônimo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --verde:#2ecc71;--azul:#2980b9;--amarelo:#f1c40f;--vermelho:#e74c3c;
   --bg:#0d1b2a;--card:#162437;--borda:#1e3450;--texto:#cdd9e5;
-  --titulo:#e8f4fd;--accent:#3498db;
+  --titulo:#e8f4fd;--accent:#3498db;--roxo:#9b59b6;
 }
 body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--texto);min-height:100vh}
-header{background:linear-gradient(135deg,#0a1628,#1a3a5c);border-bottom:2px solid var(--accent);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#0a1628,#1a3a5c);
+  border-bottom:2px solid var(--accent);
+  padding:14px 24px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:10px
+}
 .hl{display:flex;align-items:center;gap:14px}
-.logo{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),#1a5276);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 15px rgba(52,152,219,.4)}
-.ht h1{font-size:1.5rem;color:var(--titulo);font-weight:700}
-.ht p{font-size:.8rem;color:#7fb3d3;margin-top:2px}
-.hr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.badge{background:rgba(46,204,113,.15);border:1px solid var(--verde);color:var(--verde);padding:4px 12px;border-radius:20px;font-size:.76rem;font-weight:600}
-.dh{font-size:.78rem;color:#7fb3d3;text-align:right}
-nav{display:flex;gap:6px;padding:12px 28px;background:#0f2035;border-bottom:1px solid var(--borda);overflow-x:auto}
-.nb{background:transparent;border:1px solid var(--borda);color:var(--texto);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .25s}
+.logo{
+  width:46px;height:46px;
+  background:linear-gradient(135deg,var(--accent),#1a5276);
+  border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;
+  box-shadow:0 4px 15px rgba(52,152,219,.4)
+}
+.ht h1{font-size:1.4rem;color:var(--titulo);font-weight:700}
+.ht p{font-size:.78rem;color:#7fb3d3;margin-top:2px}
+.hr{display:flex;align-items:center;gap:10px}
+.badge{
+  background:rgba(46,204,113,.15);border:1px solid var(--verde);
+  color:var(--verde);padding:4px 12px;border-radius:20px;font-size:.74rem;font-weight:600
+}
+#relogio{font-size:.76rem;color:#7fb3d3;text-align:right;line-height:1.4}
+
+/* NAV */
+nav{
+  display:flex;gap:6px;padding:10px 24px;
+  background:#0f2035;border-bottom:1px solid var(--borda);
+  overflow-x:auto;white-space:nowrap
+}
+.nb{
+  background:transparent;border:1px solid var(--borda);
+  color:var(--texto);padding:7px 14px;border-radius:20px;
+  cursor:pointer;font-size:.8rem;white-space:nowrap;
+  transition:all .2s;flex-shrink:0
+}
 .nb:hover,.nb.ativo{background:var(--accent);border-color:var(--accent);color:#fff}
-.secao{display:none;padding:24px 28px}
-.secao.ativa{display:block}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:24px}
-.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
-.card{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:20px}
-.card h3{font-size:.85rem;color:#7fb3d3;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-.kpi{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:18px;text-align:center}
-.kpi-icon{font-size:1.8rem;margin-bottom:8px}
-.kpi-label{font-size:.75rem;color:#7fb3d3;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.kpi-val{font-size:1.6rem;font-weight:700;color:var(--titulo)}
-.kpi-sub{font-size:.72rem;color:#7fb3d3;margin-top:4px}
-.kpi.verde{border-color:rgba(46,204,113,.4)}
-.kpi.amarelo{border-color:rgba(241,196,15,.4)}
-.kpi.vermelho{border-color:rgba(231,76,60,.4)}
-.kpi.azul{border-color:rgba(52,152,219,.4)}
-.chart-wrap{position:relative;height:260px}
-.sec-title{font-size:1.1rem;color:var(--titulo);font-weight:600;margin-bottom:18px;padding-bottom:8px;border-bottom:1px solid var(--borda)}
-table{width:100%;border-collapse:collapse;font-size:.82rem}
-th{background:#0f2035;color:#7fb3d3;padding:10px 12px;text-align:left;font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.4px}
-td{padding:10px 12px;border-bottom:1px solid var(--borda);color:var(--texto)}
-tr:hover td{background:rgba(52,152,219,.06)}
-.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:600}
-.tag-verde{background:rgba(46,204,113,.15);color:var(--verde);border:1px solid rgba(46,204,113,.3)}
-.tag-amarelo{background:rgba(241,196,15,.15);color:var(--amarelo);border:1px solid rgba(241,196,15,.3)}
-.tag-vermelho{background:rgba(231,76,60,.15);color:var(--vermelho);border:1px solid rgba(231,76,60,.3)}
-.tag-azul{background:rgba(52,152,219,.15);color:var(--accent);border:1px solid rgba(52,152,219,.3)}
-.progress-wrap{margin-top:8px}
-.progress-label{display:flex;justify-content:space-between;font-size:.72rem;color:#7fb3d3;margin-bottom:4px}
-.progress-bar{background:#1e3450;border-radius:6px;height:8px;overflow:hidden}
-.progress-fill{height:100%;border-radius:6px;transition:width .6s}
-.chat-box{background:var(--card);border:1px solid var(--borda);border-radius:14px;overflow:hidden}
-.chat-messages{height:380px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
-.msg{max-width:78%;padding:12px 16px;border-radius:12px;font-size:.84rem;line-height:1.5}
-.msg-bot{background:#1a3a5c;border:1px solid var(--borda);align-self:flex-start;border-radius:12px 12px 12px 2px}
-.msg-user{background:var(--accent);align-self:flex-end;border-radius:12px 12px 2px 12px}
-.chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--borda)}
-.chat-input input{flex:1;background:#0f2035;border:1px solid var(--borda);color:var(--texto);padding:10px 14px;border-radius:8px;font-size:.84rem;outline:none}
-.chat-input input:focus{border-color:var(--accent)}
-.chat-input button{background:var(--accent);border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;transition:opacity .2s}
-.chat-input button:hover{opacity:.85}
-.sugestoes{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}
-.sugestoes button{background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);color:var(--accent);padding:5px 12px;border-radius:16px;cursor:pointer;font-size:.76rem;transition:all .2s}
-.sugestoes button:hover{background:var(--accent);color:#fff}
-.alerta-box{background:rgba(241,196,15,.08);border:1px solid rgba(241,196,15,.25);border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:.8rem}
-.alerta-box.verde{background:rgba(46,204,113,.08);border-color:rgba(46,204,113,.25)}
-.alerta-box.vermelho{background:rgba(231,76,60,.08);border-color:rgba(231,76,60,.25)}
+
+/* FILTROS */
+.filtros{
+  background:#0f2035;border-bottom:1px solid var(--borda);
+  padding:8px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap
+}
+.filtros label{font-size:.78rem;color:#7fb3d3;font-weight:600}
+.filtros select{
+  background:#162437;border:1px solid var(--borda);color:var(--titulo);
+  padding:5px 10px;border-radius:8px;font-size:.8rem;cursor:pointer
+}
+.btn-f{
+  background:var(--accent);border:none;color:#fff;
+  padding:5px 14px;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600
+}
+#filtro-info{font-size:.74rem;color:#7fb3d3}
+
+/* MAIN */
+main{padding:20px 24px;max-width:1500px;margin:0 auto}
+.sec{display:none}
+.sec.ativo{display:block}
+
+/* TÍTULOS DE SEÇÃO */
+.stitle{
+  font-size:1rem;font-weight:700;color:var(--titulo);
+  margin-bottom:16px;padding-bottom:8px;
+  border-bottom:2px solid var(--accent);
+  display:flex;align-items:center;gap:8px
+}
+
+/* AVISO */
+.aviso{
+  background:rgba(52,152,219,.08);border:1px solid rgba(52,152,219,.25);
+  border-radius:10px;padding:10px 14px;margin-bottom:16px;
+  font-size:.76rem;color:#7fb3d3;line-height:1.5
+}
+.aviso.amarelo{
+  background:rgba(241,196,15,.08);border-color:rgba(241,196,15,.25);color:var(--amarelo)
+}
+.aviso.verde{
+  background:rgba(46,204,113,.08);border-color:rgba(46,204,113,.25);color:var(--verde)
+}
+
+/* KPI CARDS */
+.grid4{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px;margin-bottom:20px
+}
+.kpi{
+  background:var(--card);border:1px solid var(--borda);
+  border-radius:14px;padding:18px 16px;text-align:center;
+  transition:transform .2s,box-shadow .2s;cursor:default;
+  position:relative
+}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.kpi.verde{border-top:3px solid var(--verde)}
+.kpi.azul{border-top:3px solid var(--accent)}
+.kpi.amarelo{border-top:3px solid var(--amarelo)}
+.kpi.vermelho{border-top:3px solid var(--vermelho)}
+.kpi.roxo{border-top:3px solid var(--roxo)}
+.ki{font-size:1.7rem;margin-bottom:6px}
+.kl{font-size:.7rem;color:#7fb3d3;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kv{font-size:1.3rem;font-weight:700;color:var(--titulo)}
+.ks{font-size:.7rem;color:#7fb3d3;margin-top:4px}
+
+/* TOOLTIP */
+.kpi[title]{cursor:help}
+.kpi[title]:hover::after{
+  content:attr(title);
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:#0a1628;color:var(--texto);padding:5px 10px;
+  border-radius:6px;font-size:.72rem;white-space:nowrap;
+  border:1px solid var(--borda);z-index:99;pointer-events:none;
+  max-width:220px;white-space:normal;text-align:center;line-height:1.4
+}
+
+/* GRÁFICOS */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;margin-bottom:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-bottom:20px}
+.ccard{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:18px}
+.ctitle{font-size:.82rem;font-weight:600;color:var(--titulo);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--borda)}
+.cwrap{position:relative;height:250px}
+
+/* BADGE TIPO */
+.btipo{
+  display:inline-block;padding:2px 10px;border-radius:10px;
+  font-size:.7rem;font-weight:700;letter-spacing:.3px
+}
+.bp{background:rgba(52,152,219,.15);color:var(--accent);border:1px solid rgba(52,152,219,.3)}
+.br{background:rgba(46,204,113,.15);color:var(--verde);border:1px solid rgba(46,204,113,.3)}
+.ba{background:rgba(241,196,15,.15);color:var(--amarelo);border:1px solid rgba(241,196,15,.3)}
+.bv{background:rgba(231,76,60,.15);color:var(--vermelho);border:1px solid rgba(231,76,60,.3)}
+
+/* TABELAS */
+.twrap{overflow-x:auto;border-radius:10px;border:1px solid var(--borda);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{background:#1a3a5c;color:var(--titulo);padding:10px 12px;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px}
+td{padding:9px 12px;border-bottom:1px solid var(--borda);color:var(--texto)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(52,152,219,.05)}
+
+/* PROGRESS */
+.pwrap{margin:6px 0}
+.plabel{display:flex;justify-content:space-between;font-size:.72rem;color:#7fb3d3;margin-bottom:3px}
+.pbar{background:#1e3450;border-radius:4px;height:7px;overflow:hidden}
+.pfill{height:100%;border-radius:4px;transition:width .6s}
+
+/* PROJETOS */
+.pcard{
+  background:var(--card);border:1px solid var(--borda);
+  border-radius:12px;padding:16px;margin-bottom:14px
+}
+.pheader{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.pnome{font-size:.88rem;font-weight:600;color:var(--titulo)}
+.pmeta{font-size:.72rem;color:#7fb3d3;margin-top:3px}
+.pstats{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+.psl{font-size:.68rem;color:#7fb3d3}
+.psv{font-size:.8rem;font-weight:600;color:var(--titulo)}
+
+/* CAMPO TEXTO EDITÁVEL */
+.campo-edit{
+  background:#0f2035;border:1px solid var(--borda);border-radius:8px;
+  padding:10px 12px;font-size:.8rem;color:var(--texto);
+  width:100%;min-height:60px;resize:vertical;margin-top:6px;
+  font-family:'Segoe UI',sans-serif;line-height:1.5
+}
+.campo-edit:focus{outline:none;border-color:var(--accent)}
+.campo-label{font-size:.72rem;color:#7fb3d3;font-weight:600;margin-top:10px;text-transform:uppercase;letter-spacing:.4px}
+
+/* CRONOGRAMA */
+.crono{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.crono-item{
+  background:#0f2035;border:1px solid var(--borda);
+  border-radius:8px;padding:6px 12px;font-size:.74rem;
+  display:flex;flex-direction:column;align-items:center;gap:2px
+}
+.crono-item.ok{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08)}
+.crono-item.em{border-color:rgba(241,196,15,.4);background:rgba(241,196,15,.08)}
+.crono-item.nd{border-color:var(--borda)}
+.crono-mes{font-size:.68rem;color:#7fb3d3}
+.crono-status{font-size:.8rem}
+
+/* CHAT */
+.chatbox{background:var(--card);border:1px solid var(--borda);border-radius:14px;overflow:hidden}
+.chatheader{
+  background:linear-gradient(135deg,#1a3a5c,#0f2035);
+  padding:12px 18px;display:flex;align-items:center;gap:10px
+}
+.chatheader h3{font-size:.9rem;color:var(--titulo);font-weight:600}
+.chatmsgs{
+  padding:16px;min-height:200px;max-height:350px;
+  overflow-y:auto;display:flex;flex-direction:column;gap:12px
+}
+.chatmsgs::-webkit-scrollbar{width:4px}
+.chatmsgs::-webkit-scrollbar-thumb{background:var(--borda);border-radius:4px}
+.msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.82rem;line-height:1.5}
+.mia{background:#1a3a5c;border:1px solid var(--borda);align-self:flex-start;border-radius:12px 12px 12px 2px}
+.muser{background:var(--accent);color:#fff;align-self:flex-end;border-radius:12px 12px 2px 12px}
+.sugest{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 12px}
+.sbtn{
+  background:rgba(52,152,219,.1);border:1px solid rgba(52,152,219,.3);
+  color:var(--accent);padding:4px 12px;border-radius:14px;
+  cursor:pointer;font-size:.74rem;transition:all .2s
+}
+.sbtn:hover{background:var(--accent);color:#fff}
+.chatinput{
+  display:flex;gap:8px;padding:12px 16px;
+  border-top:1px solid var(--borda);background:#0f2035
+}
+.chatinput input{
+  flex:1;background:#162437;border:1px solid var(--borda);
+  color:var(--texto);padding:9px 14px;border-radius:8px;font-size:.82rem
+}
+.chatinput input:focus{outline:none;border-color:var(--accent)}
+.chatinput button{
+  background:var(--accent);border:none;color:#fff;
+  padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600
+}
+
+/* INFO BOXES */
+.ibox{
+  background:rgba(52,152,219,.07);border:1px solid rgba(52,152,219,.2);
+  border-radius:12px;padding:16px;margin-bottom:16px
+}
+.ibox h4{color:var(--accent);font-size:.84rem;margin-bottom:8px}
+.ibox p,.ibox li{font-size:.8rem;color:var(--texto);line-height:1.7}
+.ibox ul{padding-left:16px}
+
+footer{
+  text-align:center;padding:18px;border-top:1px solid var(--borda);
+  font-size:.74rem;color:#4a6a8a;margin-top:10px
+}
+
+@media(max-width:600px){
+  header{padding:10px 12px}
+  nav{padding:8px 12px}
+  main{padding:14px 12px}
+  .filtros{padding:8px 12px}
+  .grid2,.grid3{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -78,401 +259,520 @@ tr:hover td{background:rgba(52,152,219,.06)}
   <div class="hl">
     <div class="logo">🏛️</div>
     <div class="ht">
-      <h1>SãoJeoI – Gestão Orçamentária</h1>
-      <p>Prefeitura Municipal de São Jerônimo · Ciclo 2026–2029</p>
+      <h1>SãoJeoI IA</h1>
+      <p>Gestão Orçamentária · Prefeitura de São Jerônimo – RS</p>
     </div>
   </div>
   <div class="hr">
     <span class="badge">✅ Sistema Ativo</span>
-    <div class="dh" id="relogio"></div>
+    <div id="relogio"></div>
   </div>
 </header>
 
 <nav>
-  <button class="nb ativo" onclick="ir('visao')">📊 Visão Geral</button>
-  <button class="nb" onclick="ir('receitas')">💰 Receitas 2025</button>
-  <button class="nb" onclick="ir('loa')">📋 LOA 2026</button>
-  <button class="nb" onclick="ir('ppa')">📅 PPA 2026–2029</button>
-  <button class="nb" onclick="ir('projetos')">🚀 Projetos</button>
-  <button class="nb" onclick="ir('fiscal')">⚖️ Nível Fiscal</button>
-  <button class="nb" onclick="ir('chat')">🤖 IA Consultora</button>
+  <button class="nb ativo" onclick="ir('visao',this)">📊 Visão Geral</button>
+  <button class="nb" onclick="ir('receitas',this)">💰 Receitas 2025</button>
+  <button class="nb" onclick="ir('loa',this)">📋 LOA 2026</button>
+  <button class="nb" onclick="ir('ppa',this)">📅 PPA 2026–2029</button>
+  <button class="nb" onclick="ir('projetos',this)">🚀 Projetos</button>
+  <button class="nb" onclick="ir('fiscal',this)">⚖️ Nível Fiscal</button>
+  <button class="nb" onclick="ir('chat',this)">🤖 IA Consultora</button>
 </nav>
 
-<!-- ═══════════════ VISÃO GERAL ═══════════════ -->
-<section id="visao" class="secao ativa">
-  <div class="sec-title">📊 Visão Geral do Exercício</div>
+<div class="filtros">
+  <label>📅 Ano:</label>
+  <select id="fAno" onchange="filtrar()">
+    <option value="2025" selected>2025</option>
+    <option value="2026">2026 (LOA)</option>
+  </select>
+  <label>📆 Mês:</label>
+  <select id="fMes" onchange="filtrar()">
+    <option value="0" selected>Todos</option>
+    <option value="1">Janeiro</option>
+    <option value="2">Fevereiro</option>
+    <option value="3">Março</option>
+    <option value="4">Abril</option>
+    <option value="5">Maio</option>
+    <option value="6">Junho</option>
+    <option value="7">Julho</option>
+    <option value="8">Agosto</option>
+    <option value="9">Setembro</option>
+    <option value="10">Outubro</option>
+    <option value="11">Novembro</option>
+    <option value="12">Dezembro</option>
+  </select>
+  <button class="btn-f" onclick="filtrar()">🔍 Filtrar</button>
+  <span id="filtro-info"></span>
+</div>
+
+<main>
+
+<!-- ══ VISÃO GERAL ══ -->
+<div class="sec ativo" id="sec-visao">
+  <div class="stitle">📊 Visão Geral – São Jerônimo</div>
+  <div class="aviso">
+    📌 <strong>Planejamento:</strong> LOA 2026 (Lei nº 4.628/2025) · PPA 2026–2029 (Lei nº 4.566/2025) &nbsp;|&nbsp;
+    <strong>Realizado:</strong> Portal Transparência Fly – exportado 25/03/2026 · última atualização 29/04/2025
+  </div>
   <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">💰</div><div class="kpi-label">Receita LOA 2026</div><div class="kpi-val">R$ 137,9 M</div><div class="kpi-sub">Estimada – Lei 4.628/2025</div></div>
-    <div class="kpi verde"><div class="kpi-icon">📈</div><div class="kpi-label">Receita Arrecadada 2025</div><div class="kpi-val">R$ 125,7 M</div><div class="kpi-sub">Base histórica real</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">🏗️</div><div class="kpi-label">Investimentos LOA 2026</div><div class="kpi-val">R$ 30,8 M</div><div class="kpi-sub">Fixados na LOA 2026</div></div>
-    <div class="kpi verde"><div class="kpi-icon">📅</div><div class="kpi-label">PPA Total 2026–2029</div><div class="kpi-val">R$ 493,8 M</div><div class="kpi-sub">Ciclo plurianual completo</div></div>
+    <div class="kpi azul" title="Receita e despesa total fixada na LOA 2026 (Lei 4.628/2025). Planejamento.">
+      <div class="ki">📋</div><div class="kl">Orçamento LOA 2026</div>
+      <div class="kv">R$ 137,9 M</div><div class="ks">📌 Planejamento · Lei 4.628/2025</div>
+    </div>
+    <div class="kpi verde" title="Receitas correntes e de capital arrecadadas até 29/04/2025. Dado real do portal.">
+      <div class="ki">💰</div><div class="kl">Receita Arrecadada 2025</div>
+      <div class="kv">R$ 30,6 M</div><div class="ks">✅ Realizado · até abr/2025</div>
+    </div>
+    <div class="kpi amarelo" title="Investimentos fixados na LOA 2026. Inclui obras, equipamentos e infraestrutura.">
+      <div class="ki">🏗️</div><div class="kl">Investimentos LOA 2026</div>
+      <div class="kv">R$ 30,8 M</div><div class="ks">📌 Planejamento · 22,4% do total</div>
+    </div>
+    <div class="kpi verde" title="Fundo de Participação dos Municípios. Principal transferência federal orçada para 2025.">
+      <div class="ki">🏦</div><div class="kl">FPM Orçado 2025</div>
+      <div class="kv">R$ 36,4 M</div><div class="ks">📌 Orçado · Cota FPM + 1%</div>
+    </div>
+    <div class="kpi azul" title="FUNDEB previsto na LOA 2026 para educação básica.">
+      <div class="ki">🎓</div><div class="kl">FUNDEB 2026</div>
+      <div class="kv">R$ 14,7 M</div><div class="ks">📌 Planejamento · LOA 2026</div>
+    </div>
+    <div class="kpi verde" title="Plano Plurianual 2026–2029. Total geral dos 4 anos de planejamento.">
+      <div class="ki">📅</div><div class="kl">PPA Total 2026–2029</div>
+      <div class="kv">R$ 493,8 M</div><div class="ks">📌 Planejamento · 4 anos</div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="ccard">
+      <div class="ctitle">🥧 Composição da Receita LOA 2026</div>
+      <div class="cwrap"><canvas id="c1"></canvas></div>
+    </div>
+    <div class="ccard">
+      <div class="ctitle">📊 Despesa por Grupo – LOA 2026</div>
+      <div class="cwrap"><canvas id="c2"></canvas></div>
+    </div>
+    <div class="ccard">
+      <div class="ctitle">📈 Evolução Orçamentária 2022–2026</div>
+      <div class="cwrap"><canvas id="c3"></canvas></div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📈 Evolução Orçamentária 2022–2026</h3><div class="chart-wrap"><canvas id="chartEvolucao"></canvas></div></div>
-    <div class="card"><h3>🥧 Composição da Receita 2025</h3><div class="chart-wrap"><canvas id="chartReceita"></canvas></div></div>
+    <div class="ccard">
+      <div class="ctitle">💡 Alertas do Exercício</div>
+      <div class="aviso verde" style="margin-bottom:8px">✅ LOA 2026 aprovada – Lei nº 4.628 de 23/12/2025 · Total: R$ 137.897.350,00</div>
+      <div class="aviso verde" style="margin-bottom:8px">✅ PPA 2026–2029 aprovado · 3 audiências públicas realizadas em junho/2025</div>
+      <div class="aviso amarelo" style="margin-bottom:8px">⚠️ Dados de receita 2025 parciais – última atualização: 29/04/2025</div>
+      <div class="aviso amarelo" style="margin-bottom:8px">⚠️ Créditos suplementares: até 40% da despesa total (Art. 7º LOA)</div>
+      <div class="aviso" style="color:var(--vermelho);background:rgba(231,76,60,.08);border-color:rgba(231,76,60,.25)">🚨 Reserva Contingência RPPS: R$ 10,5 M – monitorar cobertura atuarial</div>
+    </div>
+    <div class="ccard">
+      <div class="ctitle">💰 Principais Receitas – LOA 2026 (R$ M)</div>
+      <div class="cwrap"><canvas id="c4"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RECEITAS 2025 ══ -->
+<div class="sec" id="sec-receitas">
+  <div class="stitle">💰 Receitas 2025 – Portal da Transparência</div>
+  <div class="aviso amarelo">✅ Realizado · Fonte: Transparência Fly – exportado 25/03/2026 · Última atualização do portal: 29/04/2025 · Período: 01/01/2025 a 31/12/2025</div>
+  <div class="grid4">
+    <div class="kpi azul" title="Cota-Parte FPM mensal + cota 1% de julho. Maior fonte de receita do município.">
+      <div class="ki">🏦</div><div class="kl">FPM (orçado 2025)</div>
+      <div class="kv">R$ 36,4 M</div><div class="ks">✅ Realizado</div>
+    </div>
+    <div class="kpi verde" title="Cota-Parte do ICMS repassada pelo Estado do RS.">
+      <div class="ki">🏭</div><div class="kl">ICMS Cota-Parte</div>
+      <div class="kv">R$ 18,2 M</div><div class="ks">✅ Realizado</div>
+    </div>
+    <div class="kpi amarelo" title="Fundo de Manutenção da Educação Básica. Recurso vinculado à educação.">
+      <div class="ki">🎓</div><div class="kl">FUNDEB</div>
+      <div class="kv">R$ 14,2 M</div><div class="ks">✅ Realizado</div>
+    </div>
+    <div class="kpi verde" title="Transferências do SUS: APS, MAC, Vigilância, Farmácia.">
+      <div class="ki">🏥</div><div class="kl">Transferências SUS</div>
+      <div class="kv">R$ 8,6 M</div><div class="ks">✅ Realizado</div>
+    </div>
+    <div class="kpi azul" title="Imposto Sobre Serviços de Qualquer Natureza. Receita própria municipal.">
+      <div class="ki">🔧</div><div class="kl">ISS</div>
+      <div class="kv">R$ 4,0 M</div><div class="ks">✅ Realizado</div>
+    </div>
+    <div class="kpi amarelo" title="Imposto Predial e Territorial Urbano. Inclui principal e dívida ativa.">
+      <div class="ki">🏠</div><div class="kl">IPTU</div>
+      <div class="kv">R$ 3,0 M</div><div class="ks">✅ Realizado</div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📊 LOA 2026 – Despesa por Grupo</h3><div class="chart-wrap"><canvas id="chartDespesa"></canvas></div></div>
-    <div class="card"><h3>💡 Alertas e Avisos</h3>
-      <div class="alerta-box verde">✅ LOA 2026 aprovada – Lei nº 4.628 de 23/12/2025. Total: R$ 137.897.350,00</div>
-      <div class="alerta-box">⚠️ Dados do Portal da Transparência com última atualização em 29/04/2025. Receitas de 2025 são estimadas a partir do CSV exportado.</div>
-      <div class="alerta-box verde">✅ PPA 2026–2029 aprovado com 3 audiências públicas realizadas (jun/2025).</div>
-      <div class="alerta-box">⚠️ Créditos suplementares autorizados até 40% da despesa total (Art. 7º da LOA).</div>
-      <div class="alerta-box vermelho">🚨 Reserva de Contingência RPPS: R$ 10,5 M – monitorar cobertura atuarial.</div>
+    <div class="ccard">
+      <div class="ctitle">📊 Principais Fontes – Orçado 2025 (R$ M)</div>
+      <div class="cwrap"><canvas id="c5"></canvas></div>
+    </div>
+    <div class="ccard">
+      <div class="ctitle">📋 Detalhamento por Fonte – Orçado 2025</div>
+      <div class="twrap" style="margin-bottom:0">
+        <table>
+          <thead><tr><th>Fonte de Receita</th><th>Valor Orçado (R$)</th><th>Tipo</th></tr></thead>
+          <tbody>
+            <tr><td>FPM – Cota-Parte Mensal</td><td>32.483.343,00</td><td><span class="btipo bp">Federal</span></td></tr>
+            <tr><td>FPM – 1% (Julho)</td><td>3.969.505,00</td><td><span class="btipo bp">Federal</span></td></tr>
+            <tr><td>ICMS – Cota-Parte</td><td>18.244.000,00</td><td><span class="btipo ba">Estadual</span></td></tr>
+            <tr><td>FUNDEB</td><td>14.236.600,00</td><td><span class="btipo bp">Fed/Est</span></td></tr>
+            <tr><td>ISS (todas rubricas)</td><td>4.001.000,00</td><td><span class="btipo br">Municipal</span></td></tr>
+            <tr><td>IPTU (todas rubricas)</td><td>3.044.000,00</td><td><span class="btipo br">Municipal</span></td></tr>
+            <tr><td>IPVA – Cota-Parte</td><td>2.803.000,00</td><td><span class="btipo ba">Estadual</span></td></tr>
+            <tr><td>IRRF</td><td>2.752.000,00</td><td><span class="btipo bp">Federal</span></td></tr>
+            <tr><td>Transferências SUS</td><td>8.655.000,00</td><td><span class="btipo bp">Federal</span></td></tr>
+            <tr><td>COSIP – Iluminação</td><td>855.000,00</td><td><span class="btipo br">Municipal</span></td></tr>
+            <tr><td>Ônus de Sucumbência</td><td>7.000.000,00</td><td><span class="btipo ba">Outras</span></td></tr>
+            <tr><td>Rem. Depósitos Livres</td><td>1.735.989,00</td><td><span class="btipo br">Próprio</span></td></tr>
+            <tr><td>ITBI (todas rubricas)</td><td>603.000,00</td><td><span class="btipo br">Municipal</span></td></tr>
+            <tr><td>Participação Petróleo</td><td>740.000,00</td><td><span class="btipo bp">Federal</span></td></tr>
+            <tr><td>CEFEM (Mineração)</td><td>212.500,00</td><td><span class="btipo bp">Federal</span></td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</section>
+  <div class="ccard">
+    <div class="ctitle">📊 Receita Arrecadada – Janeiro/2025 (dado real)</div>
+    <div class="aviso" style="margin-bottom:12px">Único mês com dado "no mês" disponível no portal. Total líquido: R$ 8.988.024,37 | Orçado anual: R$ 123.138.620,00 | % realizado em janeiro: 8,18%</div>
+    <div class="grid4">
+      <div class="kpi verde" title="Total de receitas brutas arrecadadas em janeiro/2025">
+        <div class="ki">📈</div><div class="kl">Receitas Brutas Jan/25</div>
+        <div class="kv">R$ 10,07 M</div><div class="ks">No mês de janeiro</div>
+      </div>
+      <div class="kpi vermelho" title="Deduções da receita em janeiro/2025">
+        <div class="ki">➖</div><div class="kl">Deduções Jan/25</div>
+        <div class="kv">–R$ 1,08 M</div><div class="ks">FUNDEB + outras</div>
+      </div>
+      <div class="kpi azul" title="Total líquido arrecadado em janeiro/2025">
+        <div class="ki">✅</div><div class="kl">Total Líquido Jan/25</div>
+        <div class="kv">R$ 8,99 M</div><div class="ks">Receita líquida</div>
+      </div>
+      <div class="kpi amarelo" title="Percentual do orçamento anual realizado somente em janeiro">
+        <div class="ki">📊</div><div class="kl">% do Orçado Anual</div>
+        <div class="kv">8,18%</div><div class="ks">Em apenas 1 mês</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- ═══════════════ RECEITAS 2025 ═══════════════ -->
-<section id="receitas" class="secao">
-  <div class="sec-title">💰 Receitas 2025 – Transparência Fly (exportado em 25/03/2026)</div>
+<!-- ══ LOA 2026 ══ -->
+<div class="sec" id="sec-loa">
+  <div class="stitle">📋 LOA 2026 – Lei nº 4.628 de 23/12/2025</div>
+  <div class="aviso verde">📌 Planejamento · Receita estimada = Despesa fixada = R$ 137.897.350,00 · Prefeito: Júlio Cesar Prates Cunha</div>
   <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">🏦</div><div class="kpi-label">FPM</div><div class="kpi-val">R$ 36,4 M</div><div class="kpi-sub">Cota-Parte FPM orçado</div></div>
-    <div class="kpi verde"><div class="kpi-icon">🏫</div><div class="kpi-label">FUNDEB</div><div class="kpi-val">R$ 14,2 M</div><div class="kpi-sub">Transferências FUNDEB</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">🏭</div><div class="kpi-label">ICMS</div><div class="kpi-val">R$ 18,2 M</div><div class="kpi-sub">Cota-Parte ICMS</div></div>
-    <div class="kpi azul"><div class="kpi-icon">🏥</div><div class="kpi-label">SUS / Saúde</div><div class="kpi-val">R$ 8,6 M</div><div class="kpi-sub">Transferências SUS</div></div>
+    <div class="kpi azul" title="Total da LOA 2026. Receita estimada igual à despesa fixada.">
+      <div class="ki">💼</div><div class="kl">Total Geral LOA</div>
+      <div class="kv">R$ 137,9 M</div><div class="ks">📌 Receita = Despesa</div>
+    </div>
+    <div class="kpi verde" title="Receitas correntes previstas. Inclui impostos, transferências e serviços.">
+      <div class="ki">📥</div><div class="kl">Receitas Correntes</div>
+      <div class="kv">R$ 130,5 M</div><div class="ks">📌 Antes das deduções</div>
+    </div>
+    <div class="kpi amarelo" title="Despesas de capital: investimentos em obras e equipamentos.">
+      <div class="ki">🏗️</div><div class="kl">Desp. de Capital</div>
+      <div class="kv">R$ 32,8 M</div><div class="ks">📌 Invest. + Amortização</div>
+    </div>
+    <div class="kpi verde" title="Pessoal e encargos sociais. Maior grupo de despesa corrente.">
+      <div class="ki">👥</div><div class="kl">Pessoal e Encargos</div>
+      <div class="kv">R$ 44,6 M</div><div class="ks">📌 32,3% do total</div>
+    </div>
+    <div class="kpi azul" title="Outras despesas correntes: custeio de serviços, materiais, contratos.">
+      <div class="ki">🔄</div><div class="kl">Outras Desp. Correntes</div>
+      <div class="kv">R$ 45,7 M</div><div class="ks">📌 33,2% do total</div>
+    </div>
+    <div class="kpi vermelho" title="Reserva de contingência livre + reserva do RPPS. Prevista na LDO (mín. 1,5% RCL).">
+      <div class="ki">⚠️</div><div class="kl">Reservas</div>
+      <div class="kv">R$ 13,3 M</div><div class="ks">📌 Contingência + RPPS</div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📊 Principais Fontes de Receita 2025</h3><div class="chart-wrap"><canvas id="chartReceitaBarra"></canvas></div></div>
-    <div class="card"><h3>📋 Detalhamento por Categoria</h3>
-      <table>
-        <thead><tr><th>Categoria</th><th>Valor Orçado (R$)</th></tr></thead>
-        <tbody>
-          <tr><td>FPM – Cota-Parte</td><td>R$ 36.452.848,00</td></tr>
-          <tr><td>ICMS – Cota-Parte</td><td>R$ 18.244.000,00</td></tr>
-          <tr><td>FUNDEB</td><td>R$ 14.236.600,00</td></tr>
-          <tr><td>ISS – Serviços</td><td>R$ 4.001.000,00</td></tr>
-          <tr><td>IPTU</td><td>R$ 3.044.000,00</td></tr>
-          <tr><td>IPVA – Cota-Parte</td><td>R$ 2.803.000,00</td></tr>
-          <tr><td>IRRF</td><td>R$ 2.752.000,00</td></tr>
-          <tr><td>Receita Patrimonial</td><td>R$ 3.057.940,00</td></tr>
-          <tr><td>Transferências SUS</td><td>R$ 8.655.000,00</td></tr>
-          <tr><td>Outras Correntes</td><td>R$ 7.914.100,00</td></tr>
-        </tbody>
-      </table>
+    <div class="ccard">
+      <div class="ctitle">📊 Receita por Categoria – LOA 2026</div>
+      <div class="cwrap"><canvas id="c6"></canvas></div>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════ LOA 2026 ═══════════════ -->
-<section id="loa" class="secao">
-  <div class="sec-title">📋 LOA 2026 – Lei nº 4.628 de 23/12/2025</div>
-  <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">💰</div><div class="kpi-label">Total Geral</div><div class="kpi-val">R$ 137,9 M</div><div class="kpi-sub">Receita = Despesa</div></div>
-    <div class="kpi verde"><div class="kpi-icon">📥</div><div class="kpi-label">Receitas Correntes</div><div class="kpi-val">R$ 118,3 M</div><div class="kpi-sub">Sem deduções</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">🏗️</div><div class="kpi-label">Despesas Capital</div><div class="kpi-val">R$ 32,8 M</div><div class="kpi-sub">Incl. investimentos</div></div>
-    <div class="kpi vermelho"><div class="kpi-icon">⚠️</div><div class="kpi-label">Reserva Contingência</div><div class="kpi-val">R$ 13,3 M</div><div class="kpi-sub">RPPS + Livre</div></div>
+    <div class="ccard">
+      <div class="ctitle">📊 Despesa por Grupo – LOA 2026</div>
+      <div class="cwrap"><canvas id="c7"></canvas></div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📊 Receita por Categoria – LOA 2026</h3><div class="chart-wrap"><canvas id="chartLOARec"></canvas></div></div>
-    <div class="card"><h3>📊 Despesa por Grupo – LOA 2026</h3><div class="chart-wrap"><canvas id="chartLOADesp"></canvas></div></div>
+    <div class="ccard">
+      <div class="ctitle">📋 Receita 2026 – Detalhamento</div>
+      <div class="twrap" style="margin-bottom:0">
+        <table>
+          <thead><tr><th>Categoria</th><th>Valor (R$)</th><th>%</th></tr></thead>
+          <tbody>
+            <tr><td>Impostos, Taxas e C. Melhoria</td><td>14.448.250,00</td><td>10,5%</td></tr>
+            <tr><td>Contribuições (COSIP + RPPS)</td><td>2.984.200,00</td><td>2,2%</td></tr>
+            <tr><td>Receita Patrimonial</td><td>15.073.100,00</td><td>10,9%</td></tr>
+            <tr><td>Receita de Serviços</td><td>1.100,00</td><td>0,0%</td></tr>
+            <tr><td>Transferências Correntes</td><td>92.709.900,00</td><td>67,2%</td></tr>
+            <tr><td>Outras Receitas Correntes</td><td>5.274.500,00</td><td>3,8%</td></tr>
+            <tr><td>Transferências de Capital</td><td>15.450.700,00</td><td>11,2%</td></tr>
+            <tr><td>Intraorçamentárias</td><td>3.814.300,00</td><td>2,8%</td></tr>
+            <tr><td>(–) Deduções</td><td style="color:var(--vermelho)">–12.141.200,00</td><td style="color:var(--vermelho)">–8,8%</td></tr>
+            <tr style="font-weight:700;color:var(--titulo)"><td>TOTAL</td><td>137.897.350,00</td><td>100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ccard">
+      <div class="ctitle">📋 Despesa 2026 – por Entidade</div>
+      <div class="twrap" style="margin-bottom:0">
+        <table>
+          <thead><tr><th>Entidade</th><th>Correntes</th><th>Capital</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>Prefeitura Municipal</td><td>R$ 80,1 M</td><td>R$ 32,3 M</td><td>R$ 115,1 M</td></tr>
+            <tr><td>RPPS – Previdência</td><td>R$ 7,1 M</td><td>R$ 0,01 M</td><td>R$ 17,7 M</td></tr>
+            <tr><td>Câmara Municipal</td><td>R$ 4,6 M</td><td>R$ 0,5 M</td><td>R$ 5,1 M</td></tr>
+            <tr style="font-weight:700;color:var(--titulo)"><td>TOTAL</td><td>R$ 91,8 M</td><td>R$ 32,8 M</td><td>R$ 137,9 M</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px">
+        <div class="ibox">
+          <h4>📜 LDO 2026 – Regras Fiscais (Lei nº 4.596/2025)</h4>
+          <ul>
+            <li>Reserva de Contingência: mínimo <strong>1,5% da RCL</strong></li>
+            <li>Créditos Suplementares: até <strong>40%</strong> da despesa total</li>
+            <li>Emendas Individuais: <strong>1,2% da RCL</strong> (0,6% livre + 0,6% saúde)</li>
+            <li>Repasse à Câmara: até o dia <strong>20 de cada mês</strong></li>
+            <li>Audiências públicas: <strong>maio, setembro e fevereiro</strong></li>
+            <li>Limitação de empenho ativada se receita comprometer metas fiscais</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card" style="margin-top:0">
-    <h3 style="margin-bottom:14px;color:#7fb3d3;font-size:.85rem;text-transform:uppercase">Resumo Despesa por Entidade</h3>
-    <table>
-      <thead><tr><th>Entidade</th><th>Despesas Correntes</th><th>Despesas Capital</th><th>Total</th></tr></thead>
-      <tbody>
-        <tr><td>Prefeitura Municipal</td><td>R$ 80.087.557,41</td><td>R$ 32.311.400,00</td><td>R$ 115.117.486,32</td></tr>
-        <tr><td>RPPS – Previdência</td><td>R$ 7.149.751,33</td><td>R$ 10.000,00</td><td>R$ 17.711.500,00</td></tr>
-        <tr><td>Câmara Municipal</td><td>R$ 4.598.363,68</td><td>R$ 470.000,00</td><td>R$ 5.068.363,68</td></tr>
-        <tr><td><strong>TOTAL</strong></td><td><strong>R$ 91.835.672,42</strong></td><td><strong>R$ 32.791.400,00</strong></td><td><strong>R$ 137.897.350,00</strong></td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+</div>
 
-<!-- ═══════════════ PPA 2026–2029 ═══════════════ -->
-<section id="ppa" class="secao">
-  <div class="sec-title">📅 PPA 2026–2029 – Plano Plurianual</div>
+<!-- ══ PPA 2026–2029 ══ -->
+<div class="sec" id="sec-ppa">
+  <div class="stitle">📅 PPA 2026–2029 – Plano Plurianual</div>
+  <div class="aviso verde">📌 Planejamento · Lei nº 4.566 de 23/09/2025 · 3 audiências públicas realizadas em junho/2025 · Vigência: 2026 a 2029</div>
   <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">📅</div><div class="kpi-label">Total PPA</div><div class="kpi-val">R$ 493,8 M</div><div class="kpi-sub">4 anos – 2026 a 2029</div></div>
-    <div class="kpi verde"><div class="kpi-icon">📆</div><div class="kpi-label">Ano 2026</div><div class="kpi-val">R$ 124,6 M</div><div class="kpi-sub">Exercício corrente</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">📆</div><div class="kpi-label">Ano 2027</div><div class="kpi-val">R$ 127,9 M</div><div class="kpi-sub">Projeção</div></div>
-    <div class="kpi azul"><div class="kpi-icon">📆</div><div class="kpi-label">Anos 2028–2029</div><div class="kpi-val">R$ 241,3 M</div><div class="kpi-sub">Projeção 2 anos</div></div>
+    <div class="kpi azul" title="Total do Plano Plurianual nos 4 anos. Valores referenciais, não limites da LOA.">
+      <div class="ki">📅</div><div class="kl">Total PPA 4 Anos</div>
+      <div class="kv">R$ 493,8 M</div><div class="ks">📌 2026 a 2029</div>
+    </div>
+    <div class="kpi verde" title="Orçamento da Secretaria de Saúde previsto no PPA 2026.">
+      <div class="ki">🏥</div><div class="kl">Saúde PPA 2026</div>
+      <div class="kv">R$ 29,8 M</div><div class="ks">📌 Maior após Obras</div>
+    </div>
+    <div class="kpi amarelo" title="Orçamento da Secretaria de Educação no PPA 2026.">
+      <div class="ki">🎓</div><div class="kl">Educação PPA 2026</div>
+      <div class="kv">R$ 24,2 M</div><div class="ks">📌 Inclui FUNDEB</div>
+    </div>
+    <div class="kpi azul" title="Maior secretaria em investimentos. Obras, saneamento e serviços urbanos.">
+      <div class="ki">🏗️</div><div class="kl">Obras e Saneamento</div>
+      <div class="kv">R$ 45,3 M</div><div class="ks">📌 Maior secretaria</div>
+    </div>
+    <div class="kpi verde" title="Meio Ambiente e Bem-Estar Animal. Inclui projetos de preservação.">
+      <div class="ki">🌿</div><div class="kl">Meio Ambiente</div>
+      <div class="kv">R$ 19,7 M</div><div class="ks">📌 PPA 2026</div>
+    </div>
+    <div class="kpi amarelo" title="Coordenadoria de Habitação. Inclui MCMV e regularização fundiária.">
+      <div class="ki">🏠</div><div class="kl">Habitação</div>
+      <div class="kv">R$ 5,3 M</div><div class="ks">📌 PPA 2026</div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📊 Distribuição por Secretaria – 2026</h3><div class="chart-wrap"><canvas id="chartPPA"></canvas></div></div>
-    <div class="card"><h3>📋 Maiores Secretarias – PPA 2026</h3>
-      <table>
-        <thead><tr><th>Secretaria</th><th>Total 2026</th></tr></thead>
-        <tbody>
-          <tr><td>Obras, Saneamento e Serviços</td><td>R$ 45.305.588,00</td></tr>
-          <tr><td>Saúde</td><td>R$ 29.830.900,00</td></tr>
-          <tr><td>Educação</td><td>R$ 24.203.300,00</td></tr>
-          <tr><td>Interior</td><td>R$ 10.894.500,00</td></tr>
-          <tr><td>Esporte/Turismo/Cultura</td><td>R$ 11.035.054,00</td></tr>
-          <tr><td>Assistência Social</td><td>R$ 10.562.122,00</td></tr>
-          <tr><td>Meio Ambiente</td><td>R$ 19.691.822,00</td></tr>
-          <tr><td>Defesa Civil</td><td>R$ 4.168.708,00</td></tr>
-          <tr><td>Habitação</td><td>R$ 5.326.100,00</td></tr>
-          <tr><td>Planejamento</td><td>R$ 7.344.100,00</td></tr>
-          <tr><td>Agricultura</td><td>R$ 3.534.320,00</td></tr>
-        </tbody>
-      </table>
+    <div class="ccard">
+      <div class="ctitle">📊 Distribuição por Secretaria – PPA 2026</div>
+      <div class="cwrap"><canvas id="c8"></canvas></div>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════ PROJETOS ═══════════════ -->
-<section id="projetos" class="secao">
-  <div class="sec-title">🚀 Projetos Estratégicos – PPA 2026–2029</div>
-  <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">📁</div><div class="kpi-label">Total Projetos</div><div class="kpi-val">35</div><div class="kpi-sub">Cadastrados até ago/2025</div></div>
-    <div class="kpi verde"><div class="kpi-icon">✅</div><div class="kpi-label">Em Execução</div><div class="kpi-val">18</div><div class="kpi-sub">Com saldo a executar</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">🆕</div><div class="kpi-label">Novos Projetos</div><div class="kpi-val">12</div><div class="kpi-sub">A iniciar em 2026</div></div>
-    <div class="kpi vermelho"><div class="kpi-icon">🔄</div><div class="kpi-label">Conservação</div><div class="kpi-val">5</div><div class="kpi-sub">Patrimônio existente</div></div>
-  </div>
-  <div class="card">
-    <h3 style="margin-bottom:14px;color:#7fb3d3;font-size:.85rem;text-transform:uppercase">Principais Projetos de Obras e Convênios</h3>
-    <table>
-      <thead><tr><th>#</th><th>Objeto</th><th>Origem Recurso</th><th>Valor Total</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>Reforma Palácio Alfredo Simch</td><td>Próprios</td><td>R$ 1.622.432,44</td><td><span class="tag tag-azul">Em Execução</span></td></tr>
-        <tr><td>8</td><td>Implantação de Calçadas Acessíveis</td><td>Min. Cidades</td><td>R$ 3.725.000,00</td><td><span class="tag tag-amarelo">Novo</span></td></tr>
-        <tr><td>9</td><td>Construção de Unidades Habitacionais (MCMV)</td><td>FNHIS Federal</td><td>R$ 4.000.000,00</td><td><span class="tag tag-amarelo">Novo</span></td></tr>
-        <tr><td>12</td><td>Retroescavadeira – Equipamentos</td><td>Min. Integração</td><td>R$ 440.000,00</td><td><span class="tag tag-verde">Executado</span></td></tr>
-        <tr><td>13</td><td>Pavimentação Estrada Vicinal – Trecho 01</td><td>Emenda Parlamentar</td><td>R$ 3.246.579,03</td><td><span class="tag tag-verde">Executado</span></td></tr>
-        <tr><td>14</td><td>Reestabelecimento Ginásio Municipal</td><td>Defesa Civil</td><td>R$ 740.665,51</td><td><span class="tag tag-verde">Executado</span></td></tr>
-        <tr><td>15</td><td>Reconstrução Ponte Arroio do Conde</td><td>Emenda Parlamentar</td><td>R$ 575.506,67</td><td><span class="tag tag-azul">Em Execução</span></td></tr>
-        <tr><td>24</td><td>Construção UBS Central</td><td>Min. Saúde</td><td>R$ 1.539.603,93</td><td><span class="tag tag-azul">Em Execução</span></td></tr>
-        <tr><td>25</td><td>Construção UBS Santa Elizia</td><td>Emenda Parlamentar</td><td>R$ 1.539.603,93</td><td><span class="tag tag-amarelo">Novo</span></td></tr>
-        <tr><td>26</td><td>Reforma UBS Gramal</td><td>Rec. Próprios</td><td>R$ 350.000,00</td><td><span class="tag tag-azul">Em Execução</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ═══════════════ NÍVEL FISCAL ═══════════════ -->
-<section id="fiscal" class="secao">
-  <div class="sec-title">⚖️ Nível Fiscal – Indicadores LRF</div>
-  <div class="grid4">
-    <div class="kpi azul"><div class="kpi-icon">👥</div><div class="kpi-label">Pessoal / RCL</div><div class="kpi-val">~47%</div><div class="kpi-sub">Limite LRF: 60%</div></div>
-    <div class="kpi verde"><div class="kpi-icon">💸</div><div class="kpi-label">Investimentos</div><div class="kpi-val">22,3%</div><div class="kpi-sub">da despesa total LOA</div></div>
-    <div class="kpi verde"><div class="kpi-icon">🏥</div><div class="kpi-label">Saúde</div><div class="kpi-val">22%</div><div class="kpi-sub">Mínimo constitucional: 15%</div></div>
-    <div class="kpi amarelo"><div class="kpi-icon">🎓</div><div class="kpi-label">Educação (MDE)</div><div class="kpi-val">≥25%</div><div class="kpi-sub">Mínimo constitucional</div></div>
+    <div class="ccard">
+      <div class="ctitle">📋 Investimentos por Secretaria – PPA 2026</div>
+      <div class="twrap" style="margin-bottom:0">
+        <table>
+          <thead><tr><th>Secretaria / Órgão</th><th>PPA 2026 (R$)</th></tr></thead>
+          <tbody>
+            <tr><td>🏗️ Obras, Saneamento e Serviços</td><td>45.305.588,00</td></tr>
+            <tr><td>🏥 Saúde</td><td>29.830.900,00</td></tr>
+            <tr><td>🎓 Educação</td><td>24.203.300,00</td></tr>
+            <tr><td>🌿 Meio Ambiente</td><td>19.691.822,00</td></tr>
+            <tr><td>🏛️ RPPS – Previdência</td><td>17.711.500,00</td></tr>
+            <tr><td>🎭 Esporte, Turismo e Cultura</td><td>11.035.054,00</td></tr>
+            <tr><td>🏘️ Interior</td><td>10.894.500,00</td></tr>
+            <tr><td>🤝 Assistência Social</td><td>10.562.122,00</td></tr>
+            <tr><td>📐 Planejamento e Mobilidade</td><td>7.344.100,00</td></tr>
+            <tr><td>🏠 Habitação</td><td>5.326.100,00</td></tr>
+            <tr><td>🛡️ Defesa Civil</td><td>4.168.708,00</td></tr>
+            <tr><td>🌾 Agricultura</td><td>3.534.320,00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="grid2">
-    <div class="card"><h3>📊 Evolução Receita x Despesa 2022–2026</h3><div class="chart-wrap"><canvas id="chartFiscal"></canvas></div></div>
-    <div class="card"><h3>📋 Limites Constitucionais</h3>
-      <table>
-        <thead><tr><th>Indicador</th><th>Situação</th><th>Limite</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>Pessoal/RCL (Executivo)</td><td>~47%</td><td>54%</td><td><span class="tag tag-verde">OK</span></td></tr>
-          <tr><td>Saúde (rec. própria)</td><td>22%</td><td>15% mín</td><td><span class="tag tag-verde">OK</span></td></tr>
-          <tr><td>Educação (MDE)</td><td>≥25%</td><td>25% mín</td><td><span class="tag tag-verde">OK</span></td></tr>
-          <tr><td>Dívida Contratual</td><td>R$ 1,95 M amort.</td><td>LRF</td><td><span class="tag tag-verde">OK</span></td></tr>
-          <tr><td>Créditos Suplementares</td><td>Até 40%</td><td>40% auth.</td><td><span class="tag tag-amarelo">Monitorar</span></td></tr>
-          <tr><td>Reserva Contingência RPPS</td><td>R$ 10,5 M</td><td>Cobertura</td><td><span class="tag tag-amarelo">Atenção</span></td></tr>
-        </tbody>
-      </table>
+    <div class="ibox">
+      <h4>📗 O que é o PPA?</h4>
+      <p>O Plano Plurianual (Lei nº 4.566/2025) define <strong>programas, objetivos e metas</strong> para os 4 anos do ciclo 2026–2029. Os valores são <strong>referenciais</strong> – não são limites rígidos para a LOA. Cada LOA anual detalha os valores dentro do planejamento do PPA.</p>
+    </div>
+    <div class="ibox">
+      <h4>🔁 Ciclo Orçamentário: PPA → LDO → LOA</h4>
+      <ul>
+        <li><strong>PPA 2026–2029:</strong> Plano de 4 anos, programas e metas</li>
+        <li><strong>LDO 2026 (Lei 4.596):</strong> Regras do jogo para o orçamento 2026</li>
+        <li><strong>LOA 2026 (Lei 4.628):</strong> Orçamento anual com valores definitivos</li>
+      </ul>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ═══════════════ IA CONSULTORA ═══════════════ -->
-<section id="chat" class="secao">
-  <div class="sec-title">🤖 IA Consultora – SãoJeoI</div>
-  <div class="chat-box">
-    <div class="chat-messages" id="chatMsgs">
-      <div class="msg msg-bot">Olá! Sou a <strong>SãoJeoI IA</strong>, sua assistente de gestão orçamentária municipal. Tenho acesso completo à LOA 2026, PPA 2026–2029, LDO 2026 e dados de receita de 2025. Como posso ajudar?</div>
-    </div>
-    <div class="sugestoes">
-      <button onclick="enviarSugestao('Qual o total do orçamento LOA 2026?')">Orçamento LOA 2026</button>
-      <button onclick="enviarSugestao('Quanto está previsto para saúde no PPA?')">Saúde no PPA</button>
-      <button onclick="enviarSugestao('Quais os maiores projetos de obras?')">Projetos de obras</button>
-      <button onclick="enviarSugestao('Qual a situação fiscal do município?')">Situação fiscal</button>
-      <button onclick="enviarSugestao('Quanto foi arrecadado de FPM em 2025?')">FPM 2025</button>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Pergunte sobre LOA, PPA, LDO, receitas, projetos..." onkeydown="if(event.key==='Enter')enviarChat()"/>
-      <button onclick="enviarChat()">Enviar</button>
-    </div>
+<!-- ══ PROJETOS ══ -->
+<div class="sec" id="sec-projetos">
+  <div class="stitle">🚀 Projetos Estratégicos – Reunião de Acompanhamento</div>
+  <div class="aviso">📋 Use os campos abaixo para registrar pontos de atenção e deliberações durante as reuniões. Relatório de obras cadastrado até 22/08/2025.</div>
+
+  <div class="grid4" style="margin-bottom:20px">
+    <div class="kpi azul" title="Total de projetos cadastrados até agosto/2025"><div class="ki">📁</div><div class="kl">Total Projetos</div><div class="kv">35</div><div class="ks">Cadastrados</div></div>
+    <div class="kpi verde" title="Projetos com execução em andamento"><div class="ki">✅</div><div class="kl">Em Execução</div><div class="kv">18</div><div class="ks">Com saldo a executar</div></div>
+    <div class="kpi amarelo" title="Novos projetos previstos para iniciar em 2026"><div class="ki">🆕</div><div class="kl">Novos 2026</div><div class="kv">12</div><div class="ks">A iniciar</div></div>
+    <div class="kpi verde" title="Projetos já 100% executados"><div class="ki">🏁</div><div class="kl">Concluídos</div><div class="kv">5</div><div class="ks">100% executados</div></div>
   </div>
-</section>
 
-<script>
-// ── Relógio
-function atualizarRelogio(){
-  const d=new Date();
-  document.getElementById('relogio').innerHTML=
-    d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'})
-    +'<br>'+d.toLocaleTimeString('pt-BR');
-}
-setInterval(atualizarRelogio,1000);atualizarRelogio();
+  <!-- PROJETO 1 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">🏥 Construção da UBS Central</div>
+        <div class="pmeta">Gerente: Sec. Municipal de Saúde · Min. Saúde – Programa Requalifica UBS · Proposta 12143.9320001/24-002</div>
+      </div>
+      <span class="btipo ba">🔄 Em Execução – 30%</span>
+    </div>
+    <div class="pwrap">
+      <div class="plabel"><span>Execução Física</span><span>30%</span></div>
+      <div class="pbar"><div class="pfill" style="width:30%;background:var(--amarelo)"></div></div>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Construção de UBS na área central do município</div></div>
+      <div><div class="psl">Repasse Federal</div><div class="psv">R$ 1.539.604,00</div></div>
+      <div><div class="psl">Total</div><div class="psv">R$ 1.539.604,00</div></div>
+      <div><div class="psl">Prazo</div><div class="psv">2025–2026</div></div>
+    </div>
+    <div class="crono">
+      <div class="crono-item ok"><div class="crono-mes">Jan</div><div class="crono-status">✅</div></div>
+      <div class="crono-item ok"><div class="crono-mes">Fev</div><div class="crono-status">✅</div></div>
+      <div class="crono-item ok"><div class="crono-mes">Mar</div><div class="crono-status">✅</div></div>
+      <div class="crono-item em"><div class="crono-mes">Abr</div><div class="crono-status">🔄</div></div>
+      <div class="crono-item nd"><div class="crono-mes">Mai</div><div class="crono-status">⏳</div></div>
+      <div class="crono-item nd"><div class="crono-mes">Jun</div><div class="crono-status">⏳</div></div>
+    </div>
+    <div class="campo-label">⚠️ Pontos de Atenção</div>
+    <textarea class="campo-edit" placeholder="Registre aqui os pontos de atenção identificados na reunião..."></textarea>
+    <div class="campo-label">✅ Deliberações / Decisões</div>
+    <textarea class="campo-edit" placeholder="Registre aqui as deliberações e encaminhamentos decididos na reunião..."></textarea>
+  </div>
 
-// ── Navegação
-function ir(id){
-  document.querySelectorAll('.secao').forEach(s=>s.classList.remove('ativa'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('ativo'));
-  document.getElementById(id).classList.add('ativa');
-  const idx={'visao':0,'receitas':1,'loa':2,'ppa':3,'projetos':4,'fiscal':5,'chat':6};
-  document.querySelectorAll('.nb')[idx[id]].classList.add('ativo');
-}
+  <!-- PROJETO 2 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">🏗️ Pavimentação Estrada Vicinal – Trecho 01</div>
+        <div class="pmeta">Gerente: Sec. de Obras · Emenda Parlamentar Dep. Lucas Redecker</div>
+      </div>
+      <span class="btipo br">✅ 100% Executado</span>
+    </div>
+    <div class="pwrap">
+      <div class="plabel"><span>Execução Física</span><span>100%</span></div>
+      <div class="pbar"><div class="pfill" style="width:100%;background:var(--verde)"></div></div>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Pavimentação de estrada vicinal municipal</div></div>
+      <div><div class="psl">Repasse</div><div class="psv">R$ 2.870.210,00</div></div>
+      <div><div class="psl">Contrapartida</div><div class="psv">R$ 376.369,03</div></div>
+      <div><div class="psl">Total</div><div class="psv">R$ 3.246.579,03</div></div>
+    </div>
+    <div class="campo-label">⚠️ Pontos de Atenção</div>
+    <textarea class="campo-edit" placeholder="Registre aqui os pontos de atenção..."></textarea>
+    <div class="campo-label">✅ Deliberações / Decisões</div>
+    <textarea class="campo-edit" placeholder="Registre aqui as deliberações e encaminhamentos..."></textarea>
+  </div>
 
-// ── Opções base dos gráficos
-const base={
-  responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{color:'#cdd9e5',font:{size:11}}}},
-};
+  <!-- PROJETO 3 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">🌉 Reconstrução de Ponte – Arroio do Conde (Porto do Conde)</div>
+        <div class="pmeta">Gerente: Sec. de Obras · Emenda Parlamentar Dep. Lucas Redecker · Min. Integração Nacional</div>
+      </div>
+      <span class="btipo ba">🔄 Em Execução – 20%</span>
+    </div>
+    <div class="pwrap">
+      <div class="plabel"><span>Execução Física</span><span>20%</span></div>
+      <div class="pbar"><div class="pfill" style="width:20%;background:var(--amarelo)"></div></div>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Reconstrução de ponte sobre Arroio do Conde</div></div>
+      <div><div class="psl">Repasse</div><div class="psv">R$ 482.202,00</div></div>
+      <div><div class="psl">Contrapartida</div><div class="psv">R$ 93.304,00</div></div>
+      <div><div class="psl">Total</div><div class="psv">R$ 575.506,67</div></div>
+    </div>
+    <div class="crono">
+      <div class="crono-item ok"><div class="crono-mes">Licit.</div><div class="crono-status">✅</div></div>
+      <div class="crono-item em"><div class="crono-mes">Exec.</div><div class="crono-status">🔄</div></div>
+      <div class="crono-item nd"><div class="crono-mes">Conc.</div><div class="crono-status">⏳</div></div>
+    </div>
+    <div class="campo-label">⚠️ Pontos de Atenção</div>
+    <textarea class="campo-edit" placeholder="Registre aqui os pontos de atenção..."></textarea>
+    <div class="campo-label">✅ Deliberações / Decisões</div>
+    <textarea class="campo-edit" placeholder="Registre aqui as deliberações e encaminhamentos..."></textarea>
+  </div>
 
-// Evolução 2022–2026
-new Chart(document.getElementById('chartEvolucao'),{
-  type:'line',
-  data:{
-    labels:['2022','2023','2024','2025','2026'],
-    datasets:[{
-      label:'Orçamento Total (R$ M)',
-      data:[92.3,106.8,115.6,125.7,137.9],
-      borderColor:'#3498db',backgroundColor:'rgba(52,152,219,.15)',
-      fill:true,tension:.4,pointRadius:5,pointBackgroundColor:'#3498db'
-    }]
-  },
-  options:{...base,scales:{x:{ticks:{color:'#7fb3d3'},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}}}}
-});
+  <!-- PROJETO 4 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">🏘️ Construção de Unidades Habitacionais (MCMV / FNHIS)</div>
+        <div class="pmeta">Gerente: Coord. Habitação · Min. Cidades – FNHIS Federal · Demanda pós-enchentes 2024</div>
+      </div>
+      <span class="btipo bp">🆕 Novo Projeto</span>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Construção de unidades habitacionais para famílias desabrigadas</div></div>
+      <div><div class="psl">Repasse Federal</div><div class="psv">R$ 2.800.000,00</div></div>
+      <div><div class="psl">Contrapartida</div><div class="psv">R$ 1.200.000,00</div></div>
+      <div><div class="psl">Total</div><div class="psv">R$ 4.000.000,00</div></div>
+    </div>
+    <div class="campo-label">⚠️ Pontos de Atenção</div>
+    <textarea class="campo-edit" placeholder="Registre aqui os pontos de atenção..."></textarea>
+    <div class="campo-label">✅ Deliberações / Decisões</div>
+    <textarea class="campo-edit" placeholder="Registre aqui as deliberações e encaminhamentos..."></textarea>
+  </div>
 
-// Composição receita 2025
-new Chart(document.getElementById('chartReceita'),{
-  type:'doughnut',
-  data:{
-    labels:['FPM','ICMS','FUNDEB','SUS','ISS','IPTU','IPVA','Outras'],
-    datasets:[{data:[36.4,18.2,14.2,8.6,4.0,3.0,2.8,18.5],
-      backgroundColor:['#3498db','#f1c40f','#9b59b6','#2ecc71','#1abc9c','#e74c3c','#e67e22','#95a5a6'],
-      borderColor:'#162437',borderWidth:2}]
-  },
-  options:{...base}
-});
+  <!-- PROJETO 5 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">♿ Implantação de Calçadas Acessíveis</div>
+        <div class="pmeta">Gerente: Sec. de Obras · Min. Cidades – Transferências Discricionárias</div>
+      </div>
+      <span class="btipo bp">🆕 Novo Projeto</span>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Calçadas acessíveis em vias urbanas do município</div></div>
+      <div><div class="psl">Repasse</div><div class="psv">R$ 2.500.000,00</div></div>
+      <div><div class="psl">Contrapartida</div><div class="psv">R$ 1.225.000,00</div></div>
+      <div><div class="psl">Total</div><div class="psv">R$ 3.725.000,00</div></div>
+    </div>
+    <div class="campo-label">⚠️ Pontos de Atenção</div>
+    <textarea class="campo-edit" placeholder="Registre aqui os pontos de atenção..."></textarea>
+    <div class="campo-label">✅ Deliberações / Decisões</div>
+    <textarea class="campo-edit" placeholder="Registre aqui as deliberações e encaminhamentos..."></textarea>
+  </div>
 
-// Despesa LOA 2026 grupo
-new Chart(document.getElementById('chartDespesa'),{
-  type:'bar',
-  data:{
-    labels:['Pessoal','Out.Desp.Corr.','Investimentos','Res.Contingência','Amortiz.Dívida','Juros'],
-    datasets:[{
-      label:'R$ M',
-      data:[44.6,45.7,30.8,13.3,1.95,1.5],
-      backgroundColor:['#3498db','#2ecc71','#f1c40f','#95a5a6','#e74c3c','#9b59b6'],
-      borderRadius:6
-    }]
-  },
-  options:{...base,scales:{x:{ticks:{color:'#7fb3d3',font:{size:10}},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}}}}
-});
+  <!-- PROJETO 6 -->
+  <div class="pcard">
+    <div class="pheader">
+      <div>
+        <div class="pnome">🏥 Construção da UBS Santa Elizia</div>
+        <div class="pmeta">Gerente: Sec. Municipal de Saúde · Emenda Parlamentar Dep. Bibo Nunes</div>
+      </div>
+      <span class="btipo bp">🆕 Novo Projeto</span>
+    </div>
+    <div class="pstats">
+      <div><div class="psl">Objeto</div><div class="psv">Construção de Unidade Básica de Saúde no bairro Santa Elizia</div></div>
+      <div><div class="psl">Repasse</div><div class="psv">R$ 632.000,00</div></div>
+      <div><div class="psl">Contrapartida</div><div class="psv">R$ 350.000,00
 
-// Receita barra 2025
-new Chart(document.getElementById('chartReceitaBarra'),{
-  type:'bar',
-  data:{
-    labels:['FPM','ICMS','FUNDEB','ISS','IPTU','IPVA','IRRF','Patrim.','SUS','Outras'],
-    datasets:[{
-      label:'R$ M',
-      data:[36.4,18.2,14.2,4.0,3.0,2.8,2.75,3.06,8.6,7.9],
-      backgroundColor:'#3498db',borderRadius:5
-    }]
-  },
-  options:{...base,scales:{x:{ticks:{color:'#7fb3d3',font:{size:9}},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}}}}
-});
-
-// LOA Receita
-new Chart(document.getElementById('chartLOARec'),{
-  type:'bar',
-  data:{
-    labels:['Transf.Corr.','Patrim.','Imp/Taxas','Transf.Capital','Outras','Intraorç.','Deduções'],
-    datasets:[{
-      label:'R$ M',
-      data:[92.7,15.1,14.4,15.5,5.3,3.8,-12.1],
-      backgroundColor:v=>v.raw<0?'rgba(231,76,60,.7)':'rgba(52,152,219,.7)',
-      borderRadius:5
-    }]
-  },
-  options:{...base,scales:{x:{ticks:{color:'#7fb3d3',font:{size:9}},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}}}}
-});
-
-// LOA Despesa doughnut
-new Chart(document.getElementById('chartLOADesp'),{
-  type:'doughnut',
-  data:{
-    labels:['Pessoal','Out.Corr.','Investimentos','Res.Cont.','Amort.Dívida','Juros'],
-    datasets:[{
-      data:[44.6,45.7,30.8,13.3,1.95,1.5],
-      backgroundColor:['#3498db','#2ecc71','#f1c40f','#95a5a6','#e74c3c','#9b59b6'],
-      borderColor:'#162437',borderWidth:2
-    }]
-  },
-  options:{...base}
-});
-
-// PPA secretarias
-new Chart(document.getElementById('chartPPA'),{
-  type:'bar',
-  data:{
-    labels:['Obras','Saúde','Educação','Meio Amb.','Interior','Esporte','Assist.Soc.','Habitação','Planej.','Agricultura','Def.Civil'],
-    datasets:[{
-      label:'R$ M (2026)',
-      data:[45.3,29.8,24.2,19.7,10.9,11.0,10.6,5.3,7.3,3.5,4.2],
-      backgroundColor:'#2ecc71',borderRadius:5
-    }]
-  },
-  options:{...base,indexAxis:'y',scales:{x:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',font:{size:10}},grid:{color:'#1e3450'}}}}
-});
-
-// Fiscal evolução
-new Chart(document.getElementById('chartFiscal'),{
-  type:'line',
-  data:{
-    labels:['2022','2023','2024','2025','2026'],
-    datasets:[
-      {label:'Receita (R$ M)',data:[92.3,106.8,115.6,125.7,137.9],borderColor:'#2ecc71',backgroundColor:'rgba(46,204,113,.1)',fill:true,tension:.4},
-      {label:'Despesa (R$ M)',data:[75.1,85.5,99.9,125.7,137.9],borderColor:'#e74c3c',backgroundColor:'rgba(231,76,60,.1)',fill:true,tension:.4}
-    ]
-  },
-  options:{...base,scales:{x:{ticks:{color:'#7fb3d3'},grid:{color:'#1e3450'}},y:{ticks:{color:'#7fb3d3',callback:v=>'R$'+v+'M'},grid:{color:'#1e3450'}}}}
-});
-
-// ── IA Consultora
-const kb={
-  'loa':['A LOA 2026 (Lei nº 4.628/2025) fixa a Receita e Despesa do Município em R$ 137.897.350,00. Despesas Correntes: R$ 91,8 M | Despesas de Capital: R$ 32,8 M | Reserva de Contingência: R$ 13,3 M. Pessoal: R$ 44,6 M | Outras Despesas Correntes: R$ 45,7 M | Investimentos: R$ 30,8 M.'],
-  'orçamento':['O orçamento total de São Jerônimo para 2026 é de R$ 137.897.350,00, aprovado pela Lei nº 4.628 de 23/12/2025. Inclui R$ 30,8 M em investimentos e R$ 13,3 M de reserva de contingência.'],
-  'ppa':['O PPA 2026–2029 totaliza R$ 493.809.312,00 ao longo de 4 anos. Aprovado com 3 audiências públicas realizadas em junho de 2025 (bairros Lindos Ares, distrito do Gramal e Porto do Conde). As maiores secretarias são Obras (R$ 45,3 M), Saúde (R$ 29,8 M) e Educação (R$ 24,2 M) no exercício de 2026.'],
-  'saúde':['O PPA 2026–2029 prevê R$ 90.926.900,00 para a Secretaria de Saúde ao longo do ciclo. Em 2026 são R$ 29.830.900,00. A LOA 2026 aplica 22% de recursos próprios em saúde, acima do mínimo constitucional de 15%. Projetos incluem: Construção UBS Central, UBS Santa Elizia, Reforma UBS Gramal e aquisição de equipamentos via Ministério da Saúde.'],
-  'educação':['A Secretaria de Educação tem R$ 24.203.300,00 na LOA 2026 (PPA 2026). O FUNDEB previsto é de R$ 14.700.000,00. A secretária mencionou nas audiências a escola João Cernicchiaro e projetos de ampliação. A aplicação em MDE cumpre o mínimo de 25% constitucional.'],
-  'fpm':['O FPM (Fundo de Participação dos Municípios) é a maior fonte de receita. Em 2025 o valor orçado foi R$ 36.452.848,00 (cota principal + cota de julho). Na LOA 2026 está estimado em R$ 31.060.000,00.'],
-  'receitas':['As principais receitas de 2025: FPM R$ 36,4 M, ICMS R$ 18,2 M, FUNDEB R$ 14,2 M, SUS R$ 8,6 M, ISS R$ 4,0 M, IPTU R$ 3,0 M, IPVA R$ 2,8 M, IRRF R$ 2,75 M. Última atualização no Portal da Transparência: 29/04/2025.'],
-  'obras':['A Secretaria de Obras, Saneamento e Serviços tem o maior orçamento: R$ 45.305.588,00 em 2026. Principais projetos: Pavimentação de vias com emendas parlamentares (deputos Bibo Nunes, Lucas Redecker), calçadas acessíveis (R$ 3,7 M via Min. Cidades), e manutenção e pavimentação de vias urbanas R$ 1,5 M recursos próprios.'],
-  'fiscal':['São Jerônimo cumpre os limites da LRF. Pessoal/RCL estimado em ~47% (limite 54%). Saúde: 22% (mínimo 15%). Educação: ≥25% (mínimo 25%). A amortização da dívida contratual está prevista em R$ 1,95 M na LOA 2026. Créditos suplementares autorizados até 40%.'],
-  'projetos':['35 projetos cadastrados até agosto/2025. Destaques: MCMV Habitacional R$ 4 M, Calçadas Acessíveis R$ 3,7 M, Pavimentação estradas vicinais (3 trechos), Reconstrução Ponte Arroio do Conde, Ginásio Municipal, 3 UBS novas/reformadas, aquisição de máquinas agrícolas e equipamentos de Defesa Civil.'],
-  'habitação':['O programa habitacional prevê R$ 4.700.100,00 para unidades habitacionais com recurso do Ministério das Cidades (MCMV/FNHIS) em 2026. O PPA total da Habitação é R$ 5.326.100,00. A Coordenadoria de Habitação também trabalha com regularização fundiária no interior.'],
-  'defesa civil':['A Secretaria de Defesa Civil tem R$ 4.168.708,00 no PPA 2026. Projetos incluem reconstrução de pontes (R$ 479 mil), convênio Poder Judiciário – calamidade (R$ 141 mil), e ações de redução de vulnerabilidade a desastres. Contexto das enchentes de 2024 impactou planejamento.'],
-};
-
-function enviarChat(){
-  const inp=document.getElementById('chatInput');
-  const txt=inp.value.trim();
-  if(!txt)return;
-  adicionarMsg(txt,'user');
-  inp.value='';
-  setTimeout(()=>{adicionarMsg(responder(txt),'bot')},400);
-}
-function enviarSugestao(txt){
-  document.getElementById('chatInput').value=txt;
-  enviarChat();
-}
-function adicionarMsg(txt,tipo){
-  const box=document.getElementById('chatMsgs');
-  const div=document.createElement('div');
-  div.className='msg msg-'+(tipo==='user'?'user':'bot');
-  div.innerHTML=txt;
-  box.appendChild(div);
-  box.scrollTop=box.scrollHeight;
-}
-function responder(q){
-  const ql=q.toLowerCase();
-  for(const [k,v] of Object.entries(kb)){
-    if(ql.includes(k))return v[0];
-  }
-  if(ql.includes('2025'))return 'Em 2025 o orçamento total foi de R$ 125,7 M. As principais receitas foram FPM (R$ 36,4 M), ICMS (R$ 18,2 M) e FUNDEB (R$ 14,2 M). Dados extraídos do Transparência Fly com última atualização em 29/04/2025.';
-  if(ql.includes('2026'))return 'Para 2026 a LOA (Lei nº 4.628/2025) fixa R$ 137.897.350,00. Investimentos: R$ 30,8 M. Pessoal: R$ 44,6 M. Reserva de Contingência: R$ 13,3 M.';
-  if(ql.includes('audiência')||ql.includes('ppa audiência'))return 'Foram realizadas 3 audiências públicas para elaboração do PPA 2026–2029: 1ª em 02/06/2025 (Iate Campestre – bairros Lindos Ares e Lago Parque); 2ª em 03/06/2025 (Gramal – interior); 3ª em 04/06/2025 (Porto do Conde). Presididas pelo Vice-Prefeito Felipe Souza.';
-  return 'Consulte os módulos LOA 2026, PPA 2026–2029 ou Receitas 2025 neste painel para detalhes. Posso responder sobre: orçamento, receitas, FPM, ICMS, FUNDEB, saúde, educação, obras, projetos, situação fiscal, PPA, LOA e audiências públicas.';
-}
-</script>
-</body>
-</html>
