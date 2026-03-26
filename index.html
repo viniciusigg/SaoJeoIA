@@ -14,862 +14,292 @@
 }
 body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--texto);min-height:100vh;display:flex;flex-direction:column}
 
-/* HEADER */
-header{
-  background:linear-gradient(135deg,#0a1628,#1a3a5c);
-  border-bottom:2px solid var(--accent);
-  padding:14px 24px;display:flex;align-items:center;
-  justify-content:space-between;flex-wrap:wrap;gap:10px
-}
+/* ═══ HEADER ═══ */
+header{background:linear-gradient(135deg,#0a1628,#1a3a5c);border-bottom:2px solid var(--accent);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .hl{display:flex;align-items:center;gap:14px}
-.logo{
-  width:46px;height:46px;
-  background:linear-gradient(135deg,var(--accent),#1a5276);
-  border-radius:12px;display:flex;align-items:center;
-  justify-content:center;font-size:1.5rem;flex-shrink:0
-}
-.htitulo h1{font-size:1.25rem;font-weight:700;color:var(--titulo)}
-.htitulo p{font-size:.75rem;color:#7fb3d3;margin-top:2px}
-.hbadge{
-  background:rgba(46,204,113,.15);border:1px solid var(--verde);
-  color:var(--verde);padding:6px 14px;border-radius:20px;
-  font-size:.78rem;font-weight:600
-}
+.logo{width:46px;height:46px;background:linear-gradient(135deg,var(--accent),#1a5276);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 15px rgba(52,152,219,.4);flex-shrink:0}
+.ht h1{font-size:1.35rem;color:var(--titulo);font-weight:700}
+.ht p{font-size:.75rem;color:#7fb3d3;margin-top:2px}
+.hr{display:flex;align-items:center;gap:10px}
+.badge-online{background:rgba(46,204,113,.15);border:1px solid var(--verde);color:var(--verde);padding:4px 12px;border-radius:20px;font-size:.74rem;font-weight:600}
+#relogio{font-size:.74rem;color:#7fb3d3;text-align:right;line-height:1.5}
 
-/* SUB-HEADER FIXO (home) */
-#subheader-home{
-  display:none;
-  background:#0f2035;border-bottom:1px solid var(--borda);
-  padding:8px 24px;align-items:center;gap:12px;
-  position:sticky;top:0;z-index:100
-}
-#subheader-home.visible{display:flex}
-#subheader-home button{
-  background:var(--accent);color:#fff;border:none;
-  padding:6px 16px;border-radius:8px;cursor:pointer;
-  font-size:.82rem;font-weight:600
-}
-#subheader-home span{color:var(--texto);font-size:.85rem}
+/* ═══ SUBHEADER HOME (fixo, aparece nas sub-telas) ═══ */
+#subhome{display:none;background:#0a1628;border-bottom:1px solid var(--borda);padding:8px 24px;align-items:center;gap:14px;position:sticky;top:0;z-index:200}
+#subhome.show{display:flex}
+#subhome button{background:var(--accent);border:none;color:#fff;padding:6px 18px;border-radius:20px;cursor:pointer;font-size:.82rem;font-weight:700;transition:.2s}
+#subhome button:hover{background:#1a6fa8}
+#subhome-titulo{font-size:.88rem;color:var(--titulo);font-weight:600}
 
-/* NAV */
-nav{
-  background:#0f2035;border-bottom:1px solid var(--borda);
-  padding:0 24px;display:flex;gap:4px;flex-wrap:wrap
-}
-nav button{
-  background:none;border:none;color:#7fb3d3;
-  padding:12px 16px;cursor:pointer;font-size:.83rem;
-  border-bottom:3px solid transparent;transition:.2s;white-space:nowrap
-}
-nav button:hover{color:var(--titulo)}
-nav button.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* ═══ NAV ═══ */
+nav{display:flex;gap:6px;padding:10px 24px;background:#0f2035;border-bottom:1px solid var(--borda);overflow-x:auto;white-space:nowrap;flex-shrink:0}
+.nb{background:transparent;border:1px solid var(--borda);color:var(--texto);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:.8rem;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.nb:hover,.nb.ativo{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* FILTROS */
-.filtros{
-  background:#0f2035;padding:10px 24px;
-  border-bottom:1px solid var(--borda);
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap
-}
-.filtros label{font-size:.8rem;color:#7fb3d3}
-.filtros select{
-  background:#162437;border:1px solid var(--borda);
-  color:var(--texto);padding:5px 10px;border-radius:6px;font-size:.82rem
-}
-.filtros button{
-  background:var(--accent);color:#fff;border:none;
-  padding:6px 16px;border-radius:6px;cursor:pointer;font-size:.82rem;font-weight:600
-}
+/* ═══ MAIN ═══ */
+main{flex:1;overflow-y:auto}
+.sec{display:none;padding:20px 24px;max-width:1400px;margin:0 auto;width:100%}
+.sec.ativo{display:block}
 
-/* MAIN */
-main{flex:1;padding:24px;max-width:1400px;width:100%;margin:0 auto}
+/* ═══ TÍTULOS ═══ */
+.stitle{font-size:1rem;font-weight:700;color:var(--titulo);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-/* SECTION */
-.section{display:none}
-.section.active{display:block}
+/* ═══ BANNER INFO ═══ */
+.banner{background:rgba(52,152,219,.07);border:1px solid rgba(52,152,219,.2);border-left:3px solid var(--accent);border-radius:8px;padding:10px 16px;font-size:.76rem;color:#7fb3d3;margin-bottom:18px;line-height:1.5}
+.banner.verde{border-left-color:var(--verde);background:rgba(46,204,113,.07)}
+.banner.amarelo{border-left-color:var(--amarelo);background:rgba(241,196,15,.07);color:var(--amarelo)}
 
-/* TITULO SEÇÃO */
-.stitle{
-  font-size:1.1rem;font-weight:700;color:var(--titulo);
-  padding-bottom:10px;margin-bottom:18px;
-  border-bottom:2px solid var(--accent)
-}
-
-/* BANNER INFO */
-.banner{
-  background:#0f2035;border:1px solid var(--borda);
-  border-left:4px solid var(--accent);border-radius:8px;
-  padding:10px 16px;font-size:.78rem;color:#7fb3d3;margin-bottom:20px
-}
-
-/* GRID CARDS */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
-.kpi{
-  background:var(--card);border:1px solid var(--borda);
-  border-radius:12px;padding:18px 16px;text-align:center;
-  transition:.2s;position:relative;overflow:hidden
-}
-.kpi.clickable{cursor:pointer}
-.kpi.clickable:hover{border-color:var(--accent);transform:translateY(-2px)}
-.kpi-icon{font-size:1.6rem;margin-bottom:8px}
-.kpi-label{font-size:.68rem;color:#7fb3d3;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
-.kpi-value{font-size:1.35rem;font-weight:700;color:var(--titulo)}
-.kpi-sub{font-size:.68rem;color:#7fb3d3;margin-top:4px}
+/* ═══ KPI CARDS ═══ */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:18px 16px;text-align:center;transition:.2s;position:relative}
 .kpi.verde{border-top:3px solid var(--verde)}
-.kpi.azul{border-top:3px solid var(--azul)}
+.kpi.azul{border-top:3px solid var(--accent)}
 .kpi.amarelo{border-top:3px solid var(--amarelo)}
-.kpi.roxo{border-top:3px solid var(--roxo)}
 .kpi.vermelho{border-top:3px solid var(--vermelho)}
+.kpi.roxo{border-top:3px solid var(--roxo)}
+.kpi.clicavel{cursor:pointer}
+.kpi.clicavel:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(52,152,219,.2);border-color:var(--accent)}
+.ki{font-size:1.7rem;margin-bottom:6px}
+.kl{font-size:.68rem;color:#7fb3d3;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.kv{font-size:1.25rem;font-weight:700;color:var(--titulo)}
+.ks{font-size:.7rem;color:#7fb3d3;margin-top:4px}
+.kpi-hint{font-size:.66rem;color:var(--accent);margin-top:4px}
 
-/* GRID 2 e 3 colunas */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:24px}
+/* ═══ GRIDS ═══ */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:20px}
 @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
 
-/* CHART BOX */
-.cbox{
-  background:var(--card);border:1px solid var(--borda);
-  border-radius:12px;padding:18px
-}
-.cbox h3{font-size:.85rem;font-weight:600;color:var(--titulo);margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-.cbox canvas{max-height:280px}
+/* ═══ CHART CARD ═══ */
+.ccard{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:18px}
+.ccard h3{font-size:.82rem;font-weight:600;color:var(--titulo);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--borda);text-transform:uppercase;letter-spacing:.4px}
+.cwrap{position:relative;height:260px}
 
-/* INFO BOX */
-.ibox{
-  background:var(--card);border:1px solid var(--borda);
-  border-radius:12px;padding:18px
-}
-.ibox h4{font-size:.85rem;font-weight:600;color:var(--titulo);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.ibox ul{list-style:none;padding:0}
-.ibox ul li{
-  padding:7px 0;border-bottom:1px solid var(--borda);
-  font-size:.8rem;display:flex;justify-content:space-between;align-items:center
-}
+/* ═══ INFO BOX ═══ */
+.ibox{background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:18px}
+.ibox h4{font-size:.82rem;font-weight:600;color:var(--titulo);margin-bottom:12px;text-transform:uppercase;letter-spacing:.4px}
+.ibox ul{list-style:none}
+.ibox ul li{padding:7px 0;border-bottom:1px solid var(--borda);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .ibox ul li:last-child{border-bottom:none}
-.ibox ul li strong{color:var(--titulo)}
+.ibox ul li strong{color:var(--titulo);white-space:nowrap}
 
-/* ALERTAS */
-.alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
-.alert{
-  padding:10px 14px;border-radius:8px;font-size:.8rem;
-  display:flex;align-items:center;gap:8px
-}
-.alert.ok{background:rgba(46,204,113,.1);border:1px solid var(--verde);color:var(--verde)}
-.alert.warn{background:rgba(241,196,15,.1);border:1px solid var(--amarelo);color:var(--amarelo)}
-.alert.info{background:rgba(52,152,219,.1);border:1px solid var(--accent);color:var(--accent)}
+/* ═══ TABELA ═══ */
+.twrap{overflow-x:auto;border-radius:10px;border:1px solid var(--borda);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:.79rem}
+th{background:#1a3a5c;color:var(--titulo);padding:10px 12px;text-align:left;font-size:.71rem;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--borda);color:var(--texto)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(52,152,219,.04)}
 
-/* PROJETOS */
-.pcard{
-  background:var(--card);border:1px solid var(--borda);
-  border-radius:12px;padding:16px;margin-bottom:14px
-}
-.pcardhead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px}
-.pnome{font-size:.9rem;font-weight:600;color:var(--titulo)}
-.pmeta{font-size:.72rem;color:#7fb3d3;margin-top:3px}
-.tag{padding:4px 10px;border-radius:12px;font-size:.7rem;font-weight:600;white-space:nowrap}
-.tag-a{background:rgba(46,204,113,.15);color:var(--verde);border:1px solid var(--verde)}
-.tag-b{background:rgba(241,196,15,.15);color:var(--amarelo);border:1px solid var(--amarelo)}
-.tag-c{background:rgba(52,152,219,.15);color:var(--accent);border:1px solid var(--accent)}
-.tag-d{background:rgba(155,89,182,.15);color:var(--roxo);border:1px solid var(--roxo)}
-.pinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
-.pil{font-size:.68rem;color:#7fb3d3;text-transform:uppercase}
-.piv{font-size:.82rem;color:var(--titulo);font-weight:600}
-.pbwrap{margin-top:8px}
-.pblabels{display:flex;justify-content:space-between;font-size:.72rem;color:#7fb3d3;margin-bottom:4px}
-.pbbar{background:#0d1b2a;border-radius:4px;height:8px;overflow:hidden}
-.pbfill{height:100%;border-radius:4px;transition:width .5s}
+/* ═══ PROGRESS BAR ═══ */
+.pwrap{margin:6px 0 10px}
+.plabels{display:flex;justify-content:space-between;font-size:.71rem;color:#7fb3d3;margin-bottom:3px}
+.pbar{background:#0d1b2a;border-radius:4px;height:8px;overflow:hidden}
+.pfill{height:100%;border-radius:4px;transition:width .5s}
 
-/* FISCAL */
-.fiscal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
-.fcard{
-  background:var(--card);border:1px solid var(--borda);
-  border-radius:12px;padding:16px
-}
-.fcard-label{font-size:.72rem;color:#7fb3d3;text-transform:uppercase;margin-bottom:6px}
-.fcard-value{font-size:1.1rem;font-weight:700;color:var(--titulo);margin-bottom:8px}
+/* ═══ PROJETOS ═══ */
+.pcard{background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;margin-bottom:14px}
+.phead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.pnome{font-size:.88rem;font-weight:600;color:var(--titulo)}
+.pmeta{font-size:.71rem;color:#7fb3d3;margin-top:3px}
+.ptag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.69rem;font-weight:700;white-space:nowrap}
+.ptag.verde{background:rgba(46,204,113,.15);color:var(--verde);border:1px solid rgba(46,204,113,.3)}
+.ptag.azul{background:rgba(52,152,219,.15);color:var(--accent);border:1px solid rgba(52,152,219,.3)}
+.ptag.amarelo{background:rgba(241,196,15,.15);color:var(--amarelo);border:1px solid rgba(241,196,15,.3)}
+.ptag.roxo{background:rgba(155,89,182,.15);color:var(--roxo);border:1px solid rgba(155,89,182,.3)}
+.pinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.pil{font-size:.67rem;color:#7fb3d3;text-transform:uppercase}
+.piv{font-size:.81rem;color:var(--titulo);font-weight:600}
+.campo-label{font-size:.7rem;color:#7fb3d3;font-weight:600;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
+.campo{background:#0f2035;border:1px solid var(--borda);border-radius:8px;padding:10px 12px;font-size:.79rem;color:var(--texto);width:100%;min-height:58px;resize:vertical;margin-top:5px;font-family:'Segoe UI',sans-serif;line-height:1.5}
+.campo:focus{outline:none;border-color:var(--accent)}
+
+/* ═══ CRONOGRAMA ═══ */
+.crono{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.ci{background:#0d1b2a;border:1px solid var(--borda);border-radius:8px;padding:6px 10px;text-align:center;min-width:55px}
+.ci.ok{border-color:var(--verde)}
+.ci.em{border-color:var(--amarelo)}
+.ci.nd{border-color:var(--borda)}
+.ci-mes{font-size:.67rem;color:#7fb3d3}
+.ci-ico{font-size:.85rem}
+
+/* ═══ FISCAL ═══ */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.fcard{background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px}
+.fl{font-size:.7rem;color:#7fb3d3;text-transform:uppercase;margin-bottom:6px}
+.fv{font-size:1.1rem;font-weight:700;margin-bottom:8px}
 .fbar{background:#0d1b2a;border-radius:4px;height:10px;overflow:hidden;margin-bottom:6px}
-.fbarfill{height:100%;border-radius:4px}
-.fbar-labels{display:flex;justify-content:space-between;font-size:.7rem;color:#7fb3d3}
+.fbfill{height:100%;border-radius:4px}
+.fblab{display:flex;justify-content:space-between;font-size:.69rem;color:#7fb3d3}
 .fok{color:var(--verde)}
 .fwarn{color:var(--amarelo)}
 .fperigo{color:var(--vermelho)}
 
-/* IA */
-.ia-wrap{display:flex;flex-direction:column;gap:0;height:500px}
-.ia-msgs{
-  flex:1;overflow-y:auto;padding:16px;
-  display:flex;flex-direction:column;gap:10px;
-  background:#0a1628;border:1px solid var(--borda);
-  border-radius:12px 12px 0 0
-}
-.msg{padding:10px 14px;border-radius:10px;font-size:.83rem;max-width:85%;line-height:1.5}
+/* ═══ AUDIÊNCIAS ═══ */
+.acard{background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;margin-bottom:14px}
+.acard h3{font-size:.88rem;font-weight:600;color:var(--titulo);margin-bottom:10px}
+.badge-verde{background:rgba(46,204,113,.15);color:var(--verde);border:1px solid rgba(46,204,113,.3);padding:2px 8px;border-radius:8px;font-size:.69rem}
+.badge-amarelo{background:rgba(241,196,15,.15);color:var(--amarelo);border:1px solid rgba(241,196,15,.3);padding:2px 8px;border-radius:8px;font-size:.69rem}
+.badge-vermelho{background:rgba(231,76,60,.15);color:var(--vermelho);border:1px solid rgba(231,76,60,.3);padding:2px 8px;border-radius:8px;font-size:.69rem}
+
+/* ═══ IA CHAT ═══ */
+.ia-box{background:var(--card);border:1px solid var(--borda);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.ia-msgs{height:380px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#0a1628}
+.msg{padding:10px 14px;border-radius:10px;font-size:.81rem;max-width:85%;line-height:1.55}
 .msg.bot{background:var(--card);border:1px solid var(--borda);color:var(--texto);align-self:flex-start}
 .msg.user{background:var(--accent);color:#fff;align-self:flex-end}
-.ia-input{display:flex;gap:0;background:#0f2035;border:1px solid var(--borda);border-top:none;border-radius:0 0 12px 12px;overflow:hidden}
-.ia-input input{
-  flex:1;background:none;border:none;color:var(--texto);
-  padding:12px 16px;font-size:.85rem;outline:none
-}
-.ia-input button{
-  background:var(--accent);color:#fff;border:none;
-  padding:12px 20px;cursor:pointer;font-weight:600;font-size:.85rem
-}
-.ia-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{
-  background:#0f2035;border:1px solid var(--borda);
-  color:var(--texto);padding:7px 12px;border-radius:8px;
-  cursor:pointer;font-size:.75rem;transition:.15s
-}
+.ia-form{display:flex;gap:0;border-top:1px solid var(--borda)}
+.ia-form input{flex:1;background:#0f2035;border:none;color:var(--texto);padding:12px 16px;font-size:.82rem;font-family:'Segoe UI',sans-serif}
+.ia-form input:focus{outline:none}
+.ia-form button{background:var(--accent);border:none;color:#fff;padding:12px 20px;cursor:pointer;font-size:.82rem;font-weight:700;transition:.2s}
+.ia-form button:hover{background:#1a6fa8}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:#0f2035;border:1px solid var(--borda);color:var(--texto);padding:6px 12px;border-radius:20px;cursor:pointer;font-size:.76rem;transition:.2s}
 .chip:hover{border-color:var(--accent);color:var(--accent)}
 
-/* RECEITA TABLE */
-.rtable{width:100%;border-collapse:collapse;font-size:.8rem}
-.rtable th{background:#0f2035;color:var(--accent);padding:9px 12px;text-align:left;font-size:.72rem;text-transform:uppercase;border-bottom:2px solid var(--borda)}
-.rtable td{padding:8px 12px;border-bottom:1px solid var(--borda);color:var(--texto)}
-.rtable tr:hover td{background:#0f2035}
-.rtable .num{text-align:right;font-family:monospace;color:var(--titulo)}
-.rtable .pos{color:var(--verde)}
-.rtable .neg{color:var(--vermelho)}
-
-/* FOOTER */
-footer{
-  background:#0a1628;border-top:1px solid var(--borda);
-  padding:14px 24px;text-align:center;
-  font-size:.72rem;color:#4a6a8a
-}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#0a1628}
-::-webkit-scrollbar-thumb{background:#1e3450;border-radius:3px}
+/* ═══ FOOTER ═══ */
+footer{background:#0a1628;border-top:1px solid var(--borda);padding:12px 24px;text-align:center;font-size:.72rem;color:#4a7fa5;flex-shrink:0}
+footer strong{color:#7fb3d3}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ═══════════════ HEADER ═══════════════ -->
 <header>
   <div class="hl">
     <div class="logo">🏛️</div>
-    <div class="htitulo">
+    <div class="ht">
       <h1>SãoJeo – Gestão Estratégica</h1>
-      <p>Gestão Orçamentária · Prefeitura de São Jerônimo – RS</p>
+      <p>Prefeitura Municipal de São Jerônimo · Painel de Controle Orçamentário</p>
     </div>
   </div>
-  <div class="hbadge">✅ Sistema Ativo</div>
+  <div class="hr">
+    <span class="badge-online">● Sistema Online</span>
+    <div id="relogio"></div>
+  </div>
 </header>
 
-<!-- SUB-HEADER FIXO (aparece nas sub-abas) -->
-<div id="subheader-home">
+<!-- ═══════════════ SUBHEADER HOME (sub-telas) ═══════════════ -->
+<div id="subhome">
   <button onclick="voltarHome()">🏠 Home</button>
-  <span id="subheader-titulo"></span>
+  <span id="subhome-titulo"></span>
 </div>
 
-<!-- NAV -->
-<nav id="mainnav">
-  <button class="active" onclick="showTab('visao')">📊 Visão Geral</button>
-  <button onclick="showTab('ppa')">📅 PPA 2026–2029</button>
-  <button onclick="showTab('projetos')">🚀 Projetos</button>
-  <button onclick="showTab('fiscal')">⚖️ Nível Fiscal</button>
-  <button onclick="showTab('ia')">🤖 IA Consultora</button>
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="nav-principal">
+  <button class="nb ativo" onclick="irPara('dashboard',this)">📊 Dashboard</button>
+  <button class="nb" onclick="irPara('ppa',this)">📋 PPA 2026–2029</button>
+  <button class="nb" onclick="irPara('projetos',this)">🚀 Projetos e Convênios</button>
+  <button class="nb" onclick="irPara('fiscal',this)">⚖️ Nível Fiscal</button>
+  <button class="nb" onclick="irPara('audiencias',this)">🎤 Audiências Públicas</button>
+  <button class="nb" onclick="irPara('ia',this)">🤖 IA Consultora</button>
 </nav>
 
-<!-- FILTROS -->
-<div class="filtros" id="filtros-bar">
-  <label>📅 Ano:</label>
-  <select id="filtro-ano" onchange="aplicarFiltro()">
-    <option value="2026">2026</option>
-    <option value="2025" selected>2025</option>
-    <option value="2024">2024</option>
-    <option value="2023">2023</option>
-    <option value="2022">2022</option>
-  </select>
-  <label>📆 Mês:</label>
-  <select id="filtro-mes" onchange="aplicarFiltro()">
-    <option value="0">Todos</option>
-    <option value="1">Janeiro</option><option value="2">Fevereiro</option>
-    <option value="3">Março</option><option value="4">Abril</option>
-    <option value="5">Maio</option><option value="6">Junho</option>
-    <option value="7">Julho</option><option value="8">Agosto</option>
-    <option value="9">Setembro</option><option value="10">Outubro</option>
-    <option value="11">Novembro</option><option value="12">Dezembro</option>
-  </select>
-  <button onclick="aplicarFiltro()">🔍 Filtrar</button>
-</div>
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main id="main">
 
-<main>
+<!-- ══════════ DASHBOARD ══════════ -->
+<div class="sec ativo" id="sec-dashboard">
+  <div class="stitle">📊 Dashboard – Visão Geral Orçamentária</div>
+  <div class="banner">📌 Dados baseados na LOA 2026 (Lei nº 4.628/2025) e Ingressos de Receitas 2025 – Transparência Fly · Exportado em 25/03/2026</div>
 
-<!-- ===================== VISÃO GERAL ===================== -->
-<div id="tab-visao" class="section active">
-  <div class="stitle">📊 Visão Geral – São Jerônimo</div>
-  <div class="banner">
-    🚀 <strong>Planejamento:</strong> LOA 2026 (Lei nº 4.628/2025) · PPA 2026–2029 (Lei nº 4.566/2025) &nbsp;|&nbsp;
-    ✅ <strong>Realizado:</strong> Portal Transparência Fly – exportado 25/03/2026 · última atualização 29/04/2025
-  </div>
-
+  <!-- KPIs principais -->
   <div class="kpis">
-    <div class="kpi azul">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-label">Orçamento LOA 2026</div>
-      <div class="kpi-value">R$ 137,9 M</div>
-      <div class="kpi-sub">🚀 Planejamento · Lei 4.628/2025</div>
+    <div class="kpi azul clicavel" onclick="abrirSubTela('receita2025','💰 Receita Arrecadada 2025')">
+      <div class="ki">💰</div>
+      <div class="kl">Receita Orçada 2025</div>
+      <div class="kv">R$ 125,7 M</div>
+      <div class="ks">Total LOA 2025</div>
+      <div class="kpi-hint">🔍 Clique para detalhar</div>
     </div>
-    <div class="kpi verde clickable" onclick="abrirSubAba('receitas')">
-      <div class="kpi-icon">📈</div>
-      <div class="kpi-label">Receita Arrecadada 2025</div>
-      <div class="kpi-value">R$ 30,6 M</div>
-      <div class="kpi-sub">✅ Clique para detalhes</div>
-    </div>
-    <div class="kpi amarelo clickable" onclick="abrirSubAba('loa')">
-      <div class="kpi-icon">🏗️</div>
-      <div class="kpi-label">Investimentos LOA 2026</div>
-      <div class="kpi-value">R$ 30,8 M</div>
-      <div class="kpi-sub">🚀 Clique para detalhes</div>
-    </div>
-    <div class="kpi azul">
-      <div class="kpi-icon">🏦</div>
-      <div class="kpi-label">FPM Orçado 2025</div>
-      <div class="kpi-value">R$ 36,4 M</div>
-      <div class="kpi-sub">🚀 Orçado · Cota FPM + 1%</div>
-    </div>
-    <div class="kpi roxo">
-      <div class="kpi-icon">🎓</div>
-      <div class="kpi-label">FUNDEB 2026</div>
-      <div class="kpi-value">R$ 14,7 M</div>
-      <div class="kpi-sub">🚀 Planejamento · LOA 2026</div>
-    </div>
-    <div class="kpi verde">
-      <div class="kpi-icon">📆</div>
-      <div class="kpi-label">PPA Total 2026–2029</div>
-      <div class="kpi-value">R$ 493,8 M</div>
-      <div class="kpi-sub">🚀 Planejamento · 4 anos</div>
-    </div>
-  </div>
-
-  <div class="grid3">
-    <div class="cbox">
-      <h3>📈 Composição da Receita LOA 2026</h3>
-      <canvas id="chartReceitaComp"></canvas>
-    </div>
-    <div class="cbox">
-      <h3>🏛️ Despesa por Grupo – LOA 2026</h3>
-      <canvas id="chartDespesa"></canvas>
-    </div>
-    <div class="cbox">
-      <h3>📊 Evolução Orçamentária 2022–2026</h3>
-      <canvas id="chartEvolucao"></canvas>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div class="ibox">
-      <h4>💡 Alertas do Exercício</h4>
-      <div class="alerts">
-        <div class="alert ok">✅ LOA 2026 aprovada – Lei nº 4.628 de 23/12/2025. Total: R$ 137.897.350,00</div>
-        <div class="alert ok">✅ PPA 2026–2029 aprovado · 3 audiências públicas realizadas em junho/2025</div>
-        <div class="alert warn">⚠️ Dados do Portal da Transparência com última atualização em 29/04/2025. Receitas de 2025 são estimadas a partir do CSV exportado.</div>
-        <div class="alert info">ℹ️ Execução real de 2026 ainda não disponível – gráficos preparados para atualização.</div>
-      </div>
-    </div>
-    <div class="ibox">
-      <h4>💰 Principais Receitas – LOA 2026 (R$ M)</h4>
-      <ul>
-        <li><span>FPM (Cota-Parte)</span><strong>R$ 36,5 M</strong></li>
-        <li><span>FUNDEB</span><strong>R$ 14,7 M</strong></li>
-        <li><span>ICMS (Cota-Parte)</span><strong>R$ 18,2 M</strong></li>
-        <li><span>Transferências SUS</span><strong>R$ 6,6 M</strong></li>
-        <li><span>IPTU</span><strong>R$ 3,0 M</strong></li>
-        <li><span>ISS</span><strong>R$ 4,0 M</strong></li>
-        <li><span>IPVA</span><strong>R$ 2,8 M</strong></li>
-        <li><span>Transferências de Capital</span><strong>R$ 15,5 M</strong></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== SUB-ABA RECEITAS 2025 ===================== -->
-<div id="tab-receitas" class="section">
-  <div class="stitle">💰 Receita Arrecadada 2025 – São Jerônimo</div>
-  <div class="banner">
-    📋 Fonte: Portal Transparência Fly · Exportado em 25/03/2026 · Última atualização: 29/04/2025
-  </div>
-
-  <div class="kpis">
-    <div class="kpi verde">
-      <div class="kpi-icon">💵</div>
-      <div class="kpi-label">Total Orçado 2025</div>
-      <div class="kpi-value">R$ 125,7 M</div>
-      <div class="kpi-sub">LOA 2025</div>
-    </div>
-    <div class="kpi azul">
-      <div class="kpi-icon">📈</div>
-      <div class="kpi-label">Receitas Correntes</div>
-      <div class="kpi-value">R$ 97,2 M</div>
-      <div class="kpi-sub">Orçado 2025</div>
+    <div class="kpi verde clicavel" onclick="abrirSubTela('loa2026','📋 LOA 2026 – Detalhamento')">
+      <div class="ki">📋</div>
+      <div class="kl">LOA 2026 – Total</div>
+      <div class="kv">R$ 137,9 M</div>
+      <div class="ks">Lei nº 4.628/2025</div>
+      <div class="kpi-hint">🔍 Clique para detalhar</div>
     </div>
     <div class="kpi amarelo">
-      <div class="kpi-icon">🏗️</div>
-      <div class="kpi-label">Receitas de Capital</div>
-      <div class="kpi-value">R$ 15,1 M</div>
-      <div class="kpi-sub">Orçado 2025</div>
+      <div class="ki">🏦</div>
+      <div class="kl">FPM Orçado 2025</div>
+      <div class="kv">R$ 36,4 M</div>
+      <div class="ks">Principal + Complemento</div>
+    </div>
+    <div class="kpi verde">
+      <div class="ki">📈</div>
+      <div class="kl">ICMS Orçado 2025</div>
+      <div class="kv">R$ 18,2 M</div>
+      <div class="ks">Cota-parte municipal</div>
     </div>
     <div class="kpi roxo">
-      <div class="kpi-icon">🏦</div>
-      <div class="kpi-label">FPM Orçado 2025</div>
-      <div class="kpi-value">R$ 36,4 M</div>
-      <div class="kpi-sub">Cota-Parte + 1%</div>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div class="cbox">
-      <h3>📊 Composição da Receita 2025 (Orçado)</h3>
-      <canvas id="chartReceita2025Comp"></canvas>
-    </div>
-    <div class="ibox">
-      <h4>📋 Detalhamento por Categoria</h4>
-      <ul>
-        <li><span>Impostos, Taxas e Contrib. Melhoria</span><strong>R$ 12,2 M</strong></li>
-        <li><span>COSIP (Iluminação Pública)</span><strong>R$ 0,9 M</strong></li>
-        <li><span>Receita Patrimonial</span><strong>R$ 3,1 M</strong></li>
-        <li><span>Transferências Correntes – União</span><strong>R$ 40,7 M</strong></li>
-        <li><span>Transferências Correntes – Estado</span><strong>R$ 18,3 M</strong></li>
-        <li><span>FUNDEB (Transf. Outras Inst.)</span><strong>R$ 14,2 M</strong></li>
-        <li><span>Outras Receitas Correntes</span><strong>R$ 7,9 M</strong></li>
-        <li><span>Transferências de Capital</span><strong>R$ 14,7 M</strong></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="cbox" style="margin-bottom:20px">
-    <h3>📊 Receitas Municipais: Orçado vs Arrecadado até abril/2025</h3>
-    <canvas id="chartReceitaComparativo"></canvas>
-  </div>
-
-  <div class="ibox">
-    <h4>📋 Principais Rubricas – CSV Transparência Fly</h4>
-    <div style="overflow-x:auto">
-    <table class="rtable">
-      <thead><tr>
-        <th>Descrição</th>
-        <th class="num">Valor Orçado (R$)</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Cota-Parte FPM – Principal</td><td class="num pos">32.483.343</td></tr>
-        <tr><td>Cota-Parte FPM – Dezembro</td><td class="num pos">3.969.505</td></tr>
-        <tr><td>Cota-Parte ICMS</td><td class="num pos">18.244.000</td></tr>
-        <tr><td>FUNDEB – Transferências</td><td class="num pos">14.236.600</td></tr>
-        <tr><td>IPTU – Principal</td><td class="num pos">1.794.000</td></tr>
-        <tr><td>ISS – Principal</td><td class="num pos">3.180.000</td></tr>
-        <tr><td>IPVA – Cota-Parte</td><td class="num pos">2.803.000</td></tr>
-        <tr><td>Rem. Dep. Bancários Não Vinculados</td><td class="num pos">1.735.989</td></tr>
-        <tr><td>Ônus de Sucumbência</td><td class="num pos">3.500.000</td></tr>
-        <tr><td>(R) Deduções FPM</td><td class="num neg">-6.496.700</td></tr>
-        <tr><td>(R) Deduções ICMS</td><td class="num neg">-3.648.800</td></tr>
-        <tr><td>(R) Deduções IPVA</td><td class="num neg">-560.600</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== SUB-ABA LOA 2026 ===================== -->
-<div id="tab-loa" class="section">
-  <div class="stitle">🏛️ LOA 2026 – Lei nº 4.628/2025</div>
-  <div class="banner">
-    📋 Lei nº 4.628, de 23/12/2025 · Receita e Despesa estimadas em <strong>R$ 137.897.350,00</strong>
-  </div>
-
-  <div class="kpis">
-    <div class="kpi verde">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-label">Total LOA 2026</div>
-      <div class="kpi-value">R$ 137,9 M</div>
-      <div class="kpi-sub">Art. 2º – Lei 4.628/2025</div>
+      <div class="ki">🎓</div>
+      <div class="kl">FUNDEB 2025</div>
+      <div class="kv">R$ 14,2 M</div>
+      <div class="ks">Manutenção Educação Básica</div>
     </div>
     <div class="kpi azul">
-      <div class="kpi-icon">🏛️</div>
-      <div class="kpi-label">Orçamento Fiscal</div>
-      <div class="kpi-value">R$ 101,2 M</div>
-      <div class="kpi-sub">Art. 4º, I</div>
+      <div class="ki">🏥</div>
+      <div class="kl">Saúde Federal 2025</div>
+      <div class="kv">R$ 8,6 M</div>
+      <div class="ks">Transferências SUS/MS</div>
     </div>
-    <div class="kpi amarelo">
-      <div class="kpi-icon">🏥</div>
-      <div class="kpi-label">Seguridade Social</div>
-      <div class="kpi-value">R$ 36,7 M</div>
-      <div class="kpi-sub">Art. 4º, II</div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="grid2">
+    <div class="ccard">
+      <h3>📊 Evolução Orçamentária 2022–2026 (R$ Milhões)</h3>
+      <div class="cwrap"><canvas id="chartEvolucao"></canvas></div>
     </div>
-    <div class="kpi roxo">
-      <div class="kpi-icon">🏗️</div>
-      <div class="kpi-label">Investimentos</div>
-      <div class="kpi-value">R$ 30,8 M</div>
-      <div class="kpi-sub">Despesas de Capital</div>
-    </div>
-    <div class="kpi vermelho">
-      <div class="kpi-icon">👥</div>
-      <div class="kpi-label">Pessoal e Encargos</div>
-      <div class="kpi-value">R$ 44,6 M</div>
-      <div class="kpi-sub">GND 3.1</div>
+    <div class="ccard">
+      <h3>🍩 Composição da Receita 2025</h3>
+      <div class="cwrap"><canvas id="chartReceita"></canvas></div>
     </div>
   </div>
 
   <div class="grid2">
-    <div class="cbox">
-      <h3>🏛️ Receita LOA 2026 – Por Categoria Econômica</h3>
-      <canvas id="chartLoaReceita"></canvas>
-    </div>
-    <div class="cbox">
-      <h3>📊 Despesa LOA 2026 – Por Grupo (LOA x Execução Real)</h3>
-      <canvas id="chartLoaDespesa"></canvas>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div class="ibox">
-      <h4>📋 Receita por Categoria – LOA 2026</h4>
-      <ul>
-        <li><span>Receitas Correntes</span><strong>R$ 130,5 M</strong></li>
-        <li><span>– Impostos, Taxas e Contrib.</span><strong>R$ 14,4 M</strong></li>
-        <li><span>– Contribuições</span><strong>R$ 2,98 M</strong></li>
-        <li><span>– Receita Patrimonial</span><strong>R$ 15,1 M</strong></li>
-        <li><span>– Transferências Correntes</span><strong>R$ 92,7 M</strong></li>
-        <li><span>– Outras Receitas Correntes</span><strong>R$ 5,3 M</strong></li>
-        <li><span>Receitas de Capital</span><strong>R$ 15,7 M</strong></li>
-        <li><span>– Transferências de Capital</span><strong>R$ 15,5 M</strong></li>
-        <li><span>Receitas Intraorçamentárias</span><strong>R$ 3,8 M</strong></li>
-        <li><span>(-) Deduções da Receita</span><strong class="neg">-R$ 12,1 M</strong></li>
-        <li><span><strong>TOTAL</strong></span><strong>R$ 137,9 M</strong></li>
-      </ul>
+    <div class="ccard">
+      <h3>🏗️ LOA 2026 – Despesa por Função</h3>
+      <div class="cwrap"><canvas id="chartLOA"></canvas></div>
     </div>
     <div class="ibox">
-      <h4>🏛️ Despesa por Grupo – LOA 2026</h4>
+      <h4>📌 Alertas e Indicadores</h4>
       <ul>
-        <li><span>Pessoal e Encargos Sociais</span><strong>R$ 44,6 M</strong></li>
-        <li><span>Juros e Encargos da Dívida</span><strong>R$ 1,5 M</strong></li>
-        <li><span>Outras Despesas Correntes</span><strong>R$ 45,7 M</strong></li>
-        <li><span>Investimentos</span><strong>R$ 30,8 M</strong></li>
-        <li><span>Amortização da Dívida</span><strong>R$ 1,95 M</strong></li>
-        <li><span>Reserva de Contingência</span><strong>R$ 2,7 M</strong></li>
-        <li><span>Reserva de Contingência RPPS</span><strong>R$ 10,6 M</strong></li>
-        <li><span><strong>TOTAL</strong></span><strong>R$ 137,9 M</strong></li>
+        <li><span>💰 LOA 2026 vs 2025</span><strong class="fok">+9,7%</strong></li>
+        <li><span>👥 Pessoal / RCL (est.)</span><strong class="fwarn">~48%</strong></li>
+        <li><span>🏥 Investimento Saúde</span><strong class="fok">22% ✅</strong></li>
+        <li><span>🎓 Investimento Educação</span><strong class="fok">≥25% ✅</strong></li>
+        <li><span>⚠️ Ônus Sucumbência</span><strong class="fwarn">R$ 3,5 M</strong></li>
+        <li><span>🏦 Reserva RPPS</span><strong class="fwarn">R$ 10,6 M</strong></li>
+        <li><span>📦 Amortização Dívida</span><strong class="fwarn">R$ 1,95 M</strong></li>
+        <li><span>🌿 COSIP 2025</span><strong>R$ 855 mil</strong></li>
       </ul>
     </div>
   </div>
 </div>
 
-<!-- ===================== PPA 2026-2029 ===================== -->
-<div id="tab-ppa" class="section">
-  <div class="stitle">📅 PPA 2026–2029 – São Jerônimo</div>
-  <div class="banner">
-    📋 Plano Plurianual aprovado · 3 Audiências Públicas realizadas em junho/2025 · Total: R$ 493,8 M (4 anos)
-  </div>
+<!-- ══════════ SUB-TELA: RECEITA 2025 ══════════ -->
+<div class="sec" id="sec-receita2025">
+  <div class="stitle">💰 Receita Arrecadada 2025 – Detalhamento Completo</div>
+  <div class="banner">📂 Fonte: Transparência Fly – Ingressos de Receitas · Período: 01/01/2025 a 31/12/2025 · Exportado em 25/03/2026</div>
 
   <div class="kpis">
-    <div class="kpi verde">
-      <div class="kpi-icon">📊</div>
-      <div class="kpi-label">Total PPA 2026–2029</div>
-      <div class="kpi-value">R$ 493,8 M</div>
-      <div class="kpi-sub">Ciclo plurianual completo</div>
-    </div>
-    <div class="kpi azul">
-      <div class="kpi-icon">📅</div>
-      <div class="kpi-label">Orçamento 2026</div>
-      <div class="kpi-value">R$ 124,6 M</div>
-      <div class="kpi-sub">Ano 1 do PPA</div>
-    </div>
-    <div class="kpi amarelo">
-      <div class="kpi-icon">📅</div>
-      <div class="kpi-label">Orçamento 2027</div>
-      <div class="kpi-value">R$ 127,9 M</div>
-      <div class="kpi-sub">Ano 2 do PPA</div>
-    </div>
-    <div class="kpi roxo">
-      <div class="kpi-icon">📅</div>
-      <div class="kpi-label">Orçamento 2028</div>
-      <div class="kpi-value">R$ 123,0 M</div>
-      <div class="kpi-sub">Ano 3 do PPA</div>
-    </div>
-    <div class="kpi vermelho">
-      <div class="kpi-icon">📅</div>
-      <div class="kpi-label">Orçamento 2029</div>
-      <div class="kpi-value">R$ 118,3 M</div>
-      <div class="kpi-sub">Ano 4 do PPA</div>
-    </div>
+    <div class="kpi azul"><div class="ki">🏦</div><div class="kl">FPM Total</div><div class="kv">R$ 36,4 M</div><div class="ks">Principal + Complemento</div></div>
+    <div class="kpi verde"><div class="ki">📈</div><div class="kl">ICMS</div><div class="kv">R$ 18,2 M</div><div class="ks">Cota-parte municipal</div></div>
+    <div class="kpi roxo"><div class="ki">🎓</div><div class="kl">FUNDEB</div><div class="kv">R$ 14,2 M</div><div class="ks">Transferências FNDE</div></div>
+    <div class="kpi amarelo"><div class="ki">🏥</div><div class="kl">Saúde Federal</div><div class="kv">R$ 8,6 M</div><div class="ks">MS/SUS/APS</div></div>
+    <div class="kpi verde"><div class="ki">💼</div><div class="kl">ISS</div><div class="kv">R$ 4,0 M</div><div class="ks">Imposto sobre Serviços</div></div>
+    <div class="kpi azul"><div class="ki">🏠</div><div class="kl">IPTU</div><div class="kv">R$ 3,0 M</div><div class="ks">Predial e Territorial</div></div>
   </div>
 
-  <div class="grid2">
-    <div class="cbox">
-      <h3>📊 Evolução Orçamentária PPA 2026–2029</h3>
-      <canvas id="chartPPA"></canvas>
-    </div>
-    <div class="cbox">
-      <h3>🏛️ Distribuição Ordinário x Vinculado</h3>
-      <canvas id="chartPPADistrib"></canvas>
-    </div>
-  </div>
+  <div
 
-  <div class="grid2">
-    <div class="ibox">
-      <h4>🎤 Audiências Públicas PPA 2026–2029</h4>
-      <ul>
-        <li><span>📍 1ª Audiência – Bairros Lindos Ares e Lago Parque Clube</span><strong>02/06/2025</strong></li>
-        <li><span>📍 2ª Audiência – Distrito do Gramal</span><strong>03/06/2025</strong></li>
-        <li><span>📍 3ª Audiência – Bairro Porto do Conde</span><strong>04/06/2025</strong></li>
-      </ul>
-    </div>
-    <div class="ibox">
-      <h4>📋 Principais Demandas das Audiências</h4>
-      <ul>
-        <li><span>Pavimentação de vias urbanas e rurais</span><strong>Infra</strong></li>
-        <li><span>Reforma e construção de UBS</span><strong>Saúde</strong></li>
-        <li><span>Iluminação pública – sede e interior</span><strong>Obras</strong></li>
-        <li><span>Regularização fundiária no interior</span><strong>Habitação</strong></li>
-        <li><span>Maquinário para associações rurais</span><strong>Agricultura</strong></li>
-        <li><span>Ampliação coleta de lixo no interior</span><strong>Meio Ambiente</strong></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== PROJETOS ===================== -->
-<div id="tab-projetos" class="section">
-  <div class="stitle">🚀 Projetos e Convênios – São Jerônimo</div>
-  <div class="banner">
-    📋 Fonte: Relatório PPA 2026–2029 · Projetos cadastrados até 20/08/2025 · Assinado pelo Prefeito Júlio Cesar Prates Cunha
-  </div>
-
-  <div class="kpis">
-    <div class="kpi verde">
-      <div class="kpi-icon">🔄</div>
-      <div class="kpi-label">Em Execução</div>
-      <div class="kpi-value">14</div>
-      <div class="kpi-sub">Projetos ativos</div>
-    </div>
-    <div class="kpi azul">
-      <div class="kpi-icon">🆕</div>
-      <div class="kpi-label">Novos Projetos</div>
-      <div class="kpi-value">21</div>
-      <div class="kpi-sub">A iniciar</div>
-    </div>
-    <div class="kpi amarelo">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-label">Total Repasses</div>
-      <div class="kpi-value">R$ 24,8 M</div>
-      <div class="kpi-sub">Federal + Estadual</div>
-    </div>
-    <div class="kpi roxo">
-      <div class="kpi-icon">🏗️</div>
-      <div class="kpi-label">Saúde</div>
-      <div class="kpi-value">R$ 4,5 M</div>
-      <div class="kpi-sub">5 projetos</div>
-    </div>
-  </div>
-
-  <!-- Projetos Saúde -->
-  <div class="stitle" style="font-size:.9rem;margin-top:8px">🏥 Secretaria Municipal de Saúde</div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🏥 Reforma da UBS Central</div><div class="pmeta">Gerente: Sec. Municipal de Saúde · Recursos Próprios</div></div>
-      <span class="tag tag-c">🔄 Em Execução</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Construção da Unidade Básica de Saúde Central</div></div>
-      <div><div class="pil">Próprios</div><div class="piv">R$ 350.000,00</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 350.000,00</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>50%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:50%;background:var(--azul)"></div></div>
-    </div>
-  </div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🏥 Reforma da UBS Gramal</div><div class="pmeta">Gerente: Sec. Municipal de Saúde · Programa Requalifica UBS · Min. Saúde</div></div>
-      <span class="tag tag-a">🔄 Em Execução – 30%</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Reforma da UBS do Gramal – Programa Requalifica UBS</div></div>
-      <div><div class="pil">Repasse Federal</div><div class="piv">R$ 1.539.603,93</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 1.539.603,93</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>30%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:30%;background:var(--amarelo)"></div></div>
-    </div>
-  </div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🏥 Construção da UBS Santa Elizia</div><div class="pmeta">Gerente: Sec. Municipal de Saúde · Emenda Parlamentar Dep. Bibo Nunes</div></div>
-      <span class="tag tag-d">🆕 Novo Projeto</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Construção de UBS no Bairro Santa Elizia</div></div>
-      <div><div class="pil">Repasse</div><div class="piv">R$ 632.000,00</div></div>
-      <div><div class="pil">Contrapartida</div><div class="piv">R$ 350.000,00</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 982.000,00</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>0%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:0%;background:var(--roxo)"></div></div>
-    </div>
-  </div>
-
-  <!-- Projetos Infraestrutura -->
-  <div class="stitle" style="font-size:.9rem;margin-top:16px">🏗️ Secretaria de Infraestrutura</div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🏗️ Reforma e Ampliação Palácio Alfredo Simch</div><div class="pmeta">Gerente: Sec. Infraestrutura · Recursos Próprios</div></div>
-      <span class="tag tag-a">🔄 Em Execução – 80%</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Reforma e ampliação do prédio administrativo</div></div>
-      <div><div class="pil">Próprios</div><div class="piv">R$ 1.622.432,44</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 1.622.432,44</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>80%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:80%;background:var(--verde)"></div></div>
-    </div>
-  </div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🛣️ Pavimentação – Estradas Vicinais Trecho 01/02/03</div><div class="pmeta">Emenda Parlamentar Dep. Lucas Redecker · Min. Integração</div></div>
-      <span class="tag tag-a">🔄 Em Execução</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Pavimentação em estradas vicinais – Trechos 01, 02 e 03</div></div>
-      <div><div class="pil">Repasse Total</div><div class="piv">R$ 9.406.975,69</div></div>
-      <div><div class="pil">Contrapartida</div><div class="piv">R$ 501.621,63</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 10.076.131,32</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>60%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:60%;background:var(--azul)"></div></div>
-    </div>
-  </div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🏟️ Reestabelecimento do Ginásio Municipal Plácido Cunda dos Santos</div><div class="pmeta">Transferências Obrigatórias · Defesa Civil</div></div>
-      <span class="tag tag-a">🔄 Em Execução – 100%</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Obras de reestabelecimento do Ginásio Municipal</div></div>
-      <div><div class="pil">Repasse</div><div class="piv">R$ 740.665,51</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 740.665,51</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>100%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:100%;background:var(--verde)"></div></div>
-    </div>
-  </div>
-
-  <!-- Projetos Agricultura -->
-  <div class="stitle" style="font-size:.9rem;margin-top:16px">🌾 Secretaria de Agricultura</div>
-
-  <div class="pcard">
-    <div class="pcardhead">
-      <div><div class="pnome">🚜 Patrulha Agrícola – Trator e Distribuidor de Calcário</div><div class="pmeta">Emenda Parlamentar Dep. Bibo Nunes · Min. Agricultura</div></div>
-      <span class="tag tag-a">✅ Executado – 100%</span>
-    </div>
-    <div class="pinfo">
-      <div><div class="pil">Objeto</div><div class="piv">Patrulha agrícola: Trator e distribuidor de calcário</div></div>
-      <div><div class="pil">Repasse</div><div class="piv">R$ 124.150,00</div></div>
-      <div><div class="pil">Contrapartida</div><div class="piv">R$ 5.850,00</div></div>
-      <div><div class="pil">Orçamento Total</div><div class="piv">R$ 130.000,00</div></div>
-    </div>
-    <div class="pbwrap">
-      <div class="pblabels"><span>Execução Física</span><span>100%</span></div>
-      <div class="pbbar"><div class="pbfill" style="width:100%;background:var(--verde)"></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== NÍVEL FISCAL ===================== -->
-<div id="tab-fiscal" class="section">
-  <div class="stitle">⚖️ Nível Fiscal – LRF e Indicadores</div>
-  <div class="banner">
-    📋 Base: LOA 2026 (Lei nº 4.628/2025) e evolução histórica da receita 2022–2026 · Dados de execução real a confirmar
-  </div>
-
-  <div class="fiscal-grid">
-    <div class="fcard">
-      <div class="fcard-label">👥 Gasto com Pessoal / RCL</div>
-      <div class="fcard-value fwarn">~48% estimado</div>
-      <div class="fbar"><div class="fbarfill" style="width:80%;background:var(--amarelo)"></div></div>
-      <div class="fbar-labels"><span>0%</span><span class="fwarn">Limite: 60%</span></div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-label">🏥 Saúde / Receita Própria</div>
-      <div class="fcard-value fok">22% aplicado</div>
-      <div class="fbar"><div class="fbarfill" style="width:100%;background:var(--verde)"></div></div>
-      <div class="fbar-labels"><span>Mínimo 15%</span><span class="fok">✅ Acima do mínimo</span></div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-label">🎓 Educação / Receita Impostos</div>
-      <div class="fcard-value fok">≥ 25% (FUNDEB)</div>
-      <div class="fbar"><div class="fbarfill" style="width:100%;background:var(--verde)"></div></div>
-      <div class="fbar-labels"><span>Mínimo 25%</span><span class="fok">✅ Conforme</span></div>
-    </div>
-    <div class="fcard">
-      <div class="fcard-label">💰 RCL Estimada 2026</div>
-      <div class="fcard-value azul" style="color:var(--azul)">R$ 91,3 M</div>
-      <div class="fbar"><div class="fbarfill" style="width:100%;background:var(--azul)"></div></div>
-      <div class="fbar-labels"><span>Base: LOA 2026</span><span>Receitas correntes líquidas</span></div>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div class="cbox">
-      <h3>📊 Evolução da Receita Total 2022–2026</h3>
-      <canvas id="chartFiscalEvolucao"></canvas>
-    </div>
-    <div class="ibox">
-      <h4>📜 Regras LRF Aplicáveis</h4>
-      <ul>
-        <li><span>Pessoal: limite de <strong>60% da RCL</strong> (município)</span><strong class="fwarn">~48%</strong></li>
-        <li><span>Dívida Consolidada: limite de <strong>1,2x a RCL</strong></span><strong class="fok">✅</strong></li>
-        <li><span>Saúde: mínimo de <strong>15% da RCL</strong></span><strong class="fok">22% ✅</strong></li>
-        <li><span>Educação: mínimo de <strong>25%</strong> da receita de impostos</span><strong class="fok">✅</strong></li>
-        <li><span>FUNDEB: mínimo <strong>70%</strong> para pagamento de professores</span><strong class="fok">✅</strong></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div class="ibox">
-      <h4>📊 Evolução da Receita Total 2022–2026</h4>
-      <ul>
-        <li><span>2022 (realizado)</span><strong>R$ 92,3 M</strong></li>
-        <li><span>2023 (realizado)</span><strong>R$ 106,8 M</strong></li>
-        <li><span>2024 (realizado)</span><strong>R$ 115,6 M</strong></li>
-        <li><span>2025 (LOA)</span><strong>R$ 125,7 M</strong></li>
-        <li><span>2026 (LOA)</span><strong>R$ 137,9 M</strong></li>
-        <li><span>Crescimento 2022→2026</span><strong class="fok">+49,4%</strong></li>
-      </ul>
-    </div>
-    <div class="ibox">
-      <h4>⚠️ Pontos de Atenção</h4>
-      <ul>
-        <li><span>Reserva de Contingência RPPS elevada</span><strong class="fwarn">R$ 10,6 M</strong></li>
-        <li><span>Transferências de capital dependem de convênios</span><strong class="fwarn">R$ 15,5 M</strong></li>
-        <li><span>Ônus de Sucumbência orçado</span><strong class="fwarn">R$ 3,5 M</strong></li>
-        <li><span>Juros e Encargos da Dívida</span><strong class="fwarn">R$ 1,5 M</strong></li>
-        <li><span>Amortização da Dívida</span><strong class="fwarn">R$ 1,95 M</strong></li>
-      </ul>
-    </div>
-  </div>
-</div>
-  
-      <!-- ===================== ABA IA CONSULTORA ===================== -->
 <div id="tab-ia" class="section">
   <div class="stitle">🤖 IA Consultora – SãoJeo</div>
   <div class="banner">
     🧠 Assistente especializado na gestão orçamentária de São Jerônimo · Baseado nos documentos LOA 2026, PPA 2026–2029, LDO 2026 e Transparência Fly
   </div>
+
   <div class="ia-wrap">
     <div class="ia-msgs" id="ia-msgs">
       <div class="msg bot">👋 Olá! Sou a IA Consultora do SãoJeo. Posso responder perguntas sobre o orçamento municipal, LOA 2026, PPA 2026–2029, receitas arrecadadas, projetos e convênios de São Jerônimo. Como posso ajudar?</div>
@@ -890,264 +320,3 @@ footer{
     <div class="chip" onclick="perguntaRapida('Qual a RCL prevista para 2026?')">📊 RCL 2026</div>
   </div>
 </div>
-</main>
-
-<!-- ===================== FOOTER ===================== -->
-<footer style="
-  background:#0a1628;
-  border-top:1px solid #1e3450;
-  padding:12px 24px;
-  text-align:center;
-  font-size:.74rem;
-  color:#4a7fa5;
-">
-  Desenvolvido por <strong style="color:#7fb3d3">IGG – Inteligência em Gestão e Governança</strong> | CNPJ: 35.860.860/0001-80
-</footer>
-
-<!-- ===================== SCRIPTS ===================== -->
-<script>
-// ── RELÓGIO ──────────────────────────────────────────
-function tick(){
-  const n=new Date();
-  const r=document.getElementById('relogio');
-  if(r) r.innerHTML=
-    n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'})
-    +'<br>'+n.toLocaleTimeString('pt-BR');
-}
-tick(); setInterval(tick,1000);
-
-// ── NAVEGAÇÃO PRINCIPAL ───────────────────────────────
-const tabs={
-  'btn-dashboard':'tab-dashboard',
-  'btn-receita2025':'tab-receita2025',
-  'btn-loa2026':'tab-loa2026',
-  'btn-ppa':'tab-ppa',
-  'btn-projetos':'tab-projetos',
-  'btn-fiscal':'tab-fiscal',
-  'btn-audiencias':'tab-audiencias',
-  'btn-ia':'tab-ia'
-};
-
-function ativarAba(tabId, titulo){
-  // esconde tudo
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-
-  // mostra aba alvo
-  const el=document.getElementById(tabId);
-  if(el) el.classList.add('active');
-
-  // subheader home
-  const sh=document.getElementById('subheader-home');
-  const st=document.getElementById('subheader-titulo');
-  const abasOcultas=['tab-receita2025','tab-loa2026'];
-  if(abasOcultas.includes(tabId)){
-    sh.classList.add('visible');
-    if(st) st.textContent = titulo||'';
-  } else {
-    sh.classList.remove('visible');
-    // marca botão nav ativo
-    Object.entries(tabs).forEach(([btnId,tId])=>{
-      if(tId===tabId){
-        const b=document.getElementById(btnId);
-        if(b) b.classList.add('active');
-      }
-    });
-  }
-
-  // inicializa gráficos da aba
-  inicializarGraficos(tabId);
-}
-
-// botões nav
-Object.entries(tabs).forEach(([btnId,tabId])=>{
-  const btn=document.getElementById(btnId);
-  if(btn) btn.addEventListener('click',()=>ativarAba(tabId));
-});
-
-// botão home
-document.getElementById('btn-home')?.addEventListener('click',()=>ativarAba('tab-dashboard'));
-
-// cards clicáveis
-document.getElementById('card-receita2025')?.addEventListener('click',()=>
-  ativarAba('tab-receita2025','📊 Receita Arrecadada 2025')
-);
-document.getElementById('card-loa2026')?.addEventListener('click',()=>
-  ativarAba('tab-loa2026','📋 Investimentos LOA 2026')
-);
-
-// ── GRÁFICOS ──────────────────────────────────────────
-const graficosIniciados={};
-
-function criarGrafico(id, tipo, labels, dados, label, cores){
-  const canvas=document.getElementById(id);
-  if(!canvas||graficosIniciados[id]) return;
-  graficosIniciados[id]=true;
-  const ctx=canvas.getContext('2d');
-
-  const isDoughnut=(tipo==='doughnut'||tipo==='pie');
-  new Chart(ctx,{
-    type:tipo,
-    data:{
-      labels:labels,
-      datasets:[{
-        label:label,
-        data:dados,
-        backgroundColor: isDoughnut
-          ? (cores||['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22'])
-          : (Array.isArray(cores)?cores:'rgba(52,152,219,0.75)'),
-        borderColor: isDoughnut?'#0d1b2a':'#3498db',
-        borderWidth: isDoughnut?2:1,
-        fill: tipo==='line'?false:undefined,
-        tension: tipo==='line'?0.4:undefined
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{
-          labels:{color:'#cdd9e5',font:{size:11}},
-          display: isDoughnut
-        },
-        tooltip:{
-          callbacks:{
-            label:function(ctx){
-              const v=ctx.parsed.y??ctx.parsed;
-              if(typeof v==='number'&&v>1000)
-                return ' R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0});
-              return ' '+v;
-            }
-          }
-        }
-      },
-      scales: isDoughnut?{}:{
-        x:{ticks:{color:'#7fb3d3'},grid:{color:'rgba(30,52,80,.5)'}},
-        y:{ticks:{color:'#7fb3d3',
-            callback:v=>v>=1000000?'R$ '+(v/1000000).toFixed(1)+'M':
-                        v>=1000?'R$ '+(v/1000).toFixed(0)+'k':'R$ '+v
-           },
-           grid:{color:'rgba(30,52,80,.5)'}
-        }
-      }
-    }
-  });
-}
-
-function inicializarGraficos(tabId){
-  if(tabId==='tab-dashboard'){
-    criarGrafico('chart-evolucao','bar',
-      ['2022','2023','2024','2025','2026'],
-      [92300000,106800000,115600000,125700000,137900000],
-      'Receita Total (R$)',
-      ['#2980b9','#2980b9','#2980b9','#27ae60','#3498db']
-    );
-    criarGrafico('chart-despesa','doughnut',
-      ['Saúde','Educação','Infraestrutura','Administração','Assistência Social','Outros'],
-      [25.8,22.4,16.2,14.1,8.3,13.2],
-      'LOA 2026 por Área (%)',null
-    );
-  }
-  if(tabId==='tab-receita2025'){
-    criarGrafico('chart-receita-rosca','doughnut',
-      ['FPM','ICMS','FUNDEB','SUS/Saúde','ISS','IPTU','Outros'],
-      [36452848,18244000,14236600,7660000,4001000,3044000,12000000],
-      'Receita 2025 por Fonte',
-      ['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22']
-    );
-    criarGrafico('chart-receita-barras','bar',
-      ['FPM','ICMS','FUNDEB','SUS','ISS','IPTU','COSIP','Outros'],
-      [36452848,18244000,14236600,7660000,4001000,3044000,855000,12000000],
-      'Arrecadação 2025 (R$)',
-      ['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22','#7f8c8d']
-    );
-  }
-  if(tabId==='tab-loa2026'){
-    criarGrafico('chart-loa-area','bar',
-      ['Saúde','Educação','Infraestrutura','Administração','Assist. Social','Agricultura','Outros'],
-      [35580000,30880000,22340000,19440000,11430000,5200000,13030000],
-      'LOA 2026 por Secretaria (R$)',
-      ['#e74c3c','#f1c40f','#3498db','#9b59b6','#2ecc71','#e67e22','#7f8c8d']
-    );
-  }
-  if(tabId==='tab-fiscal'){
-    criarGrafico('chart-fiscal-evolucao','line',
-      ['2022','2023','2024','2025','2026'],
-      [92300000,106800000,115600000,125700000,137900000],
-      'Evolução da Receita Total',['#3498db']
-    );
-  }
-  if(tabId==='tab-ppa'){
-    criarGrafico('chart-ppa','bar',
-      ['2026','2027','2028','2029'],
-      [137900000,143000000,148500000,154000000],
-      'PPA 2026–2029 – Receita Estimada (R$)',
-      ['#3498db','#2ecc71','#f1c40f','#e74c3c']
-    );
-  }
-}
-
-// ── IA CONSULTORA ─────────────────────────────────────
-const baseConhecimento={
-  'loa 2026': '📋 A LOA 2026 de São Jerônimo (Lei nº 4.628/2025) prevê receita e despesa total de **R$ 137,9 milhões**. Principais áreas: Saúde R$ 35,6M, Educação R$ 30,9M, Infraestrutura R$ 22,3M, Administração R$ 19,4M, Assistência Social R$ 11,4M.',
-  'fpm': '🏦 O FPM orçado na LOA 2026 é de **R$ 36,45 milhões** (principal + dez/antecip.). Em 2025, a arrecadação total do FPM foi de aproximadamente **R$ 36,4 milhões**.',
-  'icms': '💰 A Cota-Parte do ICMS orçada para 2025 foi de **R$ 18.244.000,00**, sendo a segunda maior fonte de receita do município.',
-  'rcl': '📊 A Receita Corrente Líquida (RCL) prevista para 2026 é de **R$ 101,9 milhões** conforme os Anexos da LDO 2026.',
-  'saúde': '🏥 O investimento em saúde na LOA 2026 é de **R$ 35,6 milhões**, representando aproximadamente **22% da receita**, bem acima do mínimo constitucional de 15%. O município mantém ESF, CAPS, UBS e programas federais SUS.',
-  'educação': '🎓 A educação na LOA 2026 prevê **R$ 30,9 milhões**, cumprindo o mínimo de 25% da receita de impostos. O FUNDEB transfere **R$ 14,2 milhões** para custeio da rede municipal.',
-  'fundeb': '📚 A transferência do FUNDEB para São Jerônimo em 2025 foi de **R$ 14.236.600,00** orçados. Mínimo de 70% deve ser aplicado em pagamento de professores.',
-  'ppa': '📋 O PPA 2026–2029 de São Jerônimo estabelece programas para 4 anos com receita estimada crescendo de R$ 137,9M (2026) até aproximadamente R$ 154M (2029). Aprovado pela Câmara Municipal.',
-  'pessoal': '👥 O limite LRF para gastos com pessoal é de **60% da RCL**. A estimativa de São Jerônimo é de aproximadamente **48% da RCL**, dentro do limite legal.',
-  'audiências': '🎤 Foram realizadas 3 audiências públicas do PPA 2026–2029:\n1️⃣ Centro – 21/05/2025\n2️⃣ Guaíba / Quitéria – 28/05/2025\n3️⃣ Porto do Conde – 04/06/2025',
-  'projetos': '🚀 Projetos em execução: Reconstrução Ponte Porto do Conde (20%), Reforma UBS Gramal (50%), Pavimentação Vicinais (60%), Palácio Alfredo Simch (80%), Ginásio Municipal (100%). Novos projetos: Habitação MCMV, Calçadas Acessíveis, UBS Santa Elizia.',
-  'iptu': '🏠 O IPTU orçado para 2025 soma **R$ 3.044.000,00** distribuídos em principal, multas, dívida ativa e juros. Há iniciativa de revisão da legislação na LDO 2026.',
-  'ipva': '🚗 A Cota-Parte do IPVA orçada para 2025 foi de **R$ 2.803.000,00**.',
-  'cosip': '💡 A Contribuição para Custeio do Serviço de Iluminação Pública (COSIP) foi orçada em **R$ 855.000,00** para 2025.',
-  'dívida': '⚖️ O município possui amortização de dívida prevista de **R$ 1,95 milhões** e juros/encargos de **R$ 1,5 milhões** na LOA 2026. Limite de dívida consolidada: 1,2x a RCL.',
-};
-
-function buscarResposta(pergunta){
-  const p=pergunta.toLowerCase();
-  for(const [chave,resp] of Object.entries(baseConhecimento)){
-    if(p.includes(chave)) return resp;
-  }
-  return '🤔 Não encontrei uma resposta exata para essa pergunta na base de dados. Tente perguntar sobre: LOA 2026, FPM, ICMS, FUNDEB, RCL, saúde, educação, PPA, projetos, audiências públicas, IPTU, COSIP ou limite de pessoal.';
-}
-
-function enviarIA(){
-  const input=document.getElementById('ia-pergunta');
-  const msgs=document.getElementById('ia-msgs');
-  const texto=input.value.trim();
-  if(!texto) return;
-
-  // mensagem do usuário
-  const mu=document.createElement('div');
-  mu.className='msg user';
-  mu.textContent=texto;
-  msgs.appendChild(mu);
-  input.value='';
-
-  // resposta da IA
-  setTimeout(()=>{
-    const mb=document.createElement('div');
-    mb.className='msg bot';
-    mb.innerHTML=buscarResposta(texto).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-    msgs.appendChild(mb);
-    msgs.scrollTop=msgs.scrollHeight;
-  },400);
-
-  msgs.scrollTop=msgs.scrollHeight;
-}
-
-function perguntaRapida(texto){
-  document.getElementById('ia-pergunta').value=texto;
-  enviarIA();
-}
-
-// ── INICIALIZAÇÃO ─────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  ativarAba('tab-dashboard');
-});
-</script>
-</body>
-</html>
