@@ -863,14 +863,13 @@ footer{
     </div>
   </div>
 </div>
-
-<!-- ===================== IA CONSULTORA ===================== -->
+  
+      <!-- ===================== ABA IA CONSULTORA ===================== -->
 <div id="tab-ia" class="section">
   <div class="stitle">🤖 IA Consultora – SãoJeo</div>
   <div class="banner">
     🧠 Assistente especializado na gestão orçamentária de São Jerônimo · Baseado nos documentos LOA 2026, PPA 2026–2029, LDO 2026 e Transparência Fly
   </div>
-
   <div class="ia-wrap">
     <div class="ia-msgs" id="ia-msgs">
       <div class="msg bot">👋 Olá! Sou a IA Consultora do SãoJeo. Posso responder perguntas sobre o orçamento municipal, LOA 2026, PPA 2026–2029, receitas arrecadadas, projetos e convênios de São Jerônimo. Como posso ajudar?</div>
@@ -880,12 +879,275 @@ footer{
       <button onclick="enviarIA()">Enviar</button>
     </div>
   </div>
-
   <div class="ia-chips">
     <div class="chip" onclick="perguntaRapida('Qual o total da LOA 2026?')">📋 Total LOA 2026</div>
     <div class="chip" onclick="perguntaRapida('Quais foram as audiências públicas do PPA?')">🎤 Audiências PPA</div>
     <div class="chip" onclick="perguntaRapida('Qual o investimento em saúde em 2026?')">🏥 Investimento Saúde</div>
     <div class="chip" onclick="perguntaRapida('Qual o total do FPM orçado?')">🏦 FPM Orçado</div>
     <div class="chip" onclick="perguntaRapida('Quais projetos estão em execução?')">🚀 Projetos em execução</div>
-    <div class="chip" onclick="perguntaRapida('Qual o limite de
+    <div class="chip" onclick="perguntaRapida('Qual o limite de gastos com pessoal?')">👥 Limite Pessoal LRF</div>
+    <div class="chip" onclick="perguntaRapida('Qual o total arrecadado de ICMS em 2025?')">💰 ICMS Arrecadado 2025</div>
+    <div class="chip" onclick="perguntaRapida('Qual a RCL prevista para 2026?')">📊 RCL 2026</div>
+  </div>
+</div>
+</main>
 
+<!-- ===================== FOOTER ===================== -->
+<footer style="
+  background:#0a1628;
+  border-top:1px solid #1e3450;
+  padding:12px 24px;
+  text-align:center;
+  font-size:.74rem;
+  color:#4a7fa5;
+">
+  Desenvolvido por <strong style="color:#7fb3d3">IGG – Inteligência em Gestão e Governança</strong> | CNPJ: 35.860.860/0001-80
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+// ── RELÓGIO ──────────────────────────────────────────
+function tick(){
+  const n=new Date();
+  const r=document.getElementById('relogio');
+  if(r) r.innerHTML=
+    n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'})
+    +'<br>'+n.toLocaleTimeString('pt-BR');
+}
+tick(); setInterval(tick,1000);
+
+// ── NAVEGAÇÃO PRINCIPAL ───────────────────────────────
+const tabs={
+  'btn-dashboard':'tab-dashboard',
+  'btn-receita2025':'tab-receita2025',
+  'btn-loa2026':'tab-loa2026',
+  'btn-ppa':'tab-ppa',
+  'btn-projetos':'tab-projetos',
+  'btn-fiscal':'tab-fiscal',
+  'btn-audiencias':'tab-audiencias',
+  'btn-ia':'tab-ia'
+};
+
+function ativarAba(tabId, titulo){
+  // esconde tudo
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+
+  // mostra aba alvo
+  const el=document.getElementById(tabId);
+  if(el) el.classList.add('active');
+
+  // subheader home
+  const sh=document.getElementById('subheader-home');
+  const st=document.getElementById('subheader-titulo');
+  const abasOcultas=['tab-receita2025','tab-loa2026'];
+  if(abasOcultas.includes(tabId)){
+    sh.classList.add('visible');
+    if(st) st.textContent = titulo||'';
+  } else {
+    sh.classList.remove('visible');
+    // marca botão nav ativo
+    Object.entries(tabs).forEach(([btnId,tId])=>{
+      if(tId===tabId){
+        const b=document.getElementById(btnId);
+        if(b) b.classList.add('active');
+      }
+    });
+  }
+
+  // inicializa gráficos da aba
+  inicializarGraficos(tabId);
+}
+
+// botões nav
+Object.entries(tabs).forEach(([btnId,tabId])=>{
+  const btn=document.getElementById(btnId);
+  if(btn) btn.addEventListener('click',()=>ativarAba(tabId));
+});
+
+// botão home
+document.getElementById('btn-home')?.addEventListener('click',()=>ativarAba('tab-dashboard'));
+
+// cards clicáveis
+document.getElementById('card-receita2025')?.addEventListener('click',()=>
+  ativarAba('tab-receita2025','📊 Receita Arrecadada 2025')
+);
+document.getElementById('card-loa2026')?.addEventListener('click',()=>
+  ativarAba('tab-loa2026','📋 Investimentos LOA 2026')
+);
+
+// ── GRÁFICOS ──────────────────────────────────────────
+const graficosIniciados={};
+
+function criarGrafico(id, tipo, labels, dados, label, cores){
+  const canvas=document.getElementById(id);
+  if(!canvas||graficosIniciados[id]) return;
+  graficosIniciados[id]=true;
+  const ctx=canvas.getContext('2d');
+
+  const isDoughnut=(tipo==='doughnut'||tipo==='pie');
+  new Chart(ctx,{
+    type:tipo,
+    data:{
+      labels:labels,
+      datasets:[{
+        label:label,
+        data:dados,
+        backgroundColor: isDoughnut
+          ? (cores||['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22'])
+          : (Array.isArray(cores)?cores:'rgba(52,152,219,0.75)'),
+        borderColor: isDoughnut?'#0d1b2a':'#3498db',
+        borderWidth: isDoughnut?2:1,
+        fill: tipo==='line'?false:undefined,
+        tension: tipo==='line'?0.4:undefined
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          labels:{color:'#cdd9e5',font:{size:11}},
+          display: isDoughnut
+        },
+        tooltip:{
+          callbacks:{
+            label:function(ctx){
+              const v=ctx.parsed.y??ctx.parsed;
+              if(typeof v==='number'&&v>1000)
+                return ' R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0});
+              return ' '+v;
+            }
+          }
+        }
+      },
+      scales: isDoughnut?{}:{
+        x:{ticks:{color:'#7fb3d3'},grid:{color:'rgba(30,52,80,.5)'}},
+        y:{ticks:{color:'#7fb3d3',
+            callback:v=>v>=1000000?'R$ '+(v/1000000).toFixed(1)+'M':
+                        v>=1000?'R$ '+(v/1000).toFixed(0)+'k':'R$ '+v
+           },
+           grid:{color:'rgba(30,52,80,.5)'}
+        }
+      }
+    }
+  });
+}
+
+function inicializarGraficos(tabId){
+  if(tabId==='tab-dashboard'){
+    criarGrafico('chart-evolucao','bar',
+      ['2022','2023','2024','2025','2026'],
+      [92300000,106800000,115600000,125700000,137900000],
+      'Receita Total (R$)',
+      ['#2980b9','#2980b9','#2980b9','#27ae60','#3498db']
+    );
+    criarGrafico('chart-despesa','doughnut',
+      ['Saúde','Educação','Infraestrutura','Administração','Assistência Social','Outros'],
+      [25.8,22.4,16.2,14.1,8.3,13.2],
+      'LOA 2026 por Área (%)',null
+    );
+  }
+  if(tabId==='tab-receita2025'){
+    criarGrafico('chart-receita-rosca','doughnut',
+      ['FPM','ICMS','FUNDEB','SUS/Saúde','ISS','IPTU','Outros'],
+      [36452848,18244000,14236600,7660000,4001000,3044000,12000000],
+      'Receita 2025 por Fonte',
+      ['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22']
+    );
+    criarGrafico('chart-receita-barras','bar',
+      ['FPM','ICMS','FUNDEB','SUS','ISS','IPTU','COSIP','Outros'],
+      [36452848,18244000,14236600,7660000,4001000,3044000,855000,12000000],
+      'Arrecadação 2025 (R$)',
+      ['#3498db','#2ecc71','#f1c40f','#e74c3c','#9b59b6','#1abc9c','#e67e22','#7f8c8d']
+    );
+  }
+  if(tabId==='tab-loa2026'){
+    criarGrafico('chart-loa-area','bar',
+      ['Saúde','Educação','Infraestrutura','Administração','Assist. Social','Agricultura','Outros'],
+      [35580000,30880000,22340000,19440000,11430000,5200000,13030000],
+      'LOA 2026 por Secretaria (R$)',
+      ['#e74c3c','#f1c40f','#3498db','#9b59b6','#2ecc71','#e67e22','#7f8c8d']
+    );
+  }
+  if(tabId==='tab-fiscal'){
+    criarGrafico('chart-fiscal-evolucao','line',
+      ['2022','2023','2024','2025','2026'],
+      [92300000,106800000,115600000,125700000,137900000],
+      'Evolução da Receita Total',['#3498db']
+    );
+  }
+  if(tabId==='tab-ppa'){
+    criarGrafico('chart-ppa','bar',
+      ['2026','2027','2028','2029'],
+      [137900000,143000000,148500000,154000000],
+      'PPA 2026–2029 – Receita Estimada (R$)',
+      ['#3498db','#2ecc71','#f1c40f','#e74c3c']
+    );
+  }
+}
+
+// ── IA CONSULTORA ─────────────────────────────────────
+const baseConhecimento={
+  'loa 2026': '📋 A LOA 2026 de São Jerônimo (Lei nº 4.628/2025) prevê receita e despesa total de **R$ 137,9 milhões**. Principais áreas: Saúde R$ 35,6M, Educação R$ 30,9M, Infraestrutura R$ 22,3M, Administração R$ 19,4M, Assistência Social R$ 11,4M.',
+  'fpm': '🏦 O FPM orçado na LOA 2026 é de **R$ 36,45 milhões** (principal + dez/antecip.). Em 2025, a arrecadação total do FPM foi de aproximadamente **R$ 36,4 milhões**.',
+  'icms': '💰 A Cota-Parte do ICMS orçada para 2025 foi de **R$ 18.244.000,00**, sendo a segunda maior fonte de receita do município.',
+  'rcl': '📊 A Receita Corrente Líquida (RCL) prevista para 2026 é de **R$ 101,9 milhões** conforme os Anexos da LDO 2026.',
+  'saúde': '🏥 O investimento em saúde na LOA 2026 é de **R$ 35,6 milhões**, representando aproximadamente **22% da receita**, bem acima do mínimo constitucional de 15%. O município mantém ESF, CAPS, UBS e programas federais SUS.',
+  'educação': '🎓 A educação na LOA 2026 prevê **R$ 30,9 milhões**, cumprindo o mínimo de 25% da receita de impostos. O FUNDEB transfere **R$ 14,2 milhões** para custeio da rede municipal.',
+  'fundeb': '📚 A transferência do FUNDEB para São Jerônimo em 2025 foi de **R$ 14.236.600,00** orçados. Mínimo de 70% deve ser aplicado em pagamento de professores.',
+  'ppa': '📋 O PPA 2026–2029 de São Jerônimo estabelece programas para 4 anos com receita estimada crescendo de R$ 137,9M (2026) até aproximadamente R$ 154M (2029). Aprovado pela Câmara Municipal.',
+  'pessoal': '👥 O limite LRF para gastos com pessoal é de **60% da RCL**. A estimativa de São Jerônimo é de aproximadamente **48% da RCL**, dentro do limite legal.',
+  'audiências': '🎤 Foram realizadas 3 audiências públicas do PPA 2026–2029:\n1️⃣ Centro – 21/05/2025\n2️⃣ Guaíba / Quitéria – 28/05/2025\n3️⃣ Porto do Conde – 04/06/2025',
+  'projetos': '🚀 Projetos em execução: Reconstrução Ponte Porto do Conde (20%), Reforma UBS Gramal (50%), Pavimentação Vicinais (60%), Palácio Alfredo Simch (80%), Ginásio Municipal (100%). Novos projetos: Habitação MCMV, Calçadas Acessíveis, UBS Santa Elizia.',
+  'iptu': '🏠 O IPTU orçado para 2025 soma **R$ 3.044.000,00** distribuídos em principal, multas, dívida ativa e juros. Há iniciativa de revisão da legislação na LDO 2026.',
+  'ipva': '🚗 A Cota-Parte do IPVA orçada para 2025 foi de **R$ 2.803.000,00**.',
+  'cosip': '💡 A Contribuição para Custeio do Serviço de Iluminação Pública (COSIP) foi orçada em **R$ 855.000,00** para 2025.',
+  'dívida': '⚖️ O município possui amortização de dívida prevista de **R$ 1,95 milhões** e juros/encargos de **R$ 1,5 milhões** na LOA 2026. Limite de dívida consolidada: 1,2x a RCL.',
+};
+
+function buscarResposta(pergunta){
+  const p=pergunta.toLowerCase();
+  for(const [chave,resp] of Object.entries(baseConhecimento)){
+    if(p.includes(chave)) return resp;
+  }
+  return '🤔 Não encontrei uma resposta exata para essa pergunta na base de dados. Tente perguntar sobre: LOA 2026, FPM, ICMS, FUNDEB, RCL, saúde, educação, PPA, projetos, audiências públicas, IPTU, COSIP ou limite de pessoal.';
+}
+
+function enviarIA(){
+  const input=document.getElementById('ia-pergunta');
+  const msgs=document.getElementById('ia-msgs');
+  const texto=input.value.trim();
+  if(!texto) return;
+
+  // mensagem do usuário
+  const mu=document.createElement('div');
+  mu.className='msg user';
+  mu.textContent=texto;
+  msgs.appendChild(mu);
+  input.value='';
+
+  // resposta da IA
+  setTimeout(()=>{
+    const mb=document.createElement('div');
+    mb.className='msg bot';
+    mb.innerHTML=buscarResposta(texto).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    msgs.appendChild(mb);
+    msgs.scrollTop=msgs.scrollHeight;
+  },400);
+
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function perguntaRapida(texto){
+  document.getElementById('ia-pergunta').value=texto;
+  enviarIA();
+}
+
+// ── INICIALIZAÇÃO ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  ativarAba('tab-dashboard');
+});
+</script>
+</body>
+</html>
