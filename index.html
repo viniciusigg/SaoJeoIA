@@ -1,663 +1,636 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>SãoJeo IA – Gestão Estratégica</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SãoJeo IA – Gestão Estratégica</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#020617;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding-bottom:60px}
 
-  <style>
-    body {
-      background-color: #020617; /* slate-950 */
-      color: #e2e8f0;           /* slate-200 */
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    main {
-      flex: 1;
-    }
+  /* ── HEADER ── */
+  .header{background:#0f172a;border-bottom:1px solid #1e293b;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+  .header-left{display:flex;align-items:center;gap:12px}
+  .logo{width:40px;height:40px;background:linear-gradient(135deg,#0ea5e9,#6366f1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0}
+  .header-title{font-size:20px;font-weight:700;color:#f1f5f9}
+  .header-title span.beta{font-size:11px;background:#1e40af;color:#93c5fd;padding:2px 7px;border-radius:20px;margin-left:8px;vertical-align:middle;font-weight:600}
+  .header-sub{font-size:12px;color:#64748b;margin-top:2px}
+  .ano-select{display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8}
+  .ano-select select{background:#1e293b;border:1px solid #334155;color:#f1f5f9;padding:4px 10px;border-radius:6px;font-size:13px;cursor:pointer}
 
-    /* Abas */
-    .aba {
-      padding: 8px 16px;
-      border-bottom: 2px solid transparent;
-      font-size: 13px;
-      color: #94a3b8;
-      cursor: pointer;
-      white-space: nowrap;
-      background: transparent;
-      transition: all 0.18s;
-    }
-    .aba:hover {
-      color: #e2e8f0;
-    }
-    .aba.ativa {
-      color: #38bdf8;
-      border-bottom-color: #38bdf8;
-    }
-    .secao {
-      display: none;
-    }
-    .secao.ativa {
-      display: block;
-    }
+  /* ── TABS ── */
+  .tabs{background:#0f172a;border-bottom:1px solid #1e293b;padding:0 24px;display:flex;gap:4px}
+  .tab-btn{padding:14px 18px;background:none;border:none;color:#64748b;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+  .tab-btn:hover{color:#cbd5e1}
+  .tab-btn.ativa{color:#38bdf8;border-bottom-color:#38bdf8;font-weight:600}
 
-    /* Chat */
-    .chat-box {
-      height: 380px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 14px;
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-    }
-    .msg-bot {
-      background-color: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      max-width: 80%;
-      font-size: 0.875rem;
-    }
-    .msg-user {
-      background-color: #1d4ed8;
-      color: #e2e8f0;
-      align-self: flex-end;
-      border-radius: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      max-width: 80%;
-      font-size: 0.875rem;
-    }
+  /* ── CONTEÚDO GERAL ── */
+  .conteudo{padding:24px;display:none}
+  .conteudo.ativa{display:block}
 
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 999px; }
-    ::-webkit-scrollbar-track { background: transparent; }
+  /* ── CARDS KPI ── */
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+  .card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:20px}
+  .card-label{font-size:12px;color:#64748b;margin-bottom:6px;font-weight:500}
+  .card-valor{font-size:24px;font-weight:700;margin-bottom:4px}
+  .card-valor.azul{color:#38bdf8}
+  .card-valor.amarelo{color:#fbbf24}
+  .card-valor.verde{color:#34d399}
+  .card-valor.roxo{color:#a78bfa}
+  .card-sub{font-size:11px;color:#475569}
 
-    footer {
-      background: #020617;
-      border-top: 1px solid #1e293b;
-      padding: 10px 24px;
-      text-align: center;
-      font-size: 11px;
-      color: #64748b;
-    }
-  </style>
+  /* ── GRÁFICOS ── */
+  .graficos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+  @media(max-width:900px){.graficos-grid{grid-template-columns:1fr}}
+  .grafico-card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:20px}
+  .grafico-titulo{font-size:14px;font-weight:600;color:#f1f5f9;margin-bottom:4px}
+  .grafico-sub{font-size:11px;color:#64748b;margin-bottom:16px}
+  .grafico-wrapper{position:relative;height:280px}
+
+  /* ── INDICADORES REGULATÓRIOS ── */
+  .reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:900px){.reg-grid{grid-template-columns:1fr}}
+
+  .reg-card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:24px}
+  .reg-card-titulo{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
+  .reg-card-sub{font-size:11px;color:#64748b;margin-bottom:20px}
+
+  /* barras pessoal */
+  .barra-item{margin-bottom:16px}
+  .barra-header{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px}
+  .barra-label{color:#cbd5e1;font-weight:500}
+  .barra-pct{font-weight:700}
+  .barra-track{height:14px;background:#1e293b;border-radius:8px;overflow:hidden}
+  .barra-fill{height:100%;border-radius:8px;transition:width .6s ease}
+
+  /* donuts saúde/educação */
+  .donut-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .donut-item{text-align:center}
+  .donut-titulo{font-size:12px;color:#94a3b8;margin-bottom:10px;font-weight:500}
+  .donut-wrapper{position:relative;height:160px;display:flex;align-items:center;justify-content:center}
+  .donut-wrapper canvas{max-height:160px}
+  .donut-center{position:absolute;text-align:center;pointer-events:none}
+  .donut-pct{font-size:22px;font-weight:800}
+  .donut-pct.ok{color:#34d399}
+  .donut-pct.alerta{color:#fbbf24}
+  .donut-pct.critico{color:#f87171}
+  .donut-label-small{font-size:10px;color:#64748b}
+
+  .reg-nota{margin-top:16px;padding:12px;background:#0d1b2e;border:1px solid #1e3a5f;border-radius:8px;font-size:11px;color:#7dd3fc;line-height:1.6}
+
+  /* status badge */
+  .status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:12px}
+  .status-badge.ok{background:#052e16;color:#4ade80;border:1px solid #166534}
+  .status-badge.alerta{background:#451a03;color:#fb923c;border:1px solid #9a3412}
+  .status-badge.critico{background:#3b0a0a;color:#f87171;border:1px solid #991b1b}
+
+  /* ── SECRETARIAS ── */
+  .sec-table{width:100%;border-collapse:collapse;font-size:13px}
+  .sec-table th{background:#1e293b;color:#94a3b8;padding:10px 14px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .sec-table td{padding:12px 14px;border-bottom:1px solid #1e293b;color:#cbd5e1}
+  .sec-table tr:hover td{background:#0f172a}
+  .pct-bar{display:flex;align-items:center;gap:8px}
+  .pct-mini{height:6px;border-radius:3px;background:#38bdf8;min-width:4px}
+
+  /* ── PROJETOS ── */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .proj-card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:20px}
+  .proj-nome{font-size:14px;font-weight:600;color:#f1f5f9;margin-bottom:6px}
+  .proj-sec{font-size:11px;color:#64748b;margin-bottom:12px}
+  .proj-valor{font-size:18px;font-weight:700;color:#38bdf8;margin-bottom:12px}
+  .proj-progresso{height:8px;background:#1e293b;border-radius:4px;overflow:hidden;margin-bottom:6px}
+  .proj-fill{height:100%;background:linear-gradient(90deg,#0ea5e9,#6366f1);border-radius:4px}
+  .proj-meta{display:flex;justify-content:space-between;font-size:11px;color:#64748b}
+
+  /* ── IA CONSULTORA ── */
+  .ia-container{max-width:800px;margin:0 auto}
+  .ia-chat{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:20px;min-height:400px;max-height:500px;overflow-y:auto;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
+  .msg-ia{background:#1e293b;border-radius:0 10px 10px 10px;padding:12px 16px;font-size:13px;line-height:1.6;color:#cbd5e1;max-width:85%;align-self:flex-start}
+  .msg-user{background:#1e3a5f;border-radius:10px 0 10px 10px;padding:12px 16px;font-size:13px;color:#e2e8f0;max-width:85%;align-self:flex-end}
+  .ia-input-area{display:flex;gap:10px}
+  .ia-input{flex:1;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px 16px;color:#f1f5f9;font-size:13px;resize:none;font-family:inherit}
+  .ia-input:focus{outline:none;border-color:#38bdf8}
+  .ia-btn{background:#0ea5e9;border:none;border-radius:8px;padding:12px 20px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .ia-btn:hover{background:#0284c7}
+  .ia-sugestoes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .ia-sug{background:#1e293b;border:1px solid #334155;border-radius:20px;padding:6px 14px;font-size:12px;color:#94a3b8;cursor:pointer;transition:all .2s}
+  .ia-sug:hover{background:#334155;color:#f1f5f9}
+
+  /* ── RODAPÉ ── */
+  .rodape{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:1px solid #1e293b;padding:10px 24px;font-size:11px;color:#475569;display:flex;align-items:center;justify-content:center;gap:6px;z-index:200}
+  .rodape strong{color:#94a3b8;font-weight:600}
+</style>
 </head>
 <body>
 
-<!-- TOPO -->
-<header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-sky-400 flex items-center justify-center font-bold text-slate-950 text-lg">
-        SJ
-      </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <h1 class="text-lg md:text-xl font-semibold">SãoJeo IA – Gestão Estratégica</h1>
-          <span class="text-[10px] px-2 py-[2px] rounded-full border border-amber-400/40 text-amber-300 bg-amber-400/5">BETA</span>
-        </div>
-        <p class="text-[11px] text-slate-400">
-          Monitoramento inteligente da execução da LOA, PPA 2026–2029 e Visão Fiscal do Município de São Jerônimo – RS
-        </p>
-      </div>
-    </div>
-    <div class="flex items-center gap-3 text-xs">
-      <div class="flex items-center gap-1 text-slate-400">
-        <span>Ano:</span>
-        <select id="filtroAno" class="bg-slate-900 border border-slate-700 rounded-md px-2 py-1 text-xs">
-          <option>2026</option>
-          <option>2025</option>
-          <option>2024</option>
-        </select>
-      </div>
-      <span id="dataAtualizacao" class="text-[11px] text-slate-500"></span>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">SJ</div>
+    <div>
+      <div class="header-title">SãoJeo IA – Gestão Estratégica <span class="beta">BETA</span></div>
+      <div class="header-sub">Monitoramento inteligente da execução da LOA, PPA 2026–2029 e Visão Fiscal do Município de São Jerônimo – RS</div>
     </div>
   </div>
-
-  <!-- Abas -->
-  <div class="max-w-7xl mx-auto px-4 pb-1 flex gap-4 text-xs overflow-x-auto">
-    <button id="aba-geral"       class="aba ativa" onclick="mudarAba('geral')">Visão Geral</button>
-    <button id="aba-secretarias" class="aba"        onclick="mudarAba('secretarias')">Secretarias</button>
-    <button id="aba-projetos"    class="aba"        onclick="mudarAba('projetos')">Projetos Estratégicos</button>
-    <button id="aba-fiscal"      class="aba"        onclick="mudarAba('fiscal')">Visão Fiscal (LRF)</button>
-    <button id="aba-consultor"   class="aba"        onclick="mudarAba('consultor')">IA Consultora</button>
+  <div class="ano-select">
+    Ano:
+    <select id="anoSelect">
+      <option value="2026" selected>2026</option>
+      <option value="2025">2025</option>
+    </select>
   </div>
-</header>
+</div>
 
-<main class="app-main">
-  <div class="max-w-7xl mx-auto px-4 py-4">
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn ativa" onclick="abrirTab('visaoGeral',this)">Visão Geral</button>
+  <button class="tab-btn" onclick="abrirTab('secretarias',this)">Secretarias</button>
+  <button class="tab-btn" onclick="abrirTab('projetos',this)">Projetos Estratégicos</button>
+  <button class="tab-btn" onclick="abrirTab('indicadores',this)">Indicadores Regulatórios</button>
+  <button class="tab-btn" onclick="abrirTab('iaConsultora',this)">IA Consultora</button>
+</div>
 
-    <!-- Seção: VISÃO GERAL -->
-    <section id="sec-geral" class="secao ativa">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Receita Total LOA 2026</p>
-          <p class="text-lg font-semibold text-sky-400">R$ 137.897.350</p>
-          <p class="text-[11px] text-slate-500">Conforme Lei 4.628/2025</p>
+<!-- ══════════════════════════════════════════
+     ABA 1 – VISÃO GERAL
+══════════════════════════════════════════ -->
+<div id="visaoGeral" class="conteudo ativa">
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-label">Receita Total LOA 2026</div>
+      <div class="card-valor azul">R$ 137.897.350</div>
+      <div class="card-sub">Conforme Lei 4.628/2025</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Despesas Correntes</div>
+      <div class="card-valor amarelo">R$ 91.835.672,42</div>
+      <div class="card-sub">Pessoal, encargos, juros e custeio</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Despesas de Capital</div>
+      <div class="card-valor verde">R$ 32.791.400</div>
+      <div class="card-sub">Investimentos e amortização da dívida</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Superávit Corrente Planejado</div>
+      <div class="card-valor roxo">R$ 26.514.177,58</div>
+      <div class="card-sub">Receitas correntes – despesas correntes</div>
+    </div>
+  </div>
+
+  <div class="graficos-grid">
+    <div class="grafico-card">
+      <div class="grafico-titulo">Evolução Mensal – Receita x Despesa</div>
+      <div class="grafico-sub">Simulação para 2026 (jan–dez) – distribuição linear da LOA</div>
+      <div class="grafico-wrapper"><canvas id="chartEvolucao"></canvas></div>
+    </div>
+    <div class="grafico-card">
+      <div class="grafico-titulo">Execução Acumulada do Orçamento</div>
+      <div class="grafico-sub">Proporção acumulada planejada mês a mês – aguarda dados realizados</div>
+      <div class="grafico-wrapper"><canvas id="chartAcumulado"></canvas></div>
+    </div>
+  </div>
+
+  <div class="graficos-grid">
+    <div class="grafico-card">
+      <div class="grafico-titulo">Composição da Receita 2026</div>
+      <div class="grafico-sub">Por categoria econômica – LOA 2026</div>
+      <div class="grafico-wrapper"><canvas id="chartReceita"></canvas></div>
+    </div>
+    <div class="grafico-card">
+      <div class="grafico-titulo">Composição da Despesa 2026</div>
+      <div class="grafico-sub">Por natureza – LOA 2026</div>
+      <div class="grafico-wrapper"><canvas id="chartDespesa"></canvas></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABA 2 – SECRETARIAS
+══════════════════════════════════════════ -->
+<div id="secretarias" class="conteudo">
+  <div class="grafico-card" style="margin-bottom:20px">
+    <div class="grafico-titulo">Dotação por Secretaria / Entidade – LOA 2026</div>
+    <div class="grafico-sub">Valores orçados conforme LOA 2026 – Lei 4.628/2025</div>
+    <br>
+    <table class="sec-table">
+      <thead>
+        <tr>
+          <th>Entidade / Secretaria</th>
+          <th>Dotação 2026 (R$)</th>
+          <th>% do Total</th>
+          <th>Distribuição</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaSecretarias"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABA 3 – PROJETOS ESTRATÉGICOS
+══════════════════════════════════════════ -->
+<div id="projetos" class="conteudo">
+  <div class="proj-grid" id="gridProjetos"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABA 4 – INDICADORES REGULATÓRIOS
+══════════════════════════════════════════ -->
+<div id="indicadores" class="conteudo">
+  <div class="reg-grid">
+
+    <!-- CARD ESQUERDO: PESSOAL / LRF -->
+    <div class="reg-card">
+      <div class="reg-card-titulo">Equilíbrio Prudencial – Despesa com Pessoal</div>
+      <div class="reg-card-sub">Município de São Jerônimo – Estimativas LDO/LOA 2026. Limites (%) sobre a Receita Corrente Líquida (RCL).</div>
+
+      <div class="status-badge ok">✔ Dentro do Limite Legal</div>
+
+      <div class="barra-item">
+        <div class="barra-header">
+          <span class="barra-label">Limite Legal – Art. 20 LRF (54%)</span>
+          <span class="barra-pct" style="color:#f87171">54,0%</span>
         </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Despesas Correntes</p>
-          <p class="text-lg font-semibold text-amber-300">R$ 91.835.672,42</p>
-          <p class="text-[11px] text-slate-500">Pessoal, encargos, juros e custeio</p>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Despesas de Capital</p>
-          <p class="text-lg font-semibold text-emerald-300">R$ 32.791.400</p>
-          <p class="text-[11px] text-slate-500">Investimentos e amortização da dívida</p>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Superávit Corrente Planejado</p>
-          <p class="text-lg font-semibold text-emerald-400">R$ 15.733.200</p>
-          <p class="text-[11px] text-slate-500">Receitas correntes – despesas correntes</p>
+        <div class="barra-track">
+          <div class="barra-fill" style="width:90%;background:#ef4444"></div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-sm font-semibold">Evolução Mensal – Receita x Despesa</h2>
-            <span class="text-[11px] text-slate-500">Simulação para 2026 (jan–dez)</span>
-          </div>
-          <canvas id="graficoReceitaDespesa" height="150"></canvas>
+      <div class="barra-item">
+        <div class="barra-header">
+          <span class="barra-label">Limite Prudencial – Art. 22 LRF (51,3%)</span>
+          <span class="barra-pct" style="color:#f97316">51,3%</span>
         </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-sm font-semibold">Execução Acumulada do Orçamento</h2>
-            <span class="text-[11px] text-slate-500">Planejado (100% LOA) – linha base</span>
-          </div>
-          <canvas id="graficoExecucaoAcumulada" height="150"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- Seção: SECRETARIAS -->
-    <section id="sec-secretarias" class="secao">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
-        <h2 class="text-sm font-semibold mb-1">Dotação por Secretaria – LOA 2026</h2>
-        <p class="text-[11px] text-slate-400">
-          Visualização exemplo. Em uma versão conectada ao sistema contábil, esta área mostrará para cada secretaria
-          <strong>dotação, empenhado, liquidado e pago</strong>.
-        </p>
-      </div>
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-        <table class="w-full text-xs">
-          <thead class="text-slate-400 border-b border-slate-800">
-            <tr>
-              <th class="text-left pb-2">Secretaria</th>
-              <th class="text-right pb-2">Dotação 2026 (R$)</th>
-              <th class="text-right pb-2">% do Total</th>
-              <th class="text-center pb-2">Status</th>
-            </tr>
-          </thead>
-          <tbody id="tabelaSecretarias" class="text-[11px]"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Seção: PROJETOS -->
-    <section id="sec-projetos" class="secao">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-sm font-semibold">Projetos Estratégicos do Município</h2>
-            <span id="resumoProjetos" class="text-[11px] text-slate-500">Nenhum projeto cadastrado</span>
-          </div>
-          <div id="listaProjetos" class="flex flex-col gap-3 text-xs"></div>
-        </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <h3 class="text-sm font-semibold mb-2">Novo Projeto</h3>
-          <div class="space-y-2 text-[11px]">
-            <div>
-              <label>Nome do Projeto</label>
-              <input id="pNome" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
-            </div>
-            <div>
-              <label>Secretaria</label>
-              <input id="pSec" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label>Execução Física (%)</label>
-                <input id="pFisico" type="number" min="0" max="100" value="0"
-                       class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
-              </div>
-              <div>
-                <label>Execução Financeira (%)</label>
-                <input id="pFin" type="number" min="0" max="100" value="0"
-                       class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs" />
-              </div>
-            </div>
-            <div>
-              <label>Status</label>
-              <select id="pStatus"
-                      class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs">
-                <option value="ok">No prazo</option>
-                <option value="atencao">Atenção</option>
-                <option value="deliberacao">Requer deliberação do Prefeito</option>
-              </select>
-            </div>
-            <div>
-              <label>Observações</label>
-              <textarea id="pObs"
-                        class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs"
-                        rows="3"></textarea>
-            </div>
-            <button onclick="cadastrarProjeto()"
-                    class="w-full bg-sky-600 hover:bg-sky-500 text-xs font-semibold py-2 rounded-md mt-1">
-              Cadastrar Projeto
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Seção: VISÃO FISCAL -->
-    <section id="sec-fiscal" class="secao">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Despesa com Pessoal (Estimativa)</p>
-          <p class="text-lg font-semibold text-emerald-400">43,7% da RCL</p>
-          <p class="text-[11px] text-slate-500">Limite prudencial: 51,3% · Limite legal: 54%</p>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Aplicação em Educação</p>
-          <p class="text-lg font-semibold text-sky-400">≥ 25% da R impostos</p>
-          <p class="text-[11px] text-slate-500">Mínimo constitucional cumprido (estimativa LOA)</p>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <p class="text-xs text-slate-400 mb-1">Aplicação em Saúde</p>
-          <p class="text-lg font-semibold text-amber-300">≥ 15% da R impostos</p>
-          <p class="text-[11px] text-slate-500">Mínimo constitucional cumprido (estimativa LOA)</p>
+        <div class="barra-track">
+          <div class="barra-fill" style="width:85.5%;background:#f97316"></div>
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
-        <h2 class="text-sm font-semibold mb-2">Termômetro da LRF – Pessoal / RCL</h2>
-        <div class="mt-2">
-          <div class="w-full h-4 rounded-full overflow-hidden flex">
-            <div class="bg-emerald-500" style="width:43.7%;"></div>
-            <div class="bg-amber-500/80"  style="width:7.6%;"></div>
-            <div class="bg-orange-500/80" style="width:2.7%;"></div>
-            <div class="bg-red-500/80"    style="width:46%;"></div>
-          </div>
-          <div class="flex justify-between text-[10px] text-slate-400 mt-1">
-            <span>0%</span>
-            <span>Conforto</span>
-            <span>Prudencial 51,3%</span>
-            <span>Limite 54%</span>
-          </div>
+      <div class="barra-item">
+        <div class="barra-header">
+          <span class="barra-label">Nível de Alerta (48,6%)</span>
+          <span class="barra-pct" style="color:#fbbf24">48,6%</span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2">
-          Situação confortável em 2026, mas novos aumentos permanentes de despesa de pessoal exigem análise de impacto
-          e compensação de acordo com a LRF.
-        </p>
-      </div>
-    </section>
-
-    <!-- Seção: IA CONSULTORA -->
-    <section id="sec-consultor" class="secao">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-3">
-        <h2 class="text-sm font-semibold mb-1">SãoJeo IA – Consultor Financeiro Estratégico</h2>
-        <p class="text-xs text-slate-400">
-          Persona de consultor experiente em finanças públicas, planejamento e LRF.
-          Você pode perguntar como melhorar a performance fiscal, a execução de projetos,
-          ou pedir planos de ação por secretaria.
-        </p>
+        <div class="barra-track">
+          <div class="barra-fill" style="width:81%;background:#f59e0b"></div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <!-- Chat -->
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
-          <div id="chatBox" class="chat-box">
-            <div class="msg-bot">
-              Sou a <strong>SãoJeo IA</strong>, consultora financeira estratégica do Município de São Jerônimo.
-              Posso analisar LOA, LDO, PPA e dados de execução para sugerir
-              <strong>estratégias, planos de ação e medidas corretivas</strong>.
-              Pergunte, por exemplo:
-              <ul class="list-disc ml-4 mt-1">
-                <li>“Como melhorar o resultado fiscal em 2026 sem cortar serviços essenciais?”</li>
-                <li>“Quais ações priorizar na Saúde para usar melhor o orçamento?”</li>
-                <li>“Que risco temos em relação ao limite prudencial de pessoal?”</li>
-              </ul>
+      <div class="barra-item">
+        <div class="barra-header">
+          <span class="barra-label">Posição Atual – LOA 2026 (43,7%)</span>
+          <span class="barra-pct" style="color:#34d399">43,7%</span>
+        </div>
+        <div class="barra-track">
+          <div class="barra-fill" style="width:72.8%;background:#10b981"></div>
+        </div>
+      </div>
+
+      <div class="reg-nota">
+        • RCL estimada 2026: R$ 101,95M &nbsp;|&nbsp; Pessoal LOA 2026: R$ 44,59M<br>
+        • Margem até o Limite Legal: <strong>+10,3 p.p.</strong><br>
+        • Margem até o Limite Prudencial: <strong>+7,6 p.p.</strong><br>
+        • Referência: LRF Art. 19/20/22 e LDO 2026 (Lei 4.596)
+      </div>
+    </div>
+
+    <!-- CARD DIREITO: SAÚDE E EDUCAÇÃO -->
+    <div class="reg-card">
+      <div class="reg-card-titulo">Aplicação Mínima em Saúde e Educação</div>
+      <div class="reg-card-sub">Mínimos constitucionais obrigatórios – Art. 198 CF (Saúde ≥ 15%) e Art. 212 CF (Educação ≥ 25%).</div>
+
+      <div class="donut-grid">
+
+        <!-- SAÚDE -->
+        <div class="donut-item">
+          <div class="donut-titulo">Saúde – mínimo 15%</div>
+          <div class="donut-wrapper">
+            <canvas id="chartSaude"></canvas>
+            <div class="donut-center">
+              <div class="donut-pct ok" id="pctSaude">22%</div>
+              <div class="donut-label-small">Aplicado</div>
             </div>
           </div>
+        </div>
 
-          <div class="flex gap-2 mt-2">
-            <input id="inputChat"
-                   class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs"
-                   placeholder="Escreva sua pergunta para a SãoJeo IA..." />
-            <button onclick="enviarMsg()"
-                    class="bg-sky-600 hover:bg-sky-500 px-3 py-2 rounded-lg text-xs font-semibold">
-              Enviar
-            </button>
+        <!-- EDUCAÇÃO -->
+        <div class="donut-item">
+          <div class="donut-titulo">Educação – mínimo 25%</div>
+          <div class="donut-wrapper">
+            <canvas id="chartEducacao"></canvas>
+            <div class="donut-center">
+              <div class="donut-pct ok" id="pctEducacao">26%</div>
+              <div class="donut-label-small">Aplicado</div>
+            </div>
           </div>
         </div>
 
-        <!-- Sugestões rápidas -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-xs">
-          <h3 class="text-sm font-semibold mb-2">Perguntas rápidas</h3>
-          <div class="flex flex-col gap-2">
-            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
-                    onclick="perguntaRapida('Faça um diagnóstico estratégico do município para o prefeito')">
-              Diagnóstico estratégico geral
-            </button>
-            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
-                    onclick="perguntaRapida('Quais são os principais riscos fiscais de São Jerônimo em 2026?')">
-              Principais riscos fiscais
-            </button>
-            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
-                    onclick="perguntaRapida('Como acelerar a execução dos investimentos previstos na LOA 2026?')">
-              Acelerar investimentos
-            </button>
-            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
-                    onclick="perguntaRapida('Quais medidas adotar para aumentar a receita própria do município?')">
-              Aumentar receita própria
-            </button>
-            <button class="bg-slate-800 hover:bg-slate-700 rounded-md px-3 py-2 text-left"
-                    onclick="perguntaRapida('Explique a situação do município em relação à LRF e ao limite de pessoal.')">
-              Situação frente à LRF
-            </button>
+      </div>
+
+      <div style="margin-top:16px">
+        <!-- BARRA SAÚDE -->
+        <div class="barra-item">
+          <div class="barra-header">
+            <span class="barra-label">Mínimo Constitucional – Saúde (15%)</span>
+            <span class="barra-pct" style="color:#f87171">15,0%</span>
+          </div>
+          <div class="barra-track">
+            <div class="barra-fill" style="width:57.7%;background:#ef4444"></div>
+          </div>
+        </div>
+        <div class="barra-item">
+          <div class="barra-header">
+            <span class="barra-label">Aplicação Prevista – Saúde LOA 2026</span>
+            <span class="barra-pct" style="color:#34d399">22,0%</span>
+          </div>
+          <div class="barra-track">
+            <div class="barra-fill" style="width:84.6%;background:#10b981"></div>
+          </div>
+        </div>
+
+        <!-- BARRA EDUCAÇÃO -->
+        <div class="barra-item" style="margin-top:12px">
+          <div class="barra-header">
+            <span class="barra-label">Mínimo Constitucional – Educação (25%)</span>
+            <span class="barra-pct" style="color:#f87171">25,0%</span>
+          </div>
+          <div class="barra-track">
+            <div class="barra-fill" style="width:96.2%;background:#ef4444"></div>
+          </div>
+        </div>
+        <div class="barra-item">
+          <div class="barra-header">
+            <span class="barra-label">Aplicação Prevista – Educação LOA 2026</span>
+            <span class="barra-pct" style="color:#34d399">26,0%</span>
+          </div>
+          <div class="barra-track">
+            <div class="barra-fill" style="width:100%;background:#10b981"></div>
           </div>
         </div>
       </div>
-    </section>
+
+      <div class="reg-nota">
+        • Cálculo conforme LDO 2026 (Lei 4.596) e anexos da LOA 2026.<br>
+        • Ambos os mínimos constitucionais estão sendo cumpridos com folga.<br>
+        • Saúde: margem de <strong>+7,0 p.p.</strong> acima do mínimo.<br>
+        • Educação: margem de <strong>+1,0 p.p.</strong> acima do mínimo.
+      </div>
+    </div>
 
   </div>
-</main>
+</div>
 
-<footer>
-  Desenvolvido por IGG – Inteligência em Gestão e Governança CNPJ 35.860.860/0001-80
+<!-- ══════════════════════════════════════════
+     ABA 5 – IA CONSULTORA
+══════════════════════════════════════════ -->
+<div id="iaConsultora" class="conteudo">
+  <div class="ia-container">
+    <div class="ia-sugestoes">
+      <span class="ia-sug" onclick="enviarSugestao(this)">Quais são os principais riscos fiscais?</span>
+      <span class="ia-sug" onclick="enviarSugestao(this)">Como acelerar os investimentos?</span>
+      <span class="ia-sug" onclick="enviarSugestao(this)">Estratégias para aumentar receita própria</span>
+      <span class="ia-sug" onclick="enviarSugestao(this)">Situação do limite de pessoal</span>
+      <span class="ia-sug" onclick="enviarSugestao(this)">Análise do RPPS municipal</span>
+    </div>
+    <div class="ia-chat" id="chatBox">
+      <div class="msg-ia">
+        Olá! Sou a <strong>IA Consultora do SãoJeo IA</strong>. Estou pronto para analisar a gestão fiscal e orçamentária do Município de São Jerônimo com base na LOA 2026, PPA 2026–2029 e LDO 2026.<br><br>
+        O que você gostaria de consultar hoje?
+      </div>
+    </div>
+    <div class="ia-input-area">
+      <textarea class="ia-input" id="inputIA" rows="2" placeholder="Digite sua pergunta sobre o orçamento, execução ou indicadores fiscais..."></textarea>
+      <button class="ia-btn" onclick="enviarMensagem()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- RODAPÉ FIXO -->
+<footer class="rodape">
+  Desenvolvido por <strong>IGG – Inteligência em Gestão e Governança</strong> &nbsp;·&nbsp; CNPJ 35.860.860/0001-80
 </footer>
 
 <script>
-  // Controle de abas
-  function mudarAba(alvo) {
-    ['geral','secretarias','projetos','fiscal','consultor'].forEach(function(nome){
-      const sec = document.getElementById('sec-' + nome);
-      const aba = document.getElementById('aba-' + nome);
-      if (!sec || !aba) return;
-      if (nome === alvo) {
-        sec.classList.add('ativa');
-        aba.classList.add('ativa');
-      } else {
-        sec.classList.remove('ativa');
-        aba.classList.remove('ativa');
-      }
-    });
-    if (alvo === 'geral') initGeral();
-    if (alvo === 'secretarias') initSecretarias();
-  }
+// ══════════════════════════════════════════
+// DADOS LOA 2026 (baseados nos anexos reais)
+// ══════════════════════════════════════════
+const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const receitaTotal = 137897350;
+const despesaTotal = 137897350;
+const receitaMensal = receitaTotal / 12;
+const despesaMensal = despesaTotal / 12;
 
-  // Atualiza data
-  (function(){
-    const el = document.getElementById('dataAtualizacao');
-    if (el) {
-      const d = new Date();
-      el.textContent = 'Atualizado em ' +
-        d.toLocaleDateString('pt-BR') + ' ' +
-        d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    }
-  })();
+const secretariasData = [
+  { nome: 'Prefeitura Municipal – Geral',     valor: 115117486.32 },
+  { nome: 'RPPS – Prev. Servidores',          valor: 17711500.00 },
+  { nome: 'Câmara Municipal de Vereadores',   valor: 5068363.68 },
+];
+const totalSec = secretariasData.reduce((s,x)=>s+x.valor,0);
 
-  // Gráficos Visão Geral
-  let chartRD = null;
-  let chartExec = null;
+const projetosData = [
+  { nome:'Pavimentação e Infraestrutura Urbana', sec:'Obras e Urbanismo', valor:'R$ 12.500.000', prog:15 },
+  { nome:'Saúde – Custeio e Investimentos',      sec:'Secretaria de Saúde', valor:'R$ 22.400.000', prog:20 },
+  { nome:'Educação – MDE e FUNDEB',              sec:'Secretaria de Educação', valor:'R$ 26.800.000', prog:18 },
+  { nome:'Saneamento e Meio Ambiente',           sec:'Meio Ambiente', valor:'R$ 3.200.000', prog:10 },
+  { nome:'Desenvolvimento Econômico',            sec:'Desenvolvimento', valor:'R$ 1.800.000', prog:8 },
+  { nome:'Assistência Social – FNAS',            sec:'Assistência Social', valor:'R$ 4.100.000', prog:22 },
+];
 
-  function initGeral() {
-    const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-    const receita = [10,11,11,12,12,11,12,12,11,12,12,11].map(v => v*1.0);
-    const despesa = [9,10,11,11,12,11,12,12,12,12,11,11].map(v => v*1.0);
-    const planejado = [];
-    for (let i=1;i<=12;i++) planejado.push((i/12)*100);
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+function abrirTab(id, btn) {
+  document.querySelectorAll('.conteudo').forEach(el => el.classList.remove('ativa'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('ativa'));
+  document.getElementById(id).classList.add('ativa');
+  if(btn) btn.classList.add('ativa');
+}
 
-    const ctx1 = document.getElementById('graficoReceitaDespesa');
-    if (ctx1) {
-      if (chartRD) chartRD.destroy();
-      chartRD = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-          labels: meses,
-          datasets: [
-            { label: 'Receita (simulação)', data: receita, backgroundColor: 'rgba(56,189,248,0.7)' },
-            { label: 'Despesa (simulação)', data: despesa, backgroundColor: 'rgba(248,250,252,0.25)' }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { labels: { color: '#e5e7eb', font: { size: 10 } } }
-          },
-          scales: {
-            x: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{display:false} },
-            y: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{color:'#1f2937'} }
-          }
-        }
-      });
-    }
-
-    const ctx2 = document.getElementById('graficoExecucaoAcumulada');
-    if (ctx2) {
-      if (chartExec) chartExec.destroy();
-      chartExec = new Chart(ctx2, {
-        type: 'line',
-        data: {
-          labels: meses,
-          datasets: [
-            {
-              label: 'Planejado (100% LOA até dez)',
-              data: planejado,
-              borderColor: 'rgba(56,189,248,0.9)',
-              backgroundColor: 'rgba(56,189,248,0.2)',
-              tension: 0.3,
-              fill: true
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { labels: { color: '#e5e7eb', font:{size:10} } }
-          },
-          scales: {
-            x: { ticks: { color: '#9ca3af', font:{size:10} }, grid:{display:false} },
-            y: {
-              ticks: {
-                color: '#9ca3af',
-                font:{size:10},
-                callback: v => v + '%'
-              },
-              grid:{color:'#1f2937'}
-            }
-          }
-        }
-      });
-    }
-  }
-
-  // Tabela secretarias
-  const secretarias = {
-    saude:     { nome:'Saúde',                         dotacao: 29500000 },
-    educacao:  { nome:'Educação',                      dotacao: 33500000 },
-    assist:    { nome:'Assistência Social',            dotacao:  7000000 },
-    infra:     { nome:'Infraestrutura e Administração',dotacao: 28000000 },
-    agricultura:{nome:'Agricultura e Meio Ambiente',   dotacao:  4500000 },
-    demais:    { nome:'Outras Secretarias / Fundos',   dotacao: 35297350 }
-  };
-
-  function initSecretarias() {
-    const tbody = document.getElementById('tabelaSecretarias');
-    if (!tbody) return;
-    const total = 137897350;
-    tbody.innerHTML = Object.entries(secretarias).map(([k,s]) => {
-      const pct = ((s.dotacao/total)*100).toFixed(1);
-      const badge = (k==='saude' || k==='educacao')
-        ? '<span class="text-emerald-400 text-[10px] px-2 py-[2px] border border-emerald-500/40 rounded-full">Prioridade</span>'
-        : (k==='infra'
-           ? '<span class="text-amber-300 text-[10px] px-2 py-[2px] border border-amber-500/40 rounded-full">Alto CAPEX</span>'
-           : '<span class="text-slate-300 text-[10px] px-2 py-[2px] border border-slate-600 rounded-full">Regular</span>');
-      return `<tr class="border-b border-slate-800/60">
-        <td class="py-2">${s.nome}</td>
-        <td class="py-2 text-right text-sky-400">R$ ${s.dotacao.toLocaleString('pt-BR')}</td>
-        <td class="py-2 text-right text-slate-300">${pct}%</td>
-        <td class="py-2 text-center">${badge}</td>
+// ══════════════════════════════════════════
+// SECRETARIAS
+// ══════════════════════════════════════════
+function renderSecretarias() {
+  const tbody = document.getElementById('tabelaSecretarias');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  secretariasData.forEach(s => {
+    const pct = ((s.valor / totalSec) * 100).toFixed(1);
+    const largura = Math.round((s.valor / totalSec) * 200);
+    tbody.innerHTML += `
+      <tr>
+        <td>${s.nome}</td>
+        <td>R$ ${s.valor.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+        <td>${pct}%</td>
+        <td><div class="pct-bar"><div class="pct-mini" style="width:${largura}px"></div>${pct}%</div></td>
       </tr>`;
-    }).join('');
-  }
-
-  // Projetos
-  const projetos = [];
-
-  function renderProjetos() {
-    const lista = document.getElementById('listaProjetos');
-    const resumo = document.getElementById('resumoProjetos');
-    if (!lista || !resumo) return;
-    const total = projetos.length;
-    const delib = projetos.filter(p=>p.status==='deliberacao').length;
-    const atenc = projetos.filter(p=>p.status==='atencao').length;
-    resumo.textContent = total === 0
-      ? 'Nenhum projeto cadastrado'
-      : `${total} projetos · 🔴 ${delib} deliberação · ⚠️ ${atenc} atenção`;
-
-    lista.innerHTML = projetos.map(p => {
-      const cor   = p.status==='deliberacao' ? '#ef4444' : p.status==='atencao' ? '#f59e0b' : '#22c55e';
-      const label = p.status==='deliberacao' ? '🔴 Requer deliberação'
-                   : p.status==='atencao'   ? '⚠️ Em atenção'
-                   : '✅ No prazo';
-      return `<div class="border border-slate-800 rounded-lg p-3 text-[11px]" style="border-left:4px solid ${cor}">
-        <div class="flex justify-between items-center mb-1">
-          <span class="font-semibold">${p.nome}</span>
-          <span style="color:${cor};">${label}</span>
-        </div>
-        <div class="text-slate-400 mb-1">${p.sec}</div>
-        <div class="grid grid-cols-2 gap-2 mb-1">
-          <div>
-            <div class="text-slate-400">Execução física</div>
-            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-              <div class="bg-purple-400 h-1.5" style="width:${p.fisico}%;"></div>
-            </div>
-            <div class="text-purple-300 mt-0.5">${p.fisico}%</div>
-          </div>
-          <div>
-            <div class="text-slate-400">Execução financeira</div>
-            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-              <div class="bg-emerald-400 h-1.5" style="width:${p.fin}%;"></div>
-            </div>
-            <div class="text-emerald-300 mt-0.5">${p.fin}%</div>
-          </div>
-        </div>
-        ${p.obs ? `<div class="text-slate-400 italic mt-1">${p.obs}</div>` : ''}
-      </div>`;
-    }).join('');
-  }
-
-  function cadastrarProjeto() {
-    const nome   = document.getElementById('pNome').value.trim();
-    if (!nome) { alert('Informe o nome do projeto.'); return; }
-    const sec    = document.getElementById('pSec').value.trim();
-    const fisico = parseInt(document.getElementById('pFisico').value) || 0;
-    const fin    = parseInt(document.getElementById('pFin').value)    || 0;
-    const status = document.getElementById('pStatus').value;
-    const obs    = document.getElementById('pObs').value.trim();
-
-    projetos.push({nome,sec,fisico,fin,status,obs});
-    document.getElementById('pNome').value   = '';
-    document.getElementById('pSec').value    = '';
-    document.getElementById('pFisico').value = 0;
-    document.getElementById('pFin').value    = 0;
-    document.getElementById('pObs').value    = '';
-    document.getElementById('pStatus').value = 'ok';
-    renderProjetos();
-    mudarAba('projetos');
-  }
-
-  // Chat IA
-  const respostas = {
-    diagnostico: `<strong>Diagnóstico Estratégico — São Jerônimo 2026:</strong><br><br>
-      <span style="color:#4ade80;">✅ PONTOS FORTES:</span><br>
-      • Orçamento equilibrado: R$ 137,9M (receita = despesa)<br>
-      • Investimentos relevantes: R$ 30,8M (22,4% do total)<br>
-      • Pessoal em 43,7% da RCL — abaixo do limite prudencial (51,3%)<br>
-      • Reserva de Contingência acima do mínimo da LRF<br><br>
-      <span style="color:#fbbf24;">⚠️ PONTOS DE ATENÇÃO:</span><br>
-      • Dependência de transferências (FPM, ICMS, FUNDEB) próxima de 67%<br>
-      • Reserva RPPS elevada — risco atuarial de médio prazo<br>
-      • Suplementação autorizada em 40% da LOA — uso deve ser cuidadosamente planejado.<br><br>
-      <span style="color:#f97316;">🎯 PRIORIDADE:</span> acelerar a execução dos investimentos e aumentar a receita própria.`,
-    risco: `<strong>Principais riscos fiscais para 2026:</strong><br><br>
-      • Queda nas transferências federais/estaduais, afetando diretamente a execução da LOA;<br>
-      • Crescimento da folha de pessoal acima da RCL, pressionando o limite prudencial;<br>
-      • Passivos do RPPS e demandas judiciais inesperadas.<br><br>
-      Recomendo uma rotina de monitoramento quadrimestral com foco em receita, pessoal e RPPS.`,
-    investimento: `<strong>Como acelerar a execução dos investimentos da LOA:</strong><br><br>
-      • Priorizar obras com projeto pronto e licitação concluída;<br>
-      • Realizar “gabinete de projetos” semanal com secretários para remover entraves;<br>
-      • Revisar cronogramas físico-financeiros e reforçar equipes de engenharia e compras;<br>
-      • Acompanhar de perto convênios e contratos de repasse para não perder recursos externos.`,
-    receita: `<strong>Medidas para aumentar a receita própria:</strong><br><br>
-      • Atualizar cadastro imobiliário e planta de valores do IPTU;<br>
-      • Intensificar fiscalização do ISS, especialmente em serviços de maior valor agregado;<br>
-      • Programa de recuperação de créditos (REFIS) focado em grandes devedores;<br>
-      • Revisar taxas municipais para aderência a custos e realidade local.`,
-    lrf: `<strong>Situação do município perante a LRF:</strong><br><br>
-      • Pessoal estimado em 43,7% da RCL — margem até o limite prudencial (51,3%) e legal (54%);<br>
-      • Endividamento sob controle, com capacidade de pagamento mantida;<br>
-      • É fundamental evitar criação de despesas obrigatórias sem fonte de custeio permanente (art. 17 da LRF).`
-  };
-
-  function perguntaRapida(txt) {
-    const inp = document.getElementById('inputChat');
-    inp.value = txt;
-    enviarMsg();
-  }
-
-  function enviarMsg() {
-    const input = document.getElementById('inputChat');
-    const texto = input.value.trim();
-    if (!texto) return;
-    const chat = document.getElementById('chatBox');
-
-    const userDiv = document.createElement('div');
-    userDiv.className = 'msg-user';
-    userDiv.textContent = texto;
-    chat.appendChild(userDiv);
-
-    const t = texto.toLowerCase();
-    let chave = null;
-    if (t.includes('diagn') || t.includes('panorama')) chave = 'diagnostico';
-    else if (t.includes('risco')) chave = 'risco';
-    else if (t.includes('invest')) chave = 'investimento';
-    else if (t.includes('receita') || t.includes('arrecad')) chave = 'receita';
-    else if (t.includes('lrf') || t.includes('pessoal')) chave = 'lrf';
-
-    const botDiv = document.createElement('div');
-    botDiv.className = 'msg-bot';
-    botDiv.innerHTML = chave
-      ? respostas[chave]
-      : 'Entendi sua pergunta. Numa próxima versão, a SãoJeo IA será conectada ao sistema contábil e ao painel de transparência para responder com base na execução diária do município.';
-
-    chat.appendChild(botDiv);
-    chat.scrollTop = chat.scrollHeight;
-    input.value = '';
-  }
-
-  // Inicialização
-  window.addEventListener('load', () => {
-    mudarAba('geral');   // ativa aba e gera gráficos
-    renderProjetos();    // inicializa lista vazia
   });
+}
+
+// ══════════════════════════════════════════
+// PROJETOS
+// ══════════════════════════════════════════
+function renderProjetos() {
+  const grid = document.getElementById('gridProjetos');
+  if(!grid) return;
+  grid.innerHTML = '';
+  projetosData.forEach(p => {
+    grid.innerHTML += `
+      <div class="proj-card">
+        <div class="proj-nome">${p.nome}</div>
+        <div class="proj-sec">${p.sec}</div>
+        <div class="proj-valor">${p.valor}</div>
+        <div class="proj-progresso"><div class="proj-fill" style="width:${p.prog}%"></div></div>
+        <div class="proj-meta"><span>Execução planejada</span><span>${p.prog}%</span></div>
+      </div>`;
+  });
+}
+
+// ══════════════════════════════════════════
+// IA CONSULTORA
+// ══════════════════════════════════════════
+const respostasIA = {
+  'pessoal': 'A despesa com pessoal na LOA 2026 está em 43,7% da RCL estimada (R$ 101,95M), bem abaixo do Limite Prudencial de 51,3% e do Limite Legal de 54%. A margem disponível é de +10,3 pontos percentuais, o que demonstra equilíbrio fiscal sólido.',
+  'saúde': 'A aplicação prevista em saúde é de aproximadamente 22% da receita de impostos + transferências, acima do mínimo constitucional de 15% (Art. 198 CF). Há folga de 7 pontos percentuais.',
+  'educação': 'A aplicação prevista em educação gira em torno de 26% (MDE + FUNDEB), acima do mínimo constitucional de 25% (Art. 212 CF). Margem positiva de +1 p.p.',
+  'investimento': 'Os investimentos previstos na LOA 2026 somam R$ 30,83M, representando cerca de 22% da receita total. É o maior patamar dos últimos 4 anos, impulsionado por transferências de capital da União.',
+  'risco': 'Principais riscos fiscais: (1) Dependência de transferências (67% da receita); (2) Reserva RPPS de R$ 10,55M – monitorar risco atuarial; (3) Suplementação autorizada em 40% – usar com critério.',
+  'rpps': 'O RPPS de São Jerônimo possui receitas de R$ 17,71M em 2026, sendo R$ 11,71M de rendimento de carteira e R$ 5,75M de contribuições. A reserva de contingência do RPPS é de R$ 10,55M.',
+  'default': 'Com base na LOA 2026 (Lei 4.628/2025) e nos indicadores fiscais do Município de São Jerônimo, posso analisar: limites da LRF, aplicações constitucionais em saúde e educação, composição orçamentária, investimentos e riscos fiscais. Pode reformular sua pergunta com mais detalhes?'
+};
+
+function getRespostaIA(pergunta) {
+  const p = pergunta.toLowerCase();
+  if(p.includes('pessoal') || p.includes('prudencial') || p.includes('lrf') || p.includes('limite')) return respostasIA.pessoal;
+  if(p.includes('saúde') || p.includes('saude') || p.includes('15%')) return respostasIA['saúde'];
+  if(p.includes('educa')) return respostasIA['educação'];
+  if(p.includes('invest')) return respostasIA.investimento;
+  if(p.includes('risco') || p.includes('fiscal')) return respostasIA.risco;
+  if(p.includes('rpps') || p.includes('previdência') || p.includes('previdencia')) return respostasIA.rpps;
+  return respostasIA.default;
+}
+
+function enviarMensagem() {
+  const input = document.getElementById('inputIA');
+  const texto = input.value.trim();
+  if(!texto) return;
+  const box = document.getElementById('chatBox');
+  box.innerHTML += `<div class="msg-user">${texto}</div>`;
+  input.value = '';
+  setTimeout(() => {
+    box.innerHTML += `<div class="msg-ia">${getRespostaIA(texto)}</div>`;
+    box.scrollTop = box.scrollHeight;
+  }, 600);
+  box.scrollTop = box.scrollHeight;
+}
+
+function enviarSugestao(el) {
+  document.getElementById('inputIA').value = el.textContent;
+  enviarMensagem();
+}
+
+document.getElementById('inputIA').addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); enviarMensagem(); }
+});
+
+// ══════════════════════════════════════════
+// GRÁFICOS (iniciados após DOM pronto)
+// ══════════════════════════════════════════
+const chartDefaults = {
+  plugins:{ legend:{ labels:{ color:'#94a3b8', font:{ size:12 } } } },
+  scales:{
+    x:{ ticks:{ color:'#64748b' }, grid:{ color:'#1e293b' } },
+    y:{ ticks:{ color:'#64748b' }, grid:{ color:'#1e293b' } }
+  }
+};
+
+function initCharts() {
+
+  // 1. Evolução mensal
+  new Chart(document.getElementById('chartEvolucao'), {
+    type:'bar',
+    data:{
+      labels: MESES,
+      datasets:[
+        { label:'Receita Prevista', data: MESES.map(()=>receitaMensal), backgroundColor:'#0ea5e930', borderColor:'#0ea5e9', borderWidth:2, borderRadius:4 },
+        { label:'Despesa Prevista', data: MESES.map(()=>despesaMensal), backgroundColor:'#f59e0b30', borderColor:'#f59e0b', borderWidth:2, borderRadius:4 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, ...chartDefaults }
+  });
+
+  // 2. Execução acumulada
+  const acum = MESES.map((_,i)=> Math.round(((i+1)/12)*100));
+  new Chart(document.getElementById('chartAcumulado'), {
+    type:'line',
+    data:{
+      labels: MESES,
+      datasets:[{
+        label:'% Execução Planejada',
+        data: acum,
+        borderColor:'#a78bfa', backgroundColor:'#a78bfa20',
+        borderWidth:2, fill:true, tension:0.3,
+        pointBackgroundColor:'#a78bfa'
+      }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, ...chartDefaults }
+  });
+
+  // 3. Composição da receita (pizza)
+  new Chart(document.getElementById('chartReceita'), {
+    type:'doughnut',
+    data:{
+      labels:['Transferências Correntes','Impostos/Taxas','Receita Patrimonial','Transferências de Capital','Outras Correntes','Contribuições','Serviços'],
+      datasets:[{ data:[80568700,14448250,3360200,15450700,5024400,950000,1100],
+        backgroundColor:['#0ea5e9','#6366f1','#f59e0b','#10b981','#f87171','#a78bfa','#34d399'],
+        borderWidth:0 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right', labels:{ color:'#94a3b8', font:{size:11}, boxWidth:12 } } } }
+  });
+
+  // 4. Composição da despesa (pizza)
+  new Chart(document.getElementById('chartDespesa'), {
+    type:'doughnut',
+    data:{
+      labels:['Pessoal e Encargos','Outras Despesas Correntes','Investimentos','Juros e Encargos','Amortização','Reserva de Contingência'],
+      datasets:[{ data:[41014714,45713958,30838400,1500000,1953000,13270277],
+        backgroundColor:['#f87171','#f59e0b','#10b981','#e879f9','#60a5fa','#475569'],
+        borderWidth:0 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right', labels:{ color:'#94a3b8', font:{size:11}, boxWidth:12 } } } }
+  });
+
+  // 5. Donut Saúde
+  new Chart(document.getElementById('chartSaude'), {
+    type:'doughnut',
+    data:{
+      labels:['Aplicado (22%)','Restante'],
+      datasets:[{ data:[22,78], backgroundColor:['#10b981','#1e293b'], borderWidth:0, cutout:'72%' }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ enabled:false } } }
+  });
+
+  // 6. Donut Educação
+  new Chart(document.getElementById('chartEducacao'), {
+    type:'doughnut',
+    data:{
+      labels:['Aplicado (26%)','Restante'],
+      datasets:[{ data:[26,74], backgroundColor:['#10b981','#1e293b'], borderWidth:0, cutout:'72%' }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ enabled:false } } }
+  });
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderSecretarias();
+  renderProjetos();
+  initCharts();
+});
 </script>
 </body>
 </html>
